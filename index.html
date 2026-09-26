@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio & CV - Alejandro Monsalve</title>
+    <link rel="stylesheet" href="src/styles/global.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            body.print-hospitality #main-viewport > * { display: none !important; }
+            body.print-hospitality #main-viewport #view-hospitality { display: block !important; }
+            body.print-hospitality .header-style-bar { display: none !important; }
+            body.print-hospitality #view-hospitality { width: 100% !important; }
+        }
+    </style>
+
+    <style>
+        .portfolio-card {
+            overflow: hidden;
+        }
+
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--jako-border);
+            padding-bottom: 0.12rem;
+            margin-bottom: 0.45rem;
+        }
+
+        .portfolio-header h2 {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .portfolio-counter {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            opacity: 0.55;
+        }
+
+        .portfolio-slider {
+            display: grid;
+            grid-template-columns: 32px minmax(0, 1fr) 32px;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .portfolio-stage {
+            width: 100%;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px dashed var(--jako-border);
+            box-sizing: border-box;
+        }
+
+        .portfolio-image {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            max-height: 520px;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .portfolio-nav {
+            width: 32px;
+            height: 44px;
+            border: 1px solid var(--jako-border);
+            background: transparent;
+            color: inherit;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .portfolio-nav:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .portfolio-nav:focus-visible,
+        .portfolio-dot:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
+
+        .portfolio-info {
+            margin-top: 0.45rem;
+            text-align: center;
+        }
+
+        .portfolio-info h3 {
+            margin: 0 0 0.15rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+        }
+
+        .portfolio-info p {
+            margin: 0;
+            font-size: 10px;
+            line-height: 1.4;
+            opacity: 0.72;
+        }
+
+        .portfolio-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+        }
+
+        .portfolio-dot {
+            width: 9px;
+            height: 9px;
+            min-width: 9px;
+            padding: 0;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            background: transparent;
+            opacity: 0.35;
+            cursor: pointer;
+        }
+
+        .portfolio-dot.active {
+            background: currentColor;
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-slider {
+                grid-template-columns: 28px minmax(0, 1fr) 28px;
+                gap: 0.25rem;
+            }
+
+            .portfolio-nav {
+                width: 28px;
+                height: 40px;
+            }
+
+            .portfolio-stage {
+                min-height: 160px;
+            }
+
+            .portfolio-image {
+                max-height: 360px;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* Portfolio: directly below the Technical CV and above the footer */
+        #main-viewport > #view-portfolio {
+            display: block;
+            width: 100%;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        /* The hospitality CV remains a separate view. */
+        #view-hospitality {
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="page-bg-overlay"></div>
+    <div class="ambient-gradient"></div>
+
+    <!-- Main Single-Column Viewport Container -->
+    <main class="vision-scroll-viewport" id="main-viewport">
+        
+        <!-- SECTION 1: Professional Profile with Integrated Title & Photo -->
+        <div style="display: grid; grid-template-columns: 1fr 8fr; gap: 0.35rem; width: 100%;">
+
+            <section class="vision-card" id="card-profile-photo">
+                <div class="profile-box">
+                    <img src="src/img/photo.png" alt="Alejandro Monsalve" class="profile-avatar">
+                </div>
+            </section>
+            <section class="vision-card" id="card-profile-info">
+                <div class="profile-title-block">
+                    <span>ALEJANDRO MONSALVE</span>
+                </div>
+                <div class="profile-box">
+                    <p class="profile-text">
+                        UI/UX Designer specialized in high-performance frontend interfaces, design systems, and component architecture. Blending formal visual arts background with technical mastery in web standards.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 2: Selected Experience -->
+        <section class="vision-card" id="card-experience">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--jako-border); padding-bottom: 0.12rem; margin-bottom: 0.25rem;">
+                <h2 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Experience</h2>
+                <span style="font-family: 'Orbitron', sans-serif; font-size: 5.5px; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; text-transform: uppercase; opacity:0.5;">START - END</span>
+            </div>
+            <div class="checklist-group">
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>ARPA Solutions</strong> // Full Stack Developer <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
+                    <span class="checklist-label" style="text-align: right;">11/25 - NOW</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Celsia S.A. E.S.P.</strong> // Software Developer <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
+                    <span class="checklist-label" style="text-align: right;">03/25 - 10/25</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Synthesis Consulting S.A.S.</strong> // RPA Developer <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
+                    <span class="checklist-label" style="text-align: right;">09/24 - 02/25</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Sharp Signs</strong> // Graphic Designer & Installer<span style="opacity:0.5; font-size:8px;">[Auckland, NZ]</span></span>
+                    <span class="checklist-label" style="text-align: right;">03/22 - 02/23</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Sign Creations NZ</strong> // Signs Installer <span style="opacity:0.5; font-size:8px;">[Mt Maunganui, NZ]</span></span>
+                    <span class="checklist-label" style="text-align: right;">04/21 - 02/22</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Veera Horticulture</strong> // Maintenance <span style="opacity:0.5; font-size:8px;">[Tauranga, NZ]</span></span>
+                    <span class="checklist-label" style="text-align: right;">11/20 - 03/21</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Hilton Hotel</strong> // Storeperson <span style="opacity:0.5; font-size:8px;">[Queenstown, NZ]</span></span>
+                    <span class="checklist-label" style="text-align: right;">12/17 - 05/20</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>ediciones&formas</strong> // Entrepeneur Graphic Designer <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
+                    <span class="checklist-label" style="text-align: right;">05/06 - 12/17</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: Education -->
+        <section class="vision-card" id="card-experience">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--jako-border); padding-bottom: 0.12rem; margin-bottom: 0.25rem;">
+                <h2 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Education</h2>
+                <span style="font-family: 'Orbitron', sans-serif; font-size: 5.5px; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; text-transform: uppercase; opacity:0.5;">START - END</span>
+            </div>
+            <div class="checklist-group">
+
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Full Stack Development</strong> // 3W Schools <span style="opacity:0.5; font-size:8px;">[Online]</span></span>
+                    <span class="checklist-label" style="text-align: right;">12/23 - NOW</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Bachelor Plactic Arts</strong> // University of Antioquia <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
+                    <span class="checklist-label" style="text-align: right;">03/05 - 03/15</span>
+                </div>
+            </div>
+        </section>
+
+
+        <div style="display: grid; grid-template-columns: 5fr 4fr; gap: 0.35rem; width: 100%;">
+            <section class="vision-card" id="card-stack" style="margin-bottom: 0;">
+                <h2>Tech Stack</h2>
+                <div class="checklist-group" style="font-size: 10px;">
+                    <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Digital Design</span><span class="checklist-value">Corel Draw, Figma, Illustrator, Photoshop, Premiere, InDesign, After Effects</span></div>
+                    <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">LANGUAGES</span><span class="checklist-value">HTML, CSS, JS, Python, Pwsh, Bash, R</span></div>
+
+                    
+                    <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Frameworks</span><span class="checklist-value">Django, Flask, Astro, SQL, Pandas</span></div>
+                    <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Ops</span><span class="checklist-value">Git, AWS, Docker, Gcloud</span></div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer Action Bar Pinned to Base -->
+    <footer class="header-style-bar">
+        <div class="actions-group">
+            <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Languages</span><span class="checklist-value">Spanish, English, Italian</span></div>
+            <button class="btn-control-action" id="download-pdf" aria-label="Download PDF" title="Download PDF" style="display: flex; align-items: center; gap: 0.3rem;">
+                <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                PDF
+            </button>
+
+
+
+        </div>
+    </footer>
+
+    <script>
+        const cardProfilePhoto = document.getElementById('card-profile-photo');
+        const cardProfileInfo = document.getElementById('card-profile-info');
+        const cardExperience = document.getElementById('card-experience');
+        const cardStack = document.getElementById('card-stack');
+        const cardEducation = document.getElementById('card-education');
+        const viewHospitality = document.getElementById('view-hospitality');
+        const viewPortfolio = document.getElementById('view-portfolio');
+
+        document.getElementById('btn-show-cv').addEventListener('click', () => {
+            cardProfilePhoto.style.display = 'block';
+            cardProfileInfo.style.display = 'block';
+            cardExperience.style.display = 'block';
+            cardStack.style.display = 'block';
+            cardEducation.style.display = 'block';
+            viewHospitality.style.display = 'none';
+            viewPortfolio.style.display = 'block';
+        });
+
+        document.getElementById('btn-show-hospitality').addEventListener('click', () => {
+            cardProfilePhoto.style.display = 'none';
+            cardProfileInfo.style.display = 'none';
+            cardExperience.style.display = 'none';
+            cardStack.style.display = 'none';
+            cardEducation.style.display = 'none';
+            viewPortfolio.style.display = 'none';
+            viewHospitality.style.display = 'block';
+        });
+
+        const projects = [
+            {
+                image: "src/img/project1.png",
+                title: "Project 01",
+                description: "Interactive project developed as part of my software development and UI/UX work."
+            },
+            {
+                image: "src/img/project2.png",
+                title: "Project 02",
+                description: "Web application and interface design project."
+            },
+            {
+                image: "src/img/project3.png",
+                title: "Project 03",
+                description: "Data-driven application and visualization project."
+            },
+            {
+                image: "src/img/project4.png",
+                title: "Project 04",
+                description: "Frontend interface and component architecture project."
+            },
+            {
+                image: "src/img/project5.png",
+                title: "Project 05",
+                description: "Software development project."
+            }
+        ];
+
+        let currentProject = 0;
+
+        const portfolioImage = document.getElementById('portfolio-image');
+        const portfolioTitle = document.getElementById('portfolio-title');
+        const portfolioDescription = document.getElementById('portfolio-description');
+        const portfolioCounter = document.getElementById('portfolio-counter');
+        const portfolioDots = document.querySelectorAll('.portfolio-dot');
+
+        function showProject(index) {
+            currentProject = (index + projects.length) % projects.length;
+            const project = projects[currentProject];
+
+            portfolioImage.src = project.image;
+            portfolioImage.alt = project.title;
+            portfolioTitle.textContent = project.title;
+            portfolioDescription.textContent = project.description;
+
+            portfolioCounter.textContent =
+                `${String(currentProject + 1).padStart(2, '0')} / ${String(projects.length).padStart(2, '0')}`;
+
+            portfolioDots.forEach((dot, i) => {
+                const active = i === currentProject;
+                dot.classList.toggle('active', active);
+                dot.setAttribute('aria-current', active ? 'true' : 'false');
+            });
+        }
+
+        document.getElementById('portfolio-prev').addEventListener('click', () => {
+            showProject(currentProject - 1);
+        });
+
+        document.getElementById('portfolio-next').addEventListener('click', () => {
+            showProject(currentProject + 1);
+        });
+
+        portfolioDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                showProject(Number(dot.dataset.index));
+            });
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+            const activeElement = document.activeElement;
+            if (
+                activeElement &&
+                (
+                    activeElement.tagName === 'INPUT' ||
+                    activeElement.tagName === 'TEXTAREA' ||
+                    activeElement.isContentEditable
+                )
+            ) {
+                return;
+            }
+
+            showProject(
+                currentProject + (event.key === 'ArrowRight' ? 1 : -1)
+            );
+        });
+
+        showProject(0);
+
+        document.getElementById('download-pdf').addEventListener('click', () => {
+            const hospitalityActive = viewHospitality.style.display !== 'none';
+            document.body.classList.toggle('print-hospitality', hospitalityActive);
+            window.print();
+        });
+
+        window.addEventListener('afterprint', () => {
+            document.body.classList.remove('print-hospitality');
+        });
+    </script>
+</body>
+</html>
