@@ -101,7 +101,6 @@ button:hover .icon-stroke {
     height: 42px;
     flex-shrink: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 0 1.2rem;
@@ -163,7 +162,6 @@ button:hover .icon-stroke {
     border-bottom: 1px solid var(--jako-border);
     padding-bottom: 0.12rem;
     text-transform: uppercase;
-    color: var(--jako-text);
 }
 
 /* Profile Layout with Dragged Title & Photo */

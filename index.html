@@ -6,16 +6,7 @@
     <title>Portfolio & CV - Alejandro Monsalve</title>
     <link rel="stylesheet" href="src/styles/global.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <style>
-        @media print {
-            body.print-hospitality #main-viewport > * { display: none !important; }
-            body.print-hospitality #main-viewport #view-hospitality { display: block !important; }
-            body.print-hospitality .header-style-bar { display: none !important; }
-            body.print-hospitality #view-hospitality { width: 100% !important; }
-        }
-    </style>
-
-    <style>
+<style>
         .portfolio-card {
             overflow: hidden;
         }
@@ -161,23 +152,6 @@
             }
         }
     </style>
-
-
-    <style>
-        /* Portfolio: directly below the Technical CV and above the footer */
-        #main-viewport > #view-portfolio {
-            display: block;
-            width: 100%;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-
-        /* The hospitality CV remains a separate view. */
-        #view-hospitality {
-            width: 100%;
-        }
-    </style>
-
 </head>
 <body>
     <div id="page-bg-overlay"></div>
@@ -196,7 +170,7 @@
             </section>
             <section class="vision-card" id="card-profile-info">
                 <div class="profile-title-block">
-                    <span>ALEJANDRO MONSALVE</span>
+                    <span>ALEJANDRO MONSALVE M.</span>
                 </div>
                 <div class="profile-box">
                     <p class="profile-text">
@@ -206,7 +180,34 @@
             </section>
         </div>
 
-        <!-- SECTION 2: Selected Experience -->
+        <!-- SECTION 2: Education -->
+        <section class="vision-card" id="card-experience">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--jako-border); padding-bottom: 0.12rem; margin-bottom: 0.25rem;">
+                <h2 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Education</h2>
+                <span style="font-family: 'Orbitron', sans-serif; font-size: 5.5px; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; text-transform: uppercase; opacity:0.5;">START - END</span>
+            </div>
+            <div class="checklist-group">
+
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Full Stack Development</strong> // 3W Schools <span style="opacity:0.5; font-size:8px;">[Online]</span></span>
+                    <span class="checklist-label" style="text-align: right;">12/23 - NOW</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Running Course</strong> // crossfit.com <span style="opacity:0.5; font-size:8px;">[Online]</span></span>
+                    <span class="checklist-label" style="text-align: right;">06/23</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>English Upper-Intermediate</strong> // Language School NZ <span style="opacity:0.5; font-size:8px;">[Queenstown, NZ]</span></span>
+                    <span class="checklist-label" style="text-align: right;">08/17 - 02/18</span>
+                </div>
+                <div class="checklist-row">
+                    <span class="checklist-value" style="text-align: left;"><strong>Bachelor Plactic Arts</strong> // University of Antioquia <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
+                    <span class="checklist-label" style="text-align: right;">03/05 - 03/15</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Selected Experience -->
         <section class="vision-card" id="card-experience">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--jako-border); padding-bottom: 0.12rem; margin-bottom: 0.25rem;">
                 <h2 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Experience</h2>
@@ -243,31 +244,11 @@
                 </div>
                 <div class="checklist-row">
                     <span class="checklist-value" style="text-align: left;"><strong>ediciones&formas</strong> // Entrepeneur Graphic Designer <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
-                    <span class="checklist-label" style="text-align: right;">05/06 - 12/17</span>
+                    <span class="checklist-label" style="text-align: right;">05/06 - 07/17</span>
                 </div>
 
             </div>
         </section>
-
-        <!-- SECTION 3: Education -->
-        <section class="vision-card" id="card-experience">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--jako-border); padding-bottom: 0.12rem; margin-bottom: 0.25rem;">
-                <h2 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Education</h2>
-                <span style="font-family: 'Orbitron', sans-serif; font-size: 5.5px; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; text-transform: uppercase; opacity:0.5;">START - END</span>
-            </div>
-            <div class="checklist-group">
-
-                <div class="checklist-row">
-                    <span class="checklist-value" style="text-align: left;"><strong>Full Stack Development</strong> // 3W Schools <span style="opacity:0.5; font-size:8px;">[Online]</span></span>
-                    <span class="checklist-label" style="text-align: right;">12/23 - NOW</span>
-                </div>
-                <div class="checklist-row">
-                    <span class="checklist-value" style="text-align: left;"><strong>Bachelor Plactic Arts</strong> // University of Antioquia <span style="opacity:0.5; font-size:8px;">[Medellín, COL]</span></span>
-                    <span class="checklist-label" style="text-align: right;">03/05 - 03/15</span>
-                </div>
-            </div>
-        </section>
-
 
         <div style="display: grid; grid-template-columns: 5fr 4fr; gap: 0.35rem; width: 100%;">
             <section class="vision-card" id="card-stack" style="margin-bottom: 0;">
@@ -276,7 +257,6 @@
                     <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Digital Design</span><span class="checklist-value">Corel Draw, Figma, Illustrator, Photoshop, Premiere, InDesign, After Effects</span></div>
                     <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">LANGUAGES</span><span class="checklist-value">HTML, CSS, JS, Python, Pwsh, Bash, R</span></div>
 
-                    
                     <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Frameworks</span><span class="checklist-value">Django, Flask, Astro, SQL, Pandas</span></div>
                     <div class="checklist-row"><span class="checklist-label" style="min-width: 60px;">Ops</span><span class="checklist-value">Git, AWS, Docker, Gcloud</span></div>
                 </div>
@@ -294,41 +274,11 @@
                 PDF
             </button>
 
-
-
         </div>
     </footer>
 
     <script>
-        const cardProfilePhoto = document.getElementById('card-profile-photo');
-        const cardProfileInfo = document.getElementById('card-profile-info');
-        const cardExperience = document.getElementById('card-experience');
-        const cardStack = document.getElementById('card-stack');
-        const cardEducation = document.getElementById('card-education');
-        const viewHospitality = document.getElementById('view-hospitality');
-        const viewPortfolio = document.getElementById('view-portfolio');
-
-        document.getElementById('btn-show-cv').addEventListener('click', () => {
-            cardProfilePhoto.style.display = 'block';
-            cardProfileInfo.style.display = 'block';
-            cardExperience.style.display = 'block';
-            cardStack.style.display = 'block';
-            cardEducation.style.display = 'block';
-            viewHospitality.style.display = 'none';
-            viewPortfolio.style.display = 'block';
-        });
-
-        document.getElementById('btn-show-hospitality').addEventListener('click', () => {
-            cardProfilePhoto.style.display = 'none';
-            cardProfileInfo.style.display = 'none';
-            cardExperience.style.display = 'none';
-            cardStack.style.display = 'none';
-            cardEducation.style.display = 'none';
-            viewPortfolio.style.display = 'none';
-            viewHospitality.style.display = 'block';
-        });
-
-        const projects = [
+const projects = [
             {
                 image: "src/img/project1.png",
                 title: "Project 01",
@@ -420,13 +370,7 @@
         showProject(0);
 
         document.getElementById('download-pdf').addEventListener('click', () => {
-            const hospitalityActive = viewHospitality.style.display !== 'none';
-            document.body.classList.toggle('print-hospitality', hospitalityActive);
             window.print();
-        });
-
-        window.addEventListener('afterprint', () => {
-            document.body.classList.remove('print-hospitality');
         });
     </script>
 </body>
