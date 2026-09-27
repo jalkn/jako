@@ -258,3 +258,38 @@ button:hover .icon-stroke {
         background: #fff !important;
     }
 }
+
+.profile-header {
+    width: 100%;
+    max-width: 560px;
+    padding: 0.3rem 0.8rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 8fr;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+.vision-scroll-viewport {
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    scrollbar-width: thin;
+}
+
+.certification-toggle {
+    cursor: pointer;
+}
+
+.certification-preview {
+    display: none;
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.certification-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
