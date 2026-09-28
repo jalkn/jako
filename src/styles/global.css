@@ -293,3 +293,50 @@ button:hover .icon-stroke {
     height: auto;
     border-radius: 4px;
 }
+
+.certification-preview.is-open {
+    display: block;
+}
+
+.full-stack-gallery.is-open {
+    display: flex;
+    flex-direction: row;
+    gap: 0.4rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+}
+
+.full-stack-gallery .certificate-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    cursor: pointer;
+    flex: 0 0 96px;
+    padding: 0;
+    text-align: center;
+}
+
+.full-stack-gallery .certificate-item img {
+    width: 100%;
+    height: 72px;
+    object-fit: contain;
+    border: 1px solid var(--jako-border);
+    border-radius: 4px;
+    background: #fff;
+}
+
+.full-stack-gallery .certificate-item span {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.full-stack-gallery .certificate-item:focus-visible {
+    outline: 1px solid var(--jako-text);
+    outline-offset: 2px;
+}
