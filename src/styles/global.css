@@ -298,7 +298,7 @@ button:hover .icon-stroke {
     display: block;
 }
 
-.full-stack-gallery.is-open {
+.certification-gallery.is-open {
     display: flex;
     flex-direction: row;
     gap: 0.4rem;
@@ -307,7 +307,7 @@ button:hover .icon-stroke {
     scrollbar-width: thin;
 }
 
-.full-stack-gallery .certificate-item {
+.certification-gallery .certificate-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -318,7 +318,7 @@ button:hover .icon-stroke {
     text-align: center;
 }
 
-.full-stack-gallery .certificate-item img {
+.certification-gallery .certificate-item img {
     width: 100%;
     height: 72px;
     object-fit: contain;
@@ -327,7 +327,7 @@ button:hover .icon-stroke {
     background: #fff;
 }
 
-.full-stack-gallery .certificate-item span {
+.certification-gallery .certificate-item span {
     font-family: 'Orbitron', sans-serif;
     font-size: 6px;
     font-weight: 700;
@@ -336,7 +336,7 @@ button:hover .icon-stroke {
     opacity: 0.6;
 }
 
-.full-stack-gallery .certificate-item:focus-visible {
+.certification-gallery .certificate-item:focus-visible {
     outline: 1px solid var(--jako-text);
     outline-offset: 2px;
 }
