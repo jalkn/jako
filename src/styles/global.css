@@ -21,18 +21,19 @@ body.dark-mode {
 }
 
 *,
-::before,
-::after {
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: inherit;
 }
 
-html, body {
+html,
+body {
     height: 100vh;
     max-height: 100vh;
-    overflow: hidden; /* Strict zero-scroll enforcement */
+    overflow: hidden;
 }
 
 body {
@@ -60,6 +61,10 @@ div {
     -webkit-tap-highlight-color: transparent;
 }
 
+/* =========================================================
+   BACKGROUND SYSTEM
+   ========================================================= */
+
 #page-bg-overlay,
 .ambient-gradient {
     position: fixed;
@@ -67,15 +72,31 @@ div {
 }
 
 #page-bg-overlay {
-    background: radial-gradient(circle at 50% 30%, var(--gradient-start) 0%, var(--gradient-mid) 65%, var(--gradient-end) 100%);
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            var(--gradient-start) 0%,
+            var(--gradient-mid) 65%,
+            var(--gradient-end) 100%
+        );
     z-index: -1;
 }
 
 .ambient-gradient {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.03), transparent, rgba(0, 0, 0, 0.03));
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.03),
+            transparent,
+            rgba(0, 0, 0, 0.03)
+        );
     z-index: 0;
     pointer-events: none;
 }
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 
 button {
     background: transparent;
@@ -107,7 +128,10 @@ button:hover .icon-stroke {
     stroke: var(--icon-hover);
 }
 
-/* Footer / Control Bar Locked to Base */
+/* =========================================================
+   FOOTER / CONTROL BAR
+   ========================================================= */
+
 .header-style-bar {
     height: 42px;
     flex-shrink: 0;
@@ -140,7 +164,10 @@ button:hover .icon-stroke {
     letter-spacing: 0.1em;
 }
 
-/* Single-Column Limited Width Viewport Container */
+/* =========================================================
+   MAIN VIEWPORT
+   ========================================================= */
+
 .vision-scroll-viewport {
     width: 100%;
     max-width: 560px;
@@ -153,6 +180,10 @@ button:hover .icon-stroke {
     justify-content: flex-start;
     align-items: center;
 }
+
+/* =========================================================
+   CARDS
+   ========================================================= */
 
 .vision-card {
     background: var(--jako-glass);
@@ -175,7 +206,10 @@ button:hover .icon-stroke {
     text-transform: uppercase;
 }
 
-/* Profile Layout with Dragged Title & Photo */
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
 .profile-title-block {
     display: flex;
     flex-direction: column;
@@ -211,6 +245,10 @@ button:hover .icon-stroke {
     font-size: 11px;
     font-weight: 500;
 }
+
+/* =========================================================
+   CHECKLIST / EXPERIENCE
+   ========================================================= */
 
 .checklist-group {
     display: flex;
@@ -261,24 +299,74 @@ button:hover .icon-stroke {
     opacity: 0.6;
 }
 
-/* Print rule */
+/* =========================================================
+   PRINT / PDF
+   ========================================================= */
+
 @media print {
-    html, body {
+
+    html,
+    body {
         height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         overflow: visible !important;
+        background: #fff !important;
     }
+
+    /*
+     * Disable all ambient visual layers.
+     * These fixed gradients can be rasterized incorrectly
+     * by browser PDF/print engines and produce black or
+     * transparent blocks.
+     */
+    #page-bg-overlay,
+    .ambient-gradient {
+        display: none !important;
+    }
+
+    /*
+     * Remove the interactive control bar from the PDF.
+     */
     .header-style-bar {
         display: none !important;
     }
-    body {
+
+    /*
+     * Disable the scrolling behavior used by the web UI.
+     */
+    .vision-scroll-viewport {
+        overflow: visible !important;
+        min-height: 0 !important;
+        height: auto !important;
+        max-height: none !important;
         background: #fff !important;
     }
+
+    /*
+     * Convert glass cards into solid printable cards.
+     */
     .vision-card {
-        box-shadow: none;
-        border: 1px solid #ddd;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
         background: #fff !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /*
+     * Ensure the browser preserves the intended print colors
+     * without relying on transparency or compositing.
+     */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 }
+
+/* =========================================================
+   PROFILE HEADER
+   ========================================================= */
 
 .profile-header {
     width: 100%;
@@ -290,6 +378,10 @@ button:hover .icon-stroke {
     gap: 0.35rem;
     flex-shrink: 0;
 }
+
+/* =========================================================
+   SCROLL / CERTIFICATIONS
+   ========================================================= */
 
 .vision-scroll-viewport {
     overflow-y: auto;
