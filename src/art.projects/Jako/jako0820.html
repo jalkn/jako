@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <link class="icon" type="image/png" href="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JAKO VAULT</title>
+    
+    <!-- External Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS VARIABLES & THEMES */
+        :root[data-theme="dark"] {
+            --jako-bg: rgba(5, 5, 8, 0.92);
+            --jako-text: #ffffff;
+            --jako-border: rgba(255, 255, 255, 0.094);
+            --jako-glass: rgba(0, 0, 0, 0.5);
+            --jako-led: rgba(255, 255, 255, 0.65);
+            --gradient-start: rgba(255, 255, 255, 0.03);
+            --gradient-mid: rgba(5, 5, 8, 0.85);
+            --gradient-end: #000000;
+            --icon-hover: #b6b8b9;
+
+            /* Dynamic Panel Gradient Defaults */
+            --panel-grad-1: #1a1a24;
+            --panel-grad-2: #09090e;
+        }
+
+        :root[data-theme="white"] {
+            --jako-bg: #f8f9fa;
+            --jako-text: #000000;
+            --jako-border: rgba(0, 0, 0, 0.12);
+            --jako-glass: rgba(255, 255, 255, 0.4);
+            --jako-led: rgba(233, 227, 227, 0.455);
+            --gradient-start: rgba(0, 0, 0, 0.02);
+            --gradient-mid: rgba(248, 249, 250, 0.85);
+            --gradient-end: #ffffff;
+            --icon-hover: #b6b8b9;
+
+            /* Dynamic Panel Gradient Defaults */
+            --panel-grad-1: #e2e8f0;
+            --panel-grad-2: #cbd5e1;
+        }
+
+        /* GLOBAL RESET & BASE STYLES */
+        *, ::before, ::after { 
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        body { 
+            font-family: 'Orbitron', monospace, sans-serif; 
+            background-color: var(--jako-bg); 
+            color: var(--jako-text); 
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: 0.05em;  
+            overscroll-behavior: none;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        } 
+
+        ::selection {
+            background-color: var(--jako-text);
+            color: var(--jako-bg);
+        }
+
+        button, span, div { -webkit-tap-highlight-color: transparent; }
+        button, input, select, textarea { font-family: inherit; }
+
+        /* AMBIENT OVERLAYS */
+        #page-bg-overlay, .ambient-gradient {
+            position: fixed;
+            inset: 0;
+        }
+
+        #page-bg-overlay {
+            background: radial-gradient(circle at 50% 30%, var(--gradient-start) 0%, var(--gradient-mid) 65%, var(--gradient-end) 100%);
+            z-index: -1;
+            transform: translateZ(0);
+            will-change: background;
+            transition: background 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .ambient-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), transparent, rgba(0,0,0,0.2));
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* TRANSITIONS */
+        .img-glow-transition {
+            transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translate3d(0, 0, 0);
+            will-change: filter, transform, opacity;
+        }
+
+        .top-nav-bar, .info-strip, .action-controls-grid, footer, #fotopanel-pack-container {
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s ease, border-color 0.5s ease;
+        }
+
+        /* BUTTONS & ICONS */
+        .btn-tele-glass {
+            background-color: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--jako-text);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-tele-glass:hover { opacity: 0.8; }
+        .btn-tele-glass:active { transform: scale(0.92); }
+
+        .icon-tele, .icon-stroke {
+            width: 1rem;
+            height: 1rem;
+            transition: fill 0.3s ease, stroke 0.3s ease;
+        }
+
+        .icon-tele {
+            fill: var(--jako-text);
+            pointer-events: none;
+        }
+
+        .icon-stroke { stroke: var(--jako-text); }
+        .btn-tele-glass:hover .icon-tele { fill: var(--icon-hover); }
+        .btn-tele-glass:hover .icon-stroke { stroke: var(--icon-hover); }
+
+        /* VISUALIZER STAGE & CONTAINERS */
+        .main-visualizer-container {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: padding 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #fotopanel-pack-container {
+            position: relative;
+            width: 100%;
+            max-width: 240px;
+            aspect-ratio: 1 / 1;
+            flex-shrink: 0;
+            margin: auto;
+            cursor: pointer;
+            filter: drop-shadow(0 40px 60px rgba(0,0,0,0.6));
+        }
+
+        .pack-viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* DYNAMIC PANEL SVG */
+        .panel-svg-surface {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .panel-grad-stop-1 {
+            stop-color: var(--panel-grad-1);
+            transition: stop-color 0.4s ease;
+        }
+
+        .panel-grad-stop-2 {
+            stop-color: var(--panel-grad-2);
+            transition: stop-color 0.4s ease;
+        }
+
+        #fotopanel-pack-container img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 10;
+        }
+
+        /* PRODUCT SPEC STRIP */
+        .info-strip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: var(--jako-text);
+            font-size: 8px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+            z-index: 20;
+        }
+
+        .info-strip-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .info-separator {
+            opacity: 0.4;
+            font-weight: 300;
+        }
+
+        .tele-value { 
+            color: var(--jako-text); 
+            text-shadow: var(--jako-led), var(--jako-led);
+            transform: translateZ(0);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        /* ACTION CONTROLS BAR */
+        .action-controls-grid {
+            position: relative;
+            z-index: 100;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            height: 3rem;
+            padding: 0 0.5rem;
+            border-top: 1px solid var(--jako-border);
+            border-bottom: 1px solid var(--jako-border);
+            background: var(--jako-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: background 0.5s ease, border-color 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .action-controls-grid .btn-tele-glass {
+            width: 3rem;
+            height: 100%;
+        }
+
+        /* FOOTER (RIGHT-ALIGNED) */
+        .footer-container {
+            height: 50px;
+            width: 100%;
+            flex-shrink: 0;
+            background: var(--jako-glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 50;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-top: 1px solid var(--jako-border);
+        }
+
+        .footer-brand-text {
+            font-size: 6px;
+            letter-spacing: 0.35em;
+            font-weight: 700;
+            color: var(--jako-text);
+            opacity: 0.5;
+            text-transform: uppercase;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-container:hover .footer-brand-text { opacity: 0.9; }
+
+        /* ZENITH MODE STATE */
+        .zenith-active .top-nav-bar,
+        .zenith-active .action-controls-grid,
+        .zenith-active footer {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transform: translateY(15px);
+        }
+
+        .zenith-active .top-nav-bar { transform: translateY(-15px); }
+
+        .zenith-active .info-strip {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            pointer-events: auto;
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+        }
+
+        .zenith-active main { padding: 0 !important; }
+
+        .zenith-active #fotopanel-pack-container {
+            transform: scale(1.15);
+            filter: drop-shadow(0 35px 80px rgba(0,0,0,0.95));
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page-bg-overlay"></div>
+    <div class="ambient-gradient"></div>
+        
+    <!-- Top Action Dispatcher Bar -->
+    <div class="top-nav-bar" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 1rem; height: 3rem; border-bottom: 1px solid var(--jako-border); background: var(--jako-glass); backdrop-filter: blur(20px);">
+        <div style="display: flex; justify-content: flex-start;"></div>
+
+        <!-- Home / Reset Button -->
+        <button class="btn-tele-glass" title="Home / Reset" onclick="resetView()" style="width: auto; padding: 0 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 10px; font-weight: 700; letter-spacing: 0.15em;">
+            <svg viewBox="0 0 100 100" class="icon-tele" style="width: 0.85rem; height: 0.85rem;">
+                <g transform="rotate(180 50 50)">
+                    <polygon points="50,42 58,50 50,58 42,50" />
+                    <polygon points="30,65 70,65 80,80 20,80" />
+                </g>
+            </svg>
+            <span style="letter-spacing: 0.25em; font-weight: 700;">JAKO</span>
+        </button>
+
+        <div style="display: flex; justify-content: flex-end; align-items: center;"></div>
+    </div>
+
+    <!-- Visualizer Stage -->
+    <main class="main-visualizer-container" onclick="handleStageClick(event)">
+        <div id="fotopanel-pack-container" onclick="handlePanelClick(event)">
+            <div class="pack-viewport">
+                <!-- Vector SVG Background Surface -->
+                <svg class="panel-svg-surface" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="panelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" class="panel-grad-stop-1" />
+                            <stop offset="100%" class="panel-grad-stop-2" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100" height="100" fill="url(#panelGrad)" />
+                </svg>
+
+                <!-- Dynamic Vector Dot Matrix Overlay -->
+                <svg id="pulsor-grid-svg" viewBox="0 0 100 100" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none;" class="img-glow-transition">
+                    <!-- Dynamic points rendered via JS -->
+                </svg>
+            </div>
+        </div>
+
+        <!-- Product Spec Strip -->
+        <div class="info-strip">
+            <div class="info-strip-content">
+                <span id="fotopanel-label" class="tele-value">PULSOR PANEL 40X40</span>
+                <span class="info-separator">/</span>
+                <!-- <span id="fotopanel-price" class="tele-value">$40MIL</span>-->
+            </div>
+            <!--
+            <button id="btn-activate-node" title="Order via WhatsApp" onclick="acquireNodeCashflow()" class="btn-tele-glass" style="width: auto; padding: 0.5rem;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-stroke">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M12 3v13.5m0 0l-4.5-4.5M12 16.5l4.5-4.5" />
+                </svg>
+            </button>-->
+        </div>
+    </main>
+ 
+    <!-- Right-aligned Action Controls -->
+    <div class="action-controls-grid">
+
+        <!-- 1. Dot Color Button -->
+        <button id="btn-dot-color" title="Dot Color" class="btn-tele-glass">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-stroke">
+                <circle cx="12" cy="12" r="7" />
+            </svg>
+        </button>
+
+        <!-- 2. Panel Color Gradient Button -->
+        <button id="btn-color-Panel" title="Panel Color Gradient" onclick="rotatePanelGradient()" class="btn-tele-glass">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-stroke">
+                <rect x="4" y="4" width="16" height="16" rx="1" />
+            </svg>
+        </button>
+
+        <!-- 3. Next Variant Button -->
+        <button id="btn-next-variant" title="Next Variant Scale" onclick="rotateFotoVariant('next')" class="btn-tele-glass">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-stroke">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4M9 9h6v6H9z" />
+            </svg>
+        </button>
+
+        <!-- 4. Theme Toggle Button (Achromatic) -->
+        <button id="acromatic-toggle-trigger" title="Toggle Theme" class="btn-tele-glass">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="icon-stroke">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m0 13.5V21m8.966-8.966h-2.25M4.284 12h-2.25m15.356-6.364l-1.591 1.591M6.364 17.636l-1.591 1.591m12.728 0l-1.591-1.591M6.364 6.364L4.773 4.773M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
+            </svg>
+        </button>
+
+        <!-- 5. Zenith Mode Button -->
+        <button id="btn-zenith-toggle" title="Zenith Mode" onclick="toggleZenithMode()" class="btn-tele-glass">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="icon-stroke">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+            </svg>
+        </button>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+        <span class="footer-brand-text">JAKO.DEV 2008-2026</span>
+    </footer>
+
+    <!-- Core Logic Engine -->
+    <script>
+        // Catalog Configuration Schema
+        const ARTEPANEL_CATALOG = {
+            'PULSOR': {
+                defaultVariant: 'PANEL 20X20',
+                variants: {
+                    'PANEL 20X20': { 
+                        label: 'PANEL 20X20CMS', 
+                        spec: 'Community Mural Funding', 
+                        media: 'ACM 3mm',
+                        finish: 'Matte Lamination Inkjet',
+                        price: '⧗400', 
+                        id: 'FP-20X20',
+                        dotsCount: 400
+                    },
+                    'PANEL 30X30': { 
+                        label: 'PANEL 30X30CMS', 
+                        spec: 'Community Mural Funding', 
+                        media: 'ACM 3mm',
+                        finish: 'Matte Lamination Inkjet',
+                        price: '⧗900', 
+                        id: 'FP-30X30',
+                        dotsCount: 900
+                    },
+                    'PANEL 40X40': { 
+                        label: 'PANEL 40X40CMS', 
+                        spec: 'Community Mural Funding', 
+                        media: 'ACM 3mm',
+                        finish: 'Matte Lamination Inkjet',
+                        price: '⧗1600', 
+                        id: 'FP-40X40',
+                        dotsCount: 1600
+                    }
+                }
+            }
+        };
+
+        // Presets para el degradado dinámico del SVG
+        const PANEL_GRADIENTS = [
+            { start: '#1a1a24', end: '#09090e' }, // Mono Dark
+            { start: '#2a0845', end: '#6441a5' }, // Deep Purple
+            { start: '#0f2027', end: '#2c5364' }, // Cyber Cyan
+            { start: '#11998e', end: '#38ef7d' }, // Emerald
+            { start: '#8a2387', end: '#e94057' }  // Neon Sunset
+        ];
+
+        // Core Application State
+        let currentFotoItem = 'PULSOR';
+        let currentFotoVariant = 'PANEL 20X20';
+        let currentGradientIndex = 0;
+        let isZenithActive = false;
+        const targetPhoneNumber = "573128707083";
+
+        // Element Cache Registry
+        const $ = (id) => document.getElementById(id);
+        const cachedElements = {};
+        const getCachedEl = (id) => cachedElements[id] || (cachedElements[id] = $(id));
+
+        // Haptic Feedback Trigger
+        const triggerHaptic = (pattern) => { 
+            if (navigator.vibrate) navigator.vibrate(pattern); 
+        };
+
+        // Rotate SVG Panel Gradient Color
+        function rotatePanelGradient() {
+            currentGradientIndex = (currentGradientIndex + 1) % PANEL_GRADIENTS.length;
+            const grad = PANEL_GRADIENTS[currentGradientIndex];
+            
+            document.documentElement.style.setProperty('--panel-grad-1', grad.start);
+            document.documentElement.style.setProperty('--panel-grad-2', grad.end);
+            
+            triggerHaptic(12);
+        }
+
+        // Zenith Mode Toggle Engine
+        function toggleZenithMode() {
+            isZenithActive = !isZenithActive;
+            document.body.classList.toggle('zenith-active', isZenithActive);
+            triggerHaptic([15, 30, 15]);
+        }
+
+        // Stage Touch Handler
+        function handleStageClick(event) {
+            if (isZenithActive) {
+                toggleZenithMode();
+            }
+        }
+
+        // Panel Direct Touch Handler
+        function handlePanelClick(event) {
+            event.stopPropagation();
+            if (isZenithActive) {
+                toggleZenithMode();
+            }
+        }
+
+        // Rotate Through Catalog Variants
+        function rotateFotoVariant(direction = 'next') {
+            const variants = Object.keys(ARTEPANEL_CATALOG[currentFotoItem].variants);
+            let currentIndex = variants.indexOf(currentFotoVariant);
+            
+            if (direction === 'next') {
+                currentIndex = (currentIndex + 1) % variants.length;
+            } else {
+                currentIndex = (currentIndex - 1 + variants.length) % variants.length;
+            }
+            
+            currentFotoVariant = variants[currentIndex];
+            updateFotoUI();
+            triggerHaptic(15);
+        }
+
+        // Reset View to Default
+        function resetView() {
+            currentFotoVariant = 'PANEL 40X40';
+            currentGradientIndex = 0;
+            const grad = PANEL_GRADIENTS[0];
+            document.documentElement.style.setProperty('--panel-grad-1', grad.start);
+            document.documentElement.style.setProperty('--panel-grad-2', grad.end);
+            updateFotoUI();
+            triggerHaptic([10, 10]);
+        }
+
+        // Render Vector Dot Matrix Grid
+        function renderDotGrid(totalDots) {
+            const svgContainer = getCachedEl('pulsor-grid-svg');
+            if (!svgContainer) return;
+
+            const cols = Math.ceil(Math.sqrt(totalDots));
+            const rows = Math.ceil(totalDots / cols);
+            
+            const stepX = 100 / (cols + 1);
+            const stepY = 100 / (rows + 1);
+            const radius = Math.max(0.6, 1.8 - (cols * 0.03));
+
+            let dotsHTML = '';
+            let count = 0;
+
+            for (let r = 1; r <= rows && count < totalDots; r++) {
+                for (let c = 1; c <= cols && count < totalDots; c++) {
+                    const cx = (c * stepX).toFixed(2);
+                    const cy = (r * stepY).toFixed(2);
+                    dotsHTML += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="var(--jako-text)" opacity="0.85" />`;
+                    count++;
+                }
+            }
+
+            svgContainer.innerHTML = dotsHTML;
+        }
+
+        // Sync UI Elements
+        function updateFotoUI() {
+            const config = ARTEPANEL_CATALOG[currentFotoItem].variants[currentFotoVariant];
+            
+            const label = getCachedEl('fotopanel-label');
+            const price = getCachedEl('fotopanel-price');
+            
+            if (label) label.textContent = config.label;
+            if (price) price.textContent = config.price;
+
+            renderDotGrid(config.dotsCount);
+        }
+
+        // WhatsApp Order Dispatcher
+        function acquireNodeCashflow() {
+            const variant = ARTEPANEL_CATALOG[currentFotoItem].variants[currentFotoVariant];
+            const message = [
+                `ORDER: ${variant.label}`,
+                `VARIANT: ${currentFotoVariant}`,
+                `SPEC: ${variant.spec}`,
+                `MEDIA: ${variant.media}`,
+                `FINISH: ${variant.finish}`,
+                `ID: ${variant.id}`,
+                `PRICE: ${variant.price}`
+            ].join('\n');
+
+            triggerHaptic([15, 40, 15]);
+            window.open(`https://api.whatsapp.com/send?phone=${targetPhoneNumber}&text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Achromatic Theme Switcher
+        function initAchromaticToggle() {
+            const trigger = getCachedEl('acromatic-toggle-trigger');
+            if (!trigger) return;
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const htmlNode = document.documentElement;
+                const currentTheme = htmlNode.getAttribute('data-theme') || 'dark';
+                const nextTheme = currentTheme === 'dark' ? 'white' : 'dark';
+                
+                htmlNode.setAttribute('data-theme', nextTheme);
+                triggerHaptic([20, 10]);
+            });
+        }
+
+        // Initialize Application Controls
+        document.addEventListener('DOMContentLoaded', () => {
+            initAchromaticToggle();
+            updateFotoUI();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" role="img" aria-labelledby="title">
+  <title id="title">FOTOPANEL</title>
+  <g fill="none" stroke="#111315" stroke-width="3">
+    <rect x="3" y="3" width="26" height="26" />
+  </g>
+  <text x="38" y="23" fill="#111315" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1">FOTOPANEL</text>
+</svg>

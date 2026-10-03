@@ -11,7 +11,7 @@ document.getElementById('download-pdf').addEventListener('click', () => {
    LANGUAGE SYSTEM
    ========================================================= */
 
-const languageToggle = document.getElementById('language-toggle');
+const languageOptions = document.querySelectorAll('.language-option');
 const themeToggle = document.getElementById('theme-toggle');
 
 const languages = [
@@ -26,7 +26,7 @@ const translations = {
         pageTitle: 'Portfolio & CV - Alejandro Monsalve',
 
         profileText:
-            'Multidisciplinary designer and developer focused on digital experiences, visual systems, and creative technology. Combining formal training in visual arts with web development, UI/UX, automation, and computational experimentation. My work moves between image, design, code, media art, physical making, and emerging biokinetic research. I speak Spanish, English, and Italian.',
+            'Multidisciplinary artist and developer focused on graphic design, digital experiences, visual systems, and generative art. Combining formal training in visual arts with web development, UI/UX, automation, and computational experimentation. My work moves between image, design, code, media art, physical making, and emerging biokinetic research. I speak Spanish, English, and Italian.',
 
         education: 'Education',
         dataTechnologyResearch: 'Data / Technology / Research',
@@ -77,7 +77,7 @@ const translations = {
         pageTitle: 'Portafolio y CV - Alejandro Monsalve',
 
         profileText:
-            'Diseñador y desarrollador multidisciplinario enfocado en experiencias digitales, sistemas visuales y tecnología creativa. Combino formación formal en artes visuales con desarrollo web, UI/UX, automatización y experimentación computacional. Mi trabajo transita entre imagen, diseño, código, arte medial, creación física e investigación biocinética emergente. Hablo español, inglés e italiano.',
+            'Artista Multidisciplinario enfocado en experiencias digitales, sistemas visuales y arte biogenerativo. Combino formación formal en artes visuales con desarrollo web, UI/UX, automatización y experimentación computacional. Mi trabajo transita entre imagen, diseño, código, arte medial, creación física e investigación biocinética emergente. Hablo español, inglés e italiano.',
 
         education: 'Educación',
         dataTechnologyResearch: 'Datos / Tecnología / Investigación',
@@ -223,45 +223,46 @@ const projects = [
     createProjectRecord({
         project: 'NZ Trip',
         category: 'artProjects',
+        description: 'Artistic project period connected to New Zealand.',
+        practice: ['Aerial Photography', 'Drawing', 'Running', 'Performance', 'Land Art', 'Media Art', 'Generative Art'],
         location: 'Tauranga, NZ',
-        period: '11/20 - 08/21',
-        description: 'Aerial Photography · Drawing · Running · Performance · Land Art · Media Art · Generative Art'
+        period: '11/20 - 08/21'
     }),
     createProjectRecord({
         project: 'ARPA Solutions',
-        category: 'dataTechnologyResearch',
+        category: 'artProjects',
         platform: ['Web App', 'Mobile App'],
         assets: [{ src: 'img/arpa.png', alt: 'ARPA Solutions', label: 'ARPA Solutions' }]
     }),
     createProjectRecord({
         project: 'KroxTrain',
-        category: 'dataTechnologyResearch',
+        category: 'artProjects',
         liveUrl: 'http://jalkn.github.io/kroxTrain/',
         assets: [{ src: 'img/krox.png', alt: 'KroxTrain', label: 'KroxTrain' }]
     }),
     createProjectRecord({
         project: 'Zenergy.lab',
-        category: 'dataTechnologyResearch',
+        category: 'artProjects',
         liveUrl: 'https://jalkn.github.io/zenErgy/',
         assets: [{ src: 'img/zenergy.png', alt: 'Zenergy.lab', label: 'Zenergy.lab' }]
     }),
-    createProjectRecord({ project: 'Biopulsor', category: 'dataTechnologyResearch' }),
-    createProjectRecord({ project: 'Z-Dial', category: 'dataTechnologyResearch' }),
+    createProjectRecord({ project: 'Biopulsor', category: 'artProjects' }),
+    createProjectRecord({ project: 'Z-Dial', category: 'artProjects' }),
     createProjectRecord({
         project: 'PULS App',
-        category: 'dataTechnologyResearch',
+        category: 'artProjects',
         platform: ['Smartwatch App'],
         assets: [{ src: 'img/jd.png', alt: 'PULS App', label: 'PULS App' }]
     }),
     createProjectRecord({
         project: 'Pulsor App',
-        category: 'dataTechnologyResearch',
+        category: 'artProjects',
         platform: ['Mobile App', 'Web App'],
         assets: [{ src: 'img/jd.png', alt: 'Pulsor App', label: 'Pulsor App' }]
     }),
     createProjectRecord({
         project: 'BioRush',
-        category: 'dataTechnologyResearch',
+        category: 'artProjects',
         assets: [{
             src: 'src/data science/biorush/project1.png',
             alt: 'BioRush',
@@ -270,7 +271,7 @@ const projects = [
     }),
     createProjectRecord({
         project: 'JAKO Ecosystem',
-        category: 'jako',
+        category: 'artProjects',
         assets: [{ src: 'img/jd.png', alt: 'JAKO Ecosystem', label: 'JAKO Ecosystem' }]
     })
 ];
@@ -291,6 +292,7 @@ const calculateDurationInMonths = (launchMonth, launchYear, currentDate = new Da
 
 
 const projectCards = new Map();
+const presentedProjects = projects.filter((project) => project.project === 'NZ Trip');
 
 
 const readProjectAssets = (gallery) => Array.from(
@@ -374,6 +376,12 @@ const prepareProjectCard = (project, row, gallery, selectedPreview) => {
     if (project.description) description.textContent = project.description;
     details.append(description);
 
+    const practice = document.createElement('span');
+    practice.className = 'experience-tools project-practice';
+    practice.hidden = !project.practice?.length;
+    if (project.practice?.length) practice.textContent = project.practice.join(' · ');
+    details.append(practice);
+
     const date = document.createElement('span');
     date.className = 'checklist-label project-launch-meta';
     date.hidden = true;
@@ -409,7 +417,7 @@ const renderProjectCards = () => {
             .map((row) => [row.dataset.projectId, row])
     );
 
-    projects.forEach((project) => {
+    presentedProjects.forEach((project) => {
         project.id = project.project.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
         const row = existingRows.get(project.id);
 
@@ -433,7 +441,7 @@ const renderProjectCards = () => {
         (group) => [group.dataset.projectCategory, group]
     ));
 
-    projects.forEach((project) => {
+    presentedProjects.forEach((project) => {
         const card = projectCards.get(project.id);
         groups.get(project.category).append(...[card.row, card.gallery, card.selectedPreview].filter(Boolean));
     });
@@ -504,22 +512,23 @@ const applyLanguage = () => {
 
     updateProjectMetadata();
 
-    languageToggle.textContent = language.label;
+    languageOptions.forEach((option) => {
+        const optionLanguage = languages.find(
+            (item) => item.code === option.dataset.languageCode
+        );
+        const isActive = option.dataset.languageCode === language.code;
 
-    languageToggle.setAttribute(
-        'aria-label',
-        `${copy.changeLanguage}, ${language.label}`
-    );
-
-    languageToggle.title =
-        `${copy.changeLanguage}, ${language.label}`;
+        option.setAttribute('aria-pressed', String(isActive));
+        option.setAttribute(
+            'aria-label',
+            `${copy.changeLanguage}: ${optionLanguage?.label || option.dataset.languageCode}`
+        );
+        option.title = `${copy.changeLanguage}: ${optionLanguage?.label || option.dataset.languageCode}`;
+    });
 
 
     const isDarkMode =
         document.body.classList.contains('dark-mode');
-
-    themeToggle.textContent =
-        isDarkMode ? copy.light : copy.dark;
 
     themeToggle.setAttribute(
         'aria-label',
@@ -547,9 +556,6 @@ themeToggle.addEventListener('click', () => {
     const copy =
         translations[languages[languageIndex].code];
 
-    themeToggle.textContent =
-        isDarkMode ? copy.light : copy.dark;
-
     themeToggle.setAttribute(
         'aria-pressed',
         String(isDarkMode)
@@ -569,12 +575,17 @@ themeToggle.addEventListener('click', () => {
    LANGUAGE TOGGLE
    ========================================================= */
 
-languageToggle.addEventListener('click', () => {
+languageOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const nextLanguageIndex = languages.findIndex(
+            (language) => language.code === option.dataset.languageCode
+        );
 
-    languageIndex =
-        (languageIndex + 1) % languages.length;
+        if (nextLanguageIndex < 0) return;
 
-    applyLanguage();
+        languageIndex = nextLanguageIndex;
+        applyLanguage();
+    });
 });
 
 
@@ -595,6 +606,10 @@ document
 
                 const isOpen =
                     preview.classList.toggle('is-open');
+
+                if (toggle.dataset.projectId === 'nz-trip') {
+                    toggle.setAttribute('aria-expanded', String(isOpen));
+                }
 
                 if (
                     !isOpen &&

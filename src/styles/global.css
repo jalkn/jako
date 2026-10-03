@@ -147,6 +147,80 @@ button:hover .icon-stroke {
     gap: 0.5rem;
 }
 
+.header-style-bar.site-header {
+    height: auto;
+    min-height: 42px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.3rem 0.8rem;
+    border-top: 0;
+    border-bottom: 1px solid var(--jako-border);
+}
+
+.site-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+}
+
+.site-brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    white-space: nowrap;
+}
+
+.site-brand-mark {
+    display: block;
+    width: 22px;
+    height: 22px;
+    fill: var(--jako-text);
+    flex: 0 0 auto;
+}
+
+.site-header .header-controls {
+    max-width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.2rem;
+}
+
+.language-options {
+    display: flex;
+    align-items: center;
+    gap: 0.05rem;
+}
+
+.header-control {
+    height: 28px;
+    min-width: 28px;
+    padding: 0 0.4rem;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 7px;
+    text-decoration: none;
+}
+
+.language-option[aria-pressed="true"] {
+    border-color: var(--jako-border);
+}
+
+body.dark-mode .theme-switch-knob {
+    transform: translateX(6px);
+}
+
+.pdf-footer {
+    justify-content: center;
+}
+
+.pdf-footer .actions-group {
+    margin-left: 0;
+    justify-content: center;
+}
+
 .actions-group {
     display: flex;
     align-items: center;
@@ -179,6 +253,14 @@ button:hover .icon-stroke {
     flex-grow: 1;
     justify-content: flex-start;
     align-items: center;
+}
+
+.profile-section-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
 }
 
 /* =========================================================
