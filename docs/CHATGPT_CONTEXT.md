@@ -6,7 +6,7 @@ JAKO.world is intentionally maintained as a simple personal portfolio/CV. Its fi
 
 The portfolio presents project identity, metadata, selected assets, and links. Independent projects may keep their own implementations and repositories. The current project record supports category, project type, platform, launch month/year, description, technical metadata, JAKO-related metadata, assets, repository/live links, featured state, and next action. Most values are currently null or absent. Platform and project type are separate fields. Unknown values should remain explicitly unknown.
 
-The current project UI combines static HTML rows with project records in JavaScript. `renderProjectCards()` prepares and appends only `presentedProjects`; this currently filters the retained project records to NZ Trip. The shared Education gallery and project gallery handlers provide thumbnail expansion, selected-image preview, and cleanup when a gallery collapses. The NZ Trip thumbnail strip starts open and its large preview starts hidden. The Header's explicit language buttons set the existing `languageIndex` and call the existing `applyLanguage()` function. The Header and PDF-only Footer share the existing `.header-style-bar` styling, which is hidden in print. Treat this as the current prototype, not a confirmed final architecture.
+The current project UI combines static HTML rows with project records in JavaScript. `renderProjectCards()` prepares and appends only `presentedProjects`; this currently filters the retained project records to NZ Trip. The shared Education gallery and project gallery handlers provide thumbnail expansion, selected-image preview, and cleanup when a gallery collapses. The NZ Trip thumbnail strip starts open and its large preview starts hidden. The Header's explicit language buttons set the existing `languageIndex` and call the existing `applyLanguage()` function. The Header and PDF-only Footer share the existing `.header-style-bar` styling, which is hidden in print. Projects uses the Job Experience checklist header and row classes/styles; catalog data supplies the project row values and the shared gallery remains below it. Treat this as the current prototype, not a confirmed final architecture.
 
 # Projects
 
@@ -16,6 +16,7 @@ Confirmed platforms:
 * Pulsor App — Mobile App · Web App
 * Fotopanel.art — Web App · Mobile App
 * ARPA Solutions — Web App · Mobile App
+* NZ Trip — Website
 
 Current conceptual model (working, not final):
 
@@ -23,7 +24,7 @@ Current conceptual model (working, not final):
 * JAKO.studio: Z-Dial, P.U.L.S., Pulsor, Biopulsor, generative systems, interactive applications.
 * Professional Portfolio: CV, education, job experience, software/technology projects.
 
-NZ Trip is the only project currently displayed. Its retained record has no confirmed `projectType`, platform, repository, or live link, so those fields are omitted. Existing information displayed: period `11/20 - 08/21`, location `Tauranga, NZ`, description “Artistic project period connected to New Zealand,” and practice: Aerial Photography, Drawing, Running, Performance, Land Art, Media Art, Generative Art. Its gallery uses 19 existing images from `src/art.projects/nzTrip/`.
+NZ Trip is the only project currently displayed. Its row uses the Job Experience checklist structure. Its record supplies platform `Website`, location `New Zealand`, description “Artistic project period connected to New Zealand,” and practice: Aerial Photography, Drawing, Running, Performance, Land Art, Media Art, Generative Art. Its existing period `11/20 - 08/21` remains in the record but is not displayed as a launch date. `launchMonth` and `launchYear` remain unset, so no date appears. Its gallery uses 19 existing images from `src/art.projects/nzTrip/`.
 
 Other records remain in `main.js` but are not currently presented: ARDE, Artepanel, Drawgap Studio, Fotopanel.art, ARPA Solutions, KroxTrain, Zenergy.lab, Biopulsor, Z-Dial, PULS App, Pulsor App, BioRush, and JAKO Ecosystem. Their future project order and categorization remain open.
 
@@ -57,6 +58,11 @@ Do not normalize directory names or migrate/delete/convert assets without a deli
 
 2026-10-03
 
+* Changed the Projects section to use the Job Experience checklist header and row structure, with translated Projects/Launch labels.
+* NZ Trip now reads Website and New Zealand from its project record. Its period remains in the source data and is not treated as a launch date; no date appears while launch fields are unset.
+* Files affected: `index.html`, `src/scripts/main.js`, `src/styles/global.css`, `docs/CHATGPT_CONTEXT.md`.
+* Validation: JavaScript syntax, diff whitespace, project presentation structure, existing gallery asset paths, and desktop/mobile renders checked. HTML Tidy reported warnings but no structural errors. Browser interactions, theme/language switching, gallery clicks, and PDF output were not verified in an interactive browser.
+
 * Established the five-block page structure: Header, Professional Profile, Job Experience, Projects, Footer. Education remains nested in the Professional Profile group.
 * Moved the existing GitHub link and theme control to the Header, added direct English/Spanish/Italian buttons using the existing translation state, and left only the existing PDF button in the Footer.
 * Preserved NZ Trip as the only project and left its card implementation unchanged.
@@ -83,7 +89,7 @@ Do not normalize directory names or migrate/delete/convert assets without a deli
 * Confirm project launch dates before displaying them; duration should be calculated from confirmed dates.
 * Decide repository normalization and asset organization strategy before moving or renaming anything.
 * Decide whether project rows should have one source of truth (markup or project data) before further project-card refactoring.
-* Confirm whether NZ Trip should have a project type, platform, repository, or live link; none is currently confirmed in its project record.
+* Confirm NZ Trip's launch month/year if it is to display a launch date. The existing `11/20 - 08/21` period does not establish a launch date.
 * Define any exhibition-oriented architecture with the human before implementation.
 
 # Known Problems
@@ -95,4 +101,4 @@ Do not normalize directory names or migrate/delete/convert assets without a deli
 
 # Recommended Next Step
 
-Review the NZ Trip master card and decide whether its metadata, information hierarchy, and gallery behavior are ready to approve. Do not add the next project until the human approves this prototype.
+Review the NZ Trip checklist row and confirm whether a launch month and year can be established. Do not infer launch timing from its project period or add the next project before approval.

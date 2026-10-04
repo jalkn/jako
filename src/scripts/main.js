@@ -29,6 +29,8 @@ const translations = {
             'Multidisciplinary artist and developer focused on graphic design, digital experiences, visual systems, and generative art. Combining formal training in visual arts with web development, UI/UX, automation, and computational experimentation. My work moves between image, design, code, media art, physical making, and emerging biokinetic research. I speak Spanish, English, and Italian.',
 
         education: 'Education',
+        projects: 'Projects',
+        launch: 'LAUNCH',
         dataTechnologyResearch: 'Data / Technology / Research',
         jako: 'JAKO',
         startEnd: 'START - END',
@@ -41,6 +43,7 @@ const translations = {
             'Mobile App': 'Mobile App',
             'Desktop App': 'Desktop App',
             'Smartwatch App': 'Smartwatch App',
+            Website: 'Website',
             Physical: 'Physical',
             Digital: 'Digital'
         },
@@ -80,6 +83,8 @@ const translations = {
             'Artista Multidisciplinario enfocado en experiencias digitales, sistemas visuales y arte biogenerativo. Combino formación formal en artes visuales con desarrollo web, UI/UX, automatización y experimentación computacional. Mi trabajo transita entre imagen, diseño, código, arte medial, creación física e investigación biocinética emergente. Hablo español, inglés e italiano.',
 
         education: 'Educación',
+        projects: 'Proyectos',
+        launch: 'LANZAMIENTO',
         dataTechnologyResearch: 'Datos / Tecnología / Investigación',
         jako: 'JAKO',
         startEnd: 'INICIO - FIN',
@@ -92,6 +97,7 @@ const translations = {
             'Mobile App': 'Aplicación móvil',
             'Desktop App': 'Aplicación de escritorio',
             'Smartwatch App': 'Aplicación para smartwatch',
+            Website: 'Sitio web',
             Physical: 'Físico',
             Digital: 'Digital'
         },
@@ -131,6 +137,8 @@ const translations = {
             'Designer e sviluppatore multidisciplinare, con focus su esperienze digitali, sistemi visivi e tecnologia creativa. Unisco una formazione formale nelle arti visive allo sviluppo web, UI/UX, automazione e sperimentazione computazionale. Il mio lavoro si muove tra immagine, design, codice, media art, creazione fisica e ricerca biocinetica emergente. Parlo spagnolo, inglese e italiano.',
 
         education: 'Istruzione',
+        projects: 'Progetti',
+        launch: 'LANCIO',
         dataTechnologyResearch: 'Dati / Tecnologia / Ricerca',
         jako: 'JAKO',
         startEnd: 'INIZIO - FINE',
@@ -143,6 +151,7 @@ const translations = {
             'Mobile App': 'App mobile',
             'Desktop App': 'App desktop',
             'Smartwatch App': 'App per smartwatch',
+            Website: 'Sito web',
             Physical: 'Fisico',
             Digital: 'Digitale'
         },
@@ -223,9 +232,10 @@ const projects = [
     createProjectRecord({
         project: 'NZ Trip',
         category: 'artProjects',
+        platform: ['Website'],
         description: 'Artistic project period connected to New Zealand.',
         practice: ['Aerial Photography', 'Drawing', 'Running', 'Performance', 'Land Art', 'Media Art', 'Generative Art'],
-        location: 'Tauranga, NZ',
+        location: 'New Zealand',
         period: '11/20 - 08/21'
     }),
     createProjectRecord({
@@ -275,20 +285,6 @@ const projects = [
         assets: [{ src: 'img/jd.png', alt: 'JAKO Ecosystem', label: 'JAKO Ecosystem' }]
     })
 ];
-
-
-const calculateDurationInMonths = (launchMonth, launchYear, currentDate = new Date()) => {
-    if (!launchMonth || !Number.isInteger(launchYear)) return null;
-
-    const monthIndex = new Date(`${launchMonth} 1, ${launchYear}`).getMonth();
-    if (Number.isNaN(monthIndex)) return null;
-
-    const elapsedMonths =
-        (currentDate.getFullYear() - launchYear) * 12 +
-        currentDate.getMonth() - monthIndex;
-
-    return elapsedMonths >= 0 ? elapsedMonths : null;
-};
 
 
 const projectCards = new Map();
@@ -348,20 +344,21 @@ const prepareProjectCard = (project, row, gallery, selectedPreview) => {
     }
 
     row.dataset.projectId = project.id;
-    row.classList.add('project-entry');
     row.classList.toggle('certification-toggle', Boolean(gallery));
     row.replaceChildren();
 
     const details = document.createElement('span');
-    details.className = 'checklist-value project-details';
+    details.className = 'checklist-value';
+    details.style.textAlign = 'left';
 
     const title = document.createElement('strong');
-    title.textContent = project.project;
+    title.textContent = project.project.toUpperCase();
     details.append(title);
 
     const platform = document.createElement('span');
     platform.className = 'project-platform';
     platform.hidden = !project.platform?.length;
+    if (project.platform?.length) details.append(document.createTextNode(' // '));
     details.append(platform);
 
     const location = document.createElement('span');
@@ -383,14 +380,10 @@ const prepareProjectCard = (project, row, gallery, selectedPreview) => {
     details.append(practice);
 
     const date = document.createElement('span');
-    date.className = 'checklist-label project-launch-meta';
+    date.className = 'checklist-label';
     date.hidden = true;
 
-    const period = document.createElement('span');
-    period.className = 'checklist-label project-period';
-    period.hidden = !project.period;
-
-    row.append(details, date, period);
+    row.append(details, date);
 
     if (gallery) {
         gallery.setAttribute('aria-label', `${project.project} project images`);
@@ -465,25 +458,22 @@ const updateProjectMetadata = () => {
             platform.hidden = true;
         }
 
-        const date = row.querySelector('.project-launch-meta');
-        const monthsElapsed = calculateDurationInMonths(project.launchMonth, project.launchYear);
-        if (monthsElapsed === null) {
+        const date = row.querySelector('.checklist-label');
+        const numericMonth = Number(project.launchMonth);
+        const namedMonth = new Date(`${project.launchMonth} 1, ${project.launchYear}`).getMonth() + 1;
+        const month = Number.isInteger(numericMonth) && numericMonth >= 1 && numericMonth <= 12
+            ? numericMonth
+            : namedMonth;
+        const hasLaunchDate = Number.isInteger(project.launchYear) && project.launchYear > 0
+            && Number.isInteger(month) && month >= 1 && month <= 12;
+
+        if (!hasLaunchDate) {
             date.textContent = '';
             date.hidden = true;
         } else {
-            const launchMonth = new Date(`${project.launchMonth} 1, ${project.launchYear}`);
-            const launchDateLabel = new Intl.DateTimeFormat(languages[languageIndex].code, {
-                month: 'short',
-                year: 'numeric'
-            }).format(launchMonth);
-            const duration = monthsElapsed === 1 ? copy.oneMonth : copy.months(monthsElapsed);
-            date.textContent = `${launchDateLabel} · ${duration}`;
+            date.textContent = `${String(month).padStart(2, '0')}/${String(project.launchYear).slice(-2)}`;
             date.hidden = false;
         }
-
-        const period = row.querySelector('.project-period');
-        period.textContent = project.period ? `${copy.period} · ${project.period}` : '';
-        period.hidden = !project.period;
     });
 };
 
