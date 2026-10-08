@@ -8,543 +8,15 @@ document.getElementById('download-pdf').addEventListener('click', () => {
 
 
 /* =========================================================
-   LANGUAGE SYSTEM
-   ========================================================= */
-
-const languageOptions = document.querySelectorAll('.language-option');
-const themeToggle = document.getElementById('theme-toggle');
-
-const languages = [
-    { code: 'en', label: 'ENGLISH' },
-    { code: 'es', label: 'ESPAÑOL' },
-    { code: 'it', label: 'ITALIANO' }
-];
-
-const translations = {
-
-    en: {
-        pageTitle: 'Portfolio & CV - Alejandro Monsalve',
-
-        profileText:
-            'Multidisciplinary artist and developer focused on graphic design, digital experiences, visual systems, and generative art. Combining formal training in visual arts with web development, UI/UX, automation, and computational experimentation. My work moves between image, design, code, media art, physical making, and emerging biokinetic research. I speak Spanish, English, and Italian.',
-
-        education: 'Education',
-        projects: 'Projects',
-        launch: 'LAUNCH',
-        dataTechnologyResearch: 'Data / Technology / Research',
-        jako: 'JAKO',
-        startEnd: 'START - END',
-        now: 'NOW',
-        period: 'Period',
-        oneMonth: '1 month',
-        months: (count) => `${count} months`,
-        platformLabels: {
-            'Web App': 'Web App',
-            'Mobile App': 'Mobile App',
-            'Desktop App': 'Desktop App',
-            'Smartwatch App': 'Smartwatch App',
-            Website: 'Website',
-            Physical: 'Physical',
-            Digital: 'Digital'
-        },
-
-        fullStackDevelopment: 'Full Stack Development',
-        online: '[Online]',
-
-        runningCourse: 'Running Course',
-        englishB2: 'English B2+',
-        bachelorPlasticArts: 'Bachelor Plastic Arts',
-        spanishVersion: 'Spanish',
-
-        experience: 'Job Experience',
-
-        fullStackDeveloper: 'Full Stack Developer',
-        softwareDeveloper: 'Software Developer',
-        rpaDeveloper: 'RPA Developer',
-
-        graphicDesignerInstaller: 'Graphic Designer & Installer',
-        signInstaller: 'Signs Installer',
-        maintenance: 'Maintenance',
-        storeperson: 'Storeperson',
-        entrepreneurGraphicDesigner: 'Entrepreneur Graphic Designer',
-
-        dark: 'DARK',
-        light: 'LIGHT',
-        enableDark: 'Enable dark mode',
-        enableLight: 'Enable light mode',
-        changeLanguage: 'Change language'
-    },
-
-
-    es: {
-        pageTitle: 'Portafolio y CV - Alejandro Monsalve',
-
-        profileText:
-            'Artista Multidisciplinario enfocado en experiencias digitales, sistemas visuales y arte biogenerativo. Combino formación formal en artes visuales con desarrollo web, UI/UX, automatización y experimentación computacional. Mi trabajo transita entre imagen, diseño, código, arte medial, creación física e investigación biocinética emergente. Hablo español, inglés e italiano.',
-
-        education: 'Educación',
-        projects: 'Proyectos',
-        launch: 'LANZAMIENTO',
-        dataTechnologyResearch: 'Datos / Tecnología / Investigación',
-        jako: 'JAKO',
-        startEnd: 'INICIO - FIN',
-        now: 'ACTUALIDAD',
-        period: 'Periodo',
-        oneMonth: '1 mes',
-        months: (count) => `${count} meses`,
-        platformLabels: {
-            'Web App': 'Aplicación web',
-            'Mobile App': 'Aplicación móvil',
-            'Desktop App': 'Aplicación de escritorio',
-            'Smartwatch App': 'Aplicación para smartwatch',
-            Website: 'Sitio web',
-            Physical: 'Físico',
-            Digital: 'Digital'
-        },
-
-        fullStackDevelopment: 'Desarrollo Full Stack',
-        online: '[En línea]',
-
-        runningCourse: 'Curso de running',
-        englishB2: 'Inglés B2+',
-        bachelorPlasticArts: 'Licenciatura en Artes Plásticas',
-        spanishVersion: 'Español',
-
-        experience: 'Experiencia laboral',
-
-        fullStackDeveloper: 'Desarrollador Full Stack',
-        softwareDeveloper: 'Desarrollador de Software',
-        rpaDeveloper: 'Desarrollador RPA',
-
-        graphicDesignerInstaller: 'Diseñador Gráfico e Instalador',
-        signInstaller: 'Instalador de Señalización',
-        maintenance: 'Mantenimiento',
-        storeperson: 'Auxiliar de Almacén',
-        entrepreneurGraphicDesigner: 'Diseñador Gráfico Emprendedor',
-
-        dark: 'OSCURO',
-        light: 'CLARO',
-        enableDark: 'Activar modo oscuro',
-        enableLight: 'Activar modo claro',
-        changeLanguage: 'Cambiar idioma'
-    },
-
-
-    it: {
-        pageTitle: 'Portfolio e CV - Alejandro Monsalve',
-
-        profileText:
-            'Designer e sviluppatore multidisciplinare, con focus su esperienze digitali, sistemi visivi e tecnologia creativa. Unisco una formazione formale nelle arti visive allo sviluppo web, UI/UX, automazione e sperimentazione computazionale. Il mio lavoro si muove tra immagine, design, codice, media art, creazione fisica e ricerca biocinetica emergente. Parlo spagnolo, inglese e italiano.',
-
-        education: 'Istruzione',
-        projects: 'Progetti',
-        launch: 'LANCIO',
-        dataTechnologyResearch: 'Dati / Tecnologia / Ricerca',
-        jako: 'JAKO',
-        startEnd: 'INIZIO - FINE',
-        now: 'OGGI',
-        period: 'Periodo',
-        oneMonth: '1 mese',
-        months: (count) => `${count} mesi`,
-        platformLabels: {
-            'Web App': 'App web',
-            'Mobile App': 'App mobile',
-            'Desktop App': 'App desktop',
-            'Smartwatch App': 'App per smartwatch',
-            Website: 'Sito web',
-            Physical: 'Fisico',
-            Digital: 'Digitale'
-        },
-
-        fullStackDevelopment: 'Sviluppo Full Stack',
-        online: '[Online]',
-
-        runningCourse: 'Corso di corsa',
-        englishB2: 'Inglese B2+',
-        bachelorPlasticArts: 'Laurea in Arti Plastiche',
-        spanishVersion: 'Spagnolo',
-
-        experience: 'Esperienza lavorativa',
-
-        fullStackDeveloper: 'Sviluppatore Full Stack',
-        softwareDeveloper: 'Sviluppatore Software',
-        rpaDeveloper: 'Sviluppatore RPA',
-
-        graphicDesignerInstaller: 'Grafico e Installatore',
-        signInstaller: 'Installatore di Insegne',
-        maintenance: 'Manutenzione',
-        storeperson: 'Magazziniere',
-        entrepreneurGraphicDesigner: 'Grafico Imprenditore',
-
-        dark: 'SCURO',
-        light: 'CHIARO',
-        enableDark: 'Attiva modalità scura',
-        enableLight: 'Attiva modalità chiara',
-        changeLanguage: 'Cambia lingua'
-    }
-
-};
-
-
-/* =========================================================
-   PROJECT DATA
-   ========================================================= */
-
-const createProjectRecord = ({ project, category, ...metadata }) => ({
-    project,
-    category,
-    projectType: null,
-    platform: null,
-    launchMonth: null,
-    launchYear: null,
-    description: null,
-    programmingLanguage: null,
-    framework: null,
-    deployment: null,
-    cloud: null,
-    zDialFA: null,
-    biokineticDrop: null,
-    jakoLayer: null,
-    interaction: null,
-    stage: null,
-    assets: [],
-    repository: null,
-    liveUrl: null,
-    featured: null,
-    nextAction: null,
-    ...metadata
-});
-
-const projects = [
-    createProjectRecord({ project: 'ARDE', category: 'artProjects' }),
-    createProjectRecord({ project: 'Artepanel', category: 'artProjects' }),
-    createProjectRecord({
-        project: 'Drawgap Studio',
-        category: 'artProjects',
-        projectType: 'studio',
-        description: 'Multidisciplinary Art Producer · Drone Video & Photography · 3D Scan · Media Art · Generative Art'
-    }),
-    createProjectRecord({
-        project: 'Fotopanel.art',
-        category: 'artProjects',
-        platform: ['Web App', 'Mobile App']
-    }),
-    createProjectRecord({
-        project: 'NZ Trip',
-        category: 'artProjects',
-        platform: ['Website'],
-        description: 'Artistic project period connected to New Zealand.',
-        practice: ['Aerial Photography', 'Drawing', 'Running', 'Performance', 'Land Art', 'Media Art', 'Generative Art'],
-        location: 'New Zealand',
-        period: '11/20 - 08/21'
-    }),
-    createProjectRecord({
-        project: 'ARPA Solutions',
-        category: 'artProjects',
-        platform: ['Web App', 'Mobile App'],
-        assets: [{ src: 'img/arpa.png', alt: 'ARPA Solutions', label: 'ARPA Solutions' }]
-    }),
-    createProjectRecord({
-        project: 'KroxTrain',
-        category: 'artProjects',
-        liveUrl: 'http://jalkn.github.io/kroxTrain/',
-        assets: [{ src: 'img/krox.png', alt: 'KroxTrain', label: 'KroxTrain' }]
-    }),
-    createProjectRecord({
-        project: 'Zenergy.lab',
-        category: 'artProjects',
-        liveUrl: 'https://jalkn.github.io/zenErgy/',
-        assets: [{ src: 'img/zenergy.png', alt: 'Zenergy.lab', label: 'Zenergy.lab' }]
-    }),
-    createProjectRecord({ project: 'Biopulsor', category: 'artProjects' }),
-    createProjectRecord({ project: 'Z-Dial', category: 'artProjects' }),
-    createProjectRecord({
-        project: 'PULS App',
-        category: 'artProjects',
-        platform: ['Smartwatch App'],
-        assets: [{ src: 'img/jd.png', alt: 'PULS App', label: 'PULS App' }]
-    }),
-    createProjectRecord({
-        project: 'Pulsor App',
-        category: 'artProjects',
-        platform: ['Mobile App', 'Web App'],
-        assets: [{ src: 'img/jd.png', alt: 'Pulsor App', label: 'Pulsor App' }]
-    }),
-    createProjectRecord({
-        project: 'BioRush',
-        category: 'artProjects',
-        assets: [{
-            src: 'src/data science/biorush/project1.png',
-            alt: 'BioRush',
-            label: 'BioRush'
-        }]
-    }),
-    createProjectRecord({
-        project: 'JAKO Ecosystem',
-        category: 'artProjects',
-        assets: [{ src: 'img/jd.png', alt: 'JAKO Ecosystem', label: 'JAKO Ecosystem' }]
-    })
-];
-
-
-const projectCards = new Map();
-const presentedProjects = projects.filter((project) => project.project === 'NZ Trip');
-
-
-const readProjectAssets = (gallery) => Array.from(
-    gallery?.querySelectorAll('.certificate-item') || [],
-    (item) => ({
-        src: item.dataset.certificateSrc,
-        alt: item.dataset.certificateAlt || item.querySelector('img')?.alt || '',
-        label: item.querySelector('span')?.textContent.trim() || ''
-    })
-);
-
-
-const createProjectGallery = (project) => {
-    if (!project.assets.length) return [];
-
-    const gallery = document.createElement('div');
-    gallery.className = 'certification-preview certification-gallery';
-    gallery.setAttribute('aria-label', `${project.project} project images`);
-
-    project.assets.forEach((asset) => {
-        const item = document.createElement('button');
-        item.className = 'certificate-item';
-        item.type = 'button';
-        item.dataset.certificateSrc = asset.src;
-        item.dataset.certificateAlt = asset.alt;
-        item.setAttribute('aria-label', `View ${asset.alt}`);
-
-        const image = document.createElement('img');
-        image.src = asset.src;
-        image.alt = asset.alt;
-
-        const label = document.createElement('span');
-        label.textContent = asset.label;
-        item.append(image, label);
-        gallery.append(item);
-    });
-
-    const preview = document.createElement('div');
-    preview.className = 'certification-preview selected-certificate-preview';
-    preview.setAttribute('aria-live', 'polite');
-    preview.innerHTML = '<img src="" alt="">';
-
-    return [gallery, preview];
-};
-
-
-const prepareProjectCard = (project, row, gallery, selectedPreview) => {
-    if (!gallery) {
-        const generatedParts = createProjectGallery(project);
-        [gallery, selectedPreview] = generatedParts;
-    } else {
-        project.assets = readProjectAssets(gallery);
-    }
-
-    row.dataset.projectId = project.id;
-    row.classList.toggle('certification-toggle', Boolean(gallery));
-    row.replaceChildren();
-
-    const details = document.createElement('span');
-    details.className = 'checklist-value';
-    details.style.textAlign = 'left';
-
-    const title = document.createElement('strong');
-    title.textContent = project.project.toUpperCase();
-    details.append(title);
-
-    const platform = document.createElement('span');
-    platform.className = 'project-platform';
-    platform.hidden = !project.platform?.length;
-    if (project.platform?.length) details.append(document.createTextNode(' // '));
-    details.append(platform);
-
-    const location = document.createElement('span');
-    location.className = 'project-location';
-    location.hidden = !project.location;
-    if (project.location) location.textContent = `[${project.location}]`;
-    details.append(location);
-
-    const description = document.createElement('span');
-    description.className = 'experience-tools project-description';
-    description.hidden = !project.description;
-    if (project.description) description.textContent = project.description;
-    details.append(description);
-
-    const practice = document.createElement('span');
-    practice.className = 'experience-tools project-practice';
-    practice.hidden = !project.practice?.length;
-    if (project.practice?.length) practice.textContent = project.practice.join(' · ');
-    details.append(practice);
-
-    const date = document.createElement('span');
-    date.className = 'checklist-label';
-    date.hidden = true;
-
-    row.append(details, date);
-
-    if (gallery) {
-        gallery.setAttribute('aria-label', `${project.project} project images`);
-        gallery.querySelectorAll('.certificate-item').forEach((item) => {
-            if (project.assets.length === 1) {
-                item.dataset.certificateAlt = project.project;
-                item.setAttribute('aria-label', `View ${project.project}`);
-                item.querySelector('img').alt = project.project;
-                item.querySelector('span').textContent = project.project;
-            }
-        });
-        projectCards.set(project.id, { project, row, gallery, selectedPreview });
-    } else {
-        projectCards.set(project.id, { project, row, gallery: null, selectedPreview: null });
-    }
-
-    return [row, gallery, selectedPreview].filter(Boolean);
-};
-
-
-const renderProjectCards = () => {
-    const existingRows = new Map(
-        Array.from(document.querySelectorAll('.vision-card .checklist-row[data-project-id]'))
-            .map((row) => [row.dataset.projectId, row])
-    );
-
-    presentedProjects.forEach((project) => {
-        project.id = project.project.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
-        const row = existingRows.get(project.id);
-
-        if (row) {
-            const gallery = row.nextElementSibling?.classList.contains('certification-gallery')
-                ? row.nextElementSibling
-                : null;
-            const selectedPreview = gallery?.nextElementSibling?.classList.contains('selected-certificate-preview')
-                ? gallery.nextElementSibling
-                : null;
-            prepareProjectCard(project, row, gallery, selectedPreview);
-        } else {
-            const row = document.createElement('div');
-            row.className = 'checklist-row';
-            prepareProjectCard(project, row, null, null);
-        }
-    });
-
-    const groups = new Map(Array.from(
-        document.querySelectorAll('[data-project-category]'),
-        (group) => [group.dataset.projectCategory, group]
-    ));
-
-    presentedProjects.forEach((project) => {
-        const card = projectCards.get(project.id);
-        groups.get(project.category).append(...[card.row, card.gallery, card.selectedPreview].filter(Boolean));
-    });
-
-    updateProjectMetadata();
-};
-
-
-const updateProjectMetadata = () => {
-    const copy = translations[languages[languageIndex].code];
-
-    projectCards.forEach(({ project, row }) => {
-        const platform = row.querySelector('.project-platform');
-        if (project.platform?.length) {
-            platform.textContent = project.platform
-                .map((value) => copy.platformLabels[value] || value)
-                .join(' · ');
-            platform.hidden = false;
-        } else {
-            platform.textContent = '';
-            platform.hidden = true;
-        }
-
-        const date = row.querySelector('.checklist-label');
-        const numericMonth = Number(project.launchMonth);
-        const namedMonth = new Date(`${project.launchMonth} 1, ${project.launchYear}`).getMonth() + 1;
-        const month = Number.isInteger(numericMonth) && numericMonth >= 1 && numericMonth <= 12
-            ? numericMonth
-            : namedMonth;
-        const hasLaunchDate = Number.isInteger(project.launchYear) && project.launchYear > 0
-            && Number.isInteger(month) && month >= 1 && month <= 12;
-
-        if (!hasLaunchDate) {
-            date.textContent = '';
-            date.hidden = true;
-        } else {
-            date.textContent = `${String(month).padStart(2, '0')}/${String(project.launchYear).slice(-2)}`;
-            date.hidden = false;
-        }
-    });
-};
-
-
-/* =========================================================
-   LANGUAGE STATE
-   ========================================================= */
-
-let languageIndex = 0;
-
-
-/* =========================================================
-   APPLY LANGUAGE
-   ========================================================= */
-
-const applyLanguage = () => {
-
-    const language = languages[languageIndex];
-    const copy = translations[language.code];
-
-    document.documentElement.lang = language.code;
-
-    document.querySelectorAll('[data-i18n]').forEach((element) => {
-        element.textContent = copy[element.dataset.i18n];
-    });
-
-    updateProjectMetadata();
-
-    languageOptions.forEach((option) => {
-        const optionLanguage = languages.find(
-            (item) => item.code === option.dataset.languageCode
-        );
-        const isActive = option.dataset.languageCode === language.code;
-
-        option.setAttribute('aria-pressed', String(isActive));
-        option.setAttribute(
-            'aria-label',
-            `${copy.changeLanguage}: ${optionLanguage?.label || option.dataset.languageCode}`
-        );
-        option.title = `${copy.changeLanguage}: ${optionLanguage?.label || option.dataset.languageCode}`;
-    });
-
-
-    const isDarkMode =
-        document.body.classList.contains('dark-mode');
-
-    themeToggle.setAttribute(
-        'aria-label',
-        isDarkMode ? copy.enableLight : copy.enableDark
-    );
-
-    themeToggle.title =
-        isDarkMode ? copy.enableLight : copy.enableDark;
-};
-
-
-renderProjectCards();
-applyLanguage();
-
-
-/* =========================================================
    THEME TOGGLE
    ========================================================= */
+
+const themeToggle = document.getElementById('theme-toggle');
 
 themeToggle.addEventListener('click', () => {
 
     const isDarkMode =
         document.body.classList.toggle('dark-mode');
-
-    const copy =
-        translations[languages[languageIndex].code];
 
     themeToggle.setAttribute(
         'aria-pressed',
@@ -553,109 +25,53 @@ themeToggle.addEventListener('click', () => {
 
     themeToggle.setAttribute(
         'aria-label',
-        isDarkMode ? copy.enableLight : copy.enableDark
+        isDarkMode ? 'Enable light mode' : 'Enable dark mode'
     );
 
     themeToggle.title =
-        isDarkMode ? copy.enableLight : copy.enableDark;
+        isDarkMode ? 'Enable light mode' : 'Enable dark mode';
 });
 
 
-/* =========================================================
-   LANGUAGE TOGGLE
-   ========================================================= */
-
-languageOptions.forEach((option) => {
-    option.addEventListener('click', () => {
-        const nextLanguageIndex = languages.findIndex(
-            (language) => language.code === option.dataset.languageCode
-        );
-
-        if (nextLanguageIndex < 0) return;
-
-        languageIndex = nextLanguageIndex;
-        applyLanguage();
-    });
-});
-
 
 /* =========================================================
-   CERTIFICATION TOGGLES
+   GALLERY INTERACTIONS
    ========================================================= */
 
-document
-    .querySelectorAll('.certification-toggle')
-    .forEach((toggle) => {
+document.querySelectorAll('.media-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+        const gallery = toggle.nextElementSibling;
 
-        toggle.addEventListener('click', () => {
+        if (!gallery?.classList.contains('media-gallery')) return;
 
-            const preview =
-                toggle.nextElementSibling;
+        const isOpen = gallery.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(isOpen));
 
-            if (preview) {
+        if (!isOpen) {
+            const preview = gallery.nextElementSibling;
+            const image = preview?.querySelector('img');
 
-                const isOpen =
-                    preview.classList.toggle('is-open');
-
-                if (toggle.dataset.projectId === 'nz-trip') {
-                    toggle.setAttribute('aria-expanded', String(isOpen));
-                }
-
-                if (
-                    !isOpen &&
-                    preview.classList.contains('certification-gallery')
-                ) {
-
-                    const selectedPreview =
-                        preview.nextElementSibling;
-
-                    if (
-                        selectedPreview &&
-                        selectedPreview.classList.contains(
-                            'selected-certificate-preview'
-                        )
-                    ) {
-
-                        selectedPreview.classList.remove('is-open');
-
-                        selectedPreview
-                            .querySelector('img')
-                            .removeAttribute('src');
-
-                        selectedPreview
-                            .querySelector('img')
-                            .alt = '';
-                    }
-                }
+            if (preview?.classList.contains('selected-media-preview')) {
+                preview.classList.remove('is-open');
+                image?.removeAttribute('src');
+                if (image) image.alt = '';
             }
-        });
+        }
     });
+});
 
+document.querySelectorAll('.media-gallery .media-item').forEach((media) => {
+    media.addEventListener('click', (event) => {
+        event.stopPropagation();
 
-/* =========================================================
-   CERTIFICATE SELECTION
-   ========================================================= */
+        const gallery = media.closest('.media-gallery');
+        const preview = gallery?.nextElementSibling;
+        const image = preview?.querySelector('img');
 
-document
-    .querySelectorAll('.certification-gallery .certificate-item')
-    .forEach((certificate) => {
+        if (!preview?.classList.contains('selected-media-preview') || !image) return;
 
-        certificate.addEventListener('click', () => {
-
-            const selectedCertificatePreview =
-                certificate
-                    .closest('.certification-gallery')
-                    .nextElementSibling;
-
-            const selectedCertificateImage =
-                selectedCertificatePreview.querySelector('img');
-
-            selectedCertificateImage.src =
-                certificate.dataset.certificateSrc;
-
-            selectedCertificateImage.alt =
-                certificate.dataset.certificateAlt;
-
-            selectedCertificatePreview.classList.add('is-open');
-        });
+        image.src = media.dataset.mediaSrc;
+        image.alt = media.dataset.mediaAlt || '';
+        preview.classList.add('is-open');
     });
+});

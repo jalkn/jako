@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAKO // Master Architecture Portfolio & CV</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================================
+           1. DESIGN TOKENS & GLOBAL RESETS
+           ========================================================= */
+        :root {
+            --jako-bg: #f4f5f7;
+            --jako-text: #0d0d0d;
+            --jako-border: rgba(0, 0, 0, 0.12);
+            --jako-glass: rgba(255, 255, 255, 0.92);
+            --gradient-start: rgba(0, 0, 0, 0.02);
+            --gradient-mid: rgba(244, 245, 247, 0.85);
+            --gradient-end: #f4f5f7;
+            --icon-hover: #000;
+        }
+
+        body.dark-mode {
+            --jako-bg: #111315;
+            --jako-text: #f4f5f7;
+            --jako-border: rgba(255, 255, 255, 0.16);
+            --jako-glass: rgba(25, 28, 31, 0.92);
+            --gradient-start: rgba(255, 255, 255, 0.04);
+            --gradient-mid: rgba(17, 19, 21, 0.86);
+            --gradient-end: #111315;
+            --icon-hover: #fff;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        html, body {
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--jako-bg);
+            color: var(--jako-text);
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            position: relative;
+            letter-spacing: 0.02em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        ::selection {
+            background-color: var(--jako-text);
+            color: var(--jako-bg);
+        }
+
+        button, span, div {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Ambient Background Layers */
+        #page-bg-overlay, .ambient-gradient {
+            position: fixed;
+            inset: 0;
+        }
+
+        #page-bg-overlay {
+            background: radial-gradient(
+                circle at 50% 30%,
+                var(--gradient-start) 0%,
+                var(--gradient-mid) 65%,
+                var(--gradient-end) 100%
+            );
+            z-index: -1;
+        }
+
+        .ambient-gradient {
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.03),
+                transparent,
+                rgba(0, 0, 0, 0.03)
+            );
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           2. MACRO-BLOCK 1: SUN (HEADER & CONTROLS)
+           ========================================================= */
+        .header-style-bar {
+            height: 42px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0 1.2rem;
+            z-index: 100;
+            border-top: 1px solid var(--jako-border);
+            background: var(--jako-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            gap: 0.5rem;
+        }
+
+        .header-style-bar.site-header {
+            height: auto;
+            min-height: 42px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0.3rem 0.8rem;
+            border-top: 0;
+            border-bottom: 1px solid var(--jako-border);
+        }
+
+        .site-brand-lockup {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+
+        .site-brand-mark {
+            display: block;
+            width: 22px;
+            height: 22px;
+            fill: var(--jako-text);
+            flex: 0 0 auto;
+        }
+
+        .site-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+        }
+
+        .site-header .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .header-control {
+            height: 28px;
+            min-width: 28px;
+            padding: 0 0.5rem;
+            border: 1px solid var(--jako-border);
+            border-radius: 4px;
+            font-size: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--jako-text);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .header-control:hover {
+            border-color: var(--jako-text);
+            opacity: 0.9;
+        }
+
+        .github-icon, .icon-stroke {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+            stroke: currentColor;
+        }
+
+        body.dark-mode .theme-switch-knob {
+            transform: translateX(6px);
+        }
+
+        /* =========================================================
+           3. VIEWPORT & CARD SYSTEM
+           ========================================================= */
+        .vision-scroll-viewport {
+            width: 100%;
+            max-width: 580px;
+            padding: 0.5rem 0.8rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+        }
+
+        .vision-card {
+            background: var(--jako-glass);
+            border: 1px solid var(--jako-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.015);
+            width: 100%;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--jako-border);
+            padding-bottom: 0.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .section-heading h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8.5px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .section-heading > span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+
+        /* =========================================================
+           4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
+           ========================================================= */
+        .engine-box {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .engine-avatar {
+            width: 62px;
+            height: 62px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid var(--jako-border);
+            flex-shrink: 0;
+        }
+
+        .engine-title-block {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.25rem;
+        }
+
+        .engine-text {
+            line-height: 1.35;
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        /* Entity Row Styles */
+        .dropSphere-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .dropSphere-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .dropSphere-value {
+            flex: 1;
+            min-width: 0;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .dropSphere-label {
+            flex-shrink: 0;
+            min-width: 90px;
+            margin-left: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7.5px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            opacity: 0.7;
+            text-align: right;
+            text-transform: uppercase;
+        }
+
+        .experience-tools {
+            display: block;
+            margin-top: 0.15rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            opacity: 0.6;
+        }
+
+        .metadata {
+            opacity: 0.55;
+            font-size: 8.5px;
+        }
+
+        /* Extension Slot for Biokinetic Dial */
+        .dial-extension-slot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0.5rem;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px dashed var(--jako-border);
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7px;
+            letter-spacing: 0.12em;
+            opacity: 0.6;
+            margin-top: 0.2rem;
+        }
+
+        body.dark-mode .dial-extension-slot {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* =========================================================
+           5. MEDIA GALLERY & PREVIEWS
+           ========================================================= */
+        .media-preview {
+            display: none;
+            width: 100%;
+            padding: 0.4rem 0 0.2rem 0;
+        }
+
+        .media-preview.is-open {
+            display: flex;
+        }
+
+        .media-gallery {
+            flex-direction: row;
+            gap: 0.4rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .media-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            cursor: pointer;
+            flex: 0 0 88px;
+            background: transparent;
+            border: none;
+        }
+
+        .media-item img {
+            width: 100%;
+            height: 64px;
+            object-fit: contain;
+            border: 1px solid var(--jako-border);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .media-item span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .selected-media-preview img {
+            max-width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 1px solid var(--jako-border);
+            margin-top: 0.3rem;
+        }
+
+        /* =========================================================
+           6. FOOTER & PRINT / PDF STYLES
+           ========================================================= */
+        .pdf-footer {
+            justify-content: center;
+        }
+
+        .btn-control-action {
+            padding: 0 0.8rem;
+            height: 28px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--jako-border);
+            border-radius: 4px;
+            background: transparent;
+            color: var(--jako-text);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+        }
+
+        @media print {
+            html, body {
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+                background: #fff !important;
+                color: #000 !important;
+            }
+
+            #page-bg-overlay, .ambient-gradient, .header-style-bar, .media-preview {
+                display: none !important;
+            }
+
+            .vision-scroll-viewport {
+                overflow: visible !important;
+                height: auto !important;
+                max-height: none !important;
+                padding: 0 !important;
+            }
+
+            .vision-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                background: #fff !important;
+                backdrop-filter: none !important;
+                margin-bottom: 0.5rem;
+                page-break-inside: avoid;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page-bg-overlay"></div>
+    <div class="ambient-gradient"></div>
+
+    <!-- =========================================================
+         MACRO-BLOCK 1: SUN (HEADER)
+         ========================================================= -->
+    <header class="header-style-bar site-header">
+        <div class="site-brand-lockup">
+            <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+                <g transform="rotate(180 50 50)">
+                    <polygon points="50,42 58,50 50,58 42,50" />
+                    <polygon points="30,65 70,65 80,80 20,80" />
+                </g>
+            </svg>
+            <span class="site-brand">JAKO</span>
+        </div>
+
+        <nav class="header-controls" aria-label="Header controls">
+            <a class="header-control" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub">
+                <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                </svg>
+            </a>
+
+            <button class="header-control" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+                <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="6" width="18" height="12" rx="6" />
+                    <circle class="theme-switch-knob" cx="9" cy="12" r="3.5" fill="currentColor" stroke="none" />
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- =========================================================
+         MAIN VIEWPORT (CONTAINING BODY & SPIRIT)
+         ========================================================= -->
+    <main class="vision-scroll-viewport" id="main-viewport">
+
+        <!-- MACRO-BLOCK 2: BODY -->
+        <section class="vision-card" id="card-profile">
+            <div class="engine-box">
+                <img src="src/img/photo.png" alt="Alejandro Monsalve M." class="engine-avatar" onerror="this.style.display='none'">
+                <div>
+                    <div class="engine-title-block">ALEJANDRO MONSALVE M.</div>
+                    <p class="engine-text">
+                        Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. Fluent in Spanish, English, and Italian.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="vision-card" id="card-education">
+            <div class="section-heading">
+                <h2>Education</h2>
+                <span>COMPLETION</span>
+            </div>
+            <div class="dropSphere-group" id="container-education"></div>
+        </section>
+
+        <!-- JOB EXPERIENCE -->
+        <section class="vision-card" id="card-experience">
+            <div class="section-heading">
+                <h2>Job Experience</h2>
+                <span>START - END</span>
+            </div>
+            <div class="dropSphere-group" id="container-experience"></div>
+        </section>
+
+        <!-- BIOKINETIC DIAL EXTENSION POINT -->
+        <div class="dial-extension-slot" id="biokinetic-dial-slot">
+            <span>BIOKINETIC DIAL // RESERVED EXTENSION SLOT</span>
+            <span>[8UL10]</span>
+        </div>
+
+        <!-- MACRO-BLOCK 3: SPIRIT -->
+        <!-- PROJECTS -->
+        <section class="vision-card" id="card-projects">
+            <div class="section-heading">
+                <h2>Projects</h2>
+                <span>SPHERE / LAUNCH</span>
+            </div>
+            <div class="dropSphere-group" id="container-projects"></div>
+        </section>
+
+        <!-- BOOKS & MANIFESTOS -->
+        <section class="vision-card" id="card-books">
+            <div class="section-heading">
+                <h2>Books & Manifestos</h2>
+                <span>RESEARCH / SEED</span>
+            </div>
+            <div class="dropSphere-group" id="container-books"></div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CONTROLS -->
+    <footer class="header-style-bar pdf-footer">
+        <button class="btn-control-action" id="download-pdf" aria-label="Download PDF" title="Download PDF">
+            <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            PDF
+        </button>
+    </footer>
+
+    <!-- =========================================================
+         7. BACKEND ENTITY DICTIONARY & TRANSLATION LAYER
+         ========================================================= -->
+    <script>
+        /**
+         * JAKO DATABASE - Centralized Entity Registry
+         * Canonical Backend Source of Truth
+         */
+        const JAKO_DATABASE = {
+            metadata: {
+                name: "JAKO",
+                model: "MASTER_ENTITY_MODEL",
+                version: "1.0",
+                architecture: "SUN_BODY_SPIRIT"
+            },
+            entities: [
+                // ---------------------------------------------------------
+                // DROPS - EDUCATION
+                // ---------------------------------------------------------
+                {
+                    ID: "drop-edu-01",
+                    CLASS: "DROP",
+                    TYPE: "education",
+                    WORD: "Full Stack Development",
+                    DESCRIPTION: "W3Schools Full Stack / Software Development Education",
+                    DATE: "12/23",
+                    PLACE: "Online",
+                    MEDIA: [
+                        { src: "src/certify/sqlmedia.png", label: "SQL" },
+                        { src: "src/certify/pythonmedia.png", label: "Python" },
+                        { src: "src/certify/pandasmedia.png", label: "Pandas" },
+                        { src: "src/certify/djangomedia.png", label: "Django" },
+                        { src: "src/certify/AWScloudmedia.png", label: "AWS Cloud" },
+                        { src: "src/certify/htmlmedia.png", label: "HTML" }
+                    ],
+                    TOOLS: ["SQL", "Python", "Pandas", "Django", "AWS", "HTML"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-edu-02",
+                    CLASS: "DROP",
+                    TYPE: "education",
+                    WORD: "Fine Arts Recognition Level 7",
+                    DESCRIPTION: "NZQA International Qualifications Recognition Statement",
+                    DATE: "12/22",
+                    PLACE: "Auckland, NZ",
+                    MEDIA: [
+                        { src: "src/certify/NZQA.png", label: "NZQA" }
+                    ],
+                    TOOLS: [],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-edu-03",
+                    CLASS: "DROP",
+                    TYPE: "education",
+                    WORD: "Plastic Arts Educator Degree",
+                    DESCRIPTION: "Universidad de Antioquia",
+                    DATE: "03/15",
+                    PLACE: "Medellín, COL",
+                    MEDIA: [
+                        { src: "src/certify/degreemedia.png", label: "Degree" },
+                        { src: "src/certify/certificadoGrado.png", label: "Spanish" }
+                    ],
+                    TOOLS: [],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-edu-04",
+                    CLASS: "DROP",
+                    TYPE: "education",
+                    WORD: "English B2+",
+                    DESCRIPTION: "English language qualification",
+                    DATE: "",
+                    PLACE: "New Zealand",
+                    MEDIA: [],
+                    TOOLS: [],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-edu-05",
+                    CLASS: "DROP",
+                    TYPE: "education",
+                    WORD: "Running Course",
+                    DESCRIPTION: "Running and biokinetic movement education",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: [],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+
+                // ---------------------------------------------------------
+                // DROPS - EXPERIENCE
+                // ---------------------------------------------------------
+                {
+                    ID: "drop-exp-01",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Celsia S.A. E.S.P.",
+                    DESCRIPTION: "Software Developer",
+                    DATE: "03/25 - 10/25",
+                    PLACE: "Medellín, COL",
+                    MEDIA: [],
+                    TOOLS: ["Python", "SQL", "Pandas", "Git"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-02",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Synthesis Consulting S.A.S.",
+                    DESCRIPTION: "RPA Developer",
+                    DATE: "10/24 - 02/25",
+                    PLACE: "Medellín, COL",
+                    MEDIA: [],
+                    TOOLS: ["Python", "PowerShell", "Bash"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-03",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Sharp Signs",
+                    DESCRIPTION: "Graphic Designer & Installer",
+                    DATE: "06/22 - 09/23",
+                    PLACE: "Auckland, NZ",
+                    MEDIA: [],
+                    TOOLS: ["CNC Router Cut", "Vinyl Computer Cut", "Lamination", "Wrapping"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-04",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Sign Creations NZ",
+                    DESCRIPTION: "Signs Installer",
+                    DATE: "04/21 - 05/22",
+                    PLACE: "Mt Maunganui, NZ",
+                    MEDIA: [],
+                    TOOLS: ["CNC Router Cut", "Vinyl Computer Cut", "Inkjet Print", "Lamination"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-05",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "JAKO.STUDIO",
+                    DESCRIPTION: "Web App & Mobile App Developer",
+                    DATE: "",
+                    PLACE: "Colombia",
+                    MEDIA: [],
+                    TOOLS: ["JavaScript", "Python", "Mobile Architecture"],
+                    LINKS: [],
+                    RELATIONS: ["sphere-proj-01"]
+                },
+                {
+                    ID: "drop-exp-06",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Drawgap Studio",
+                    DESCRIPTION: "Multidisciplinary Artist Entrepreneur",
+                    DATE: "",
+                    PLACE: "New Zealand",
+                    MEDIA: [],
+                    TOOLS: ["Fine Arts", "Visual Systems"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-07",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Kiwi Fruit Assistant Grower",
+                    DESCRIPTION: "Seasonal cultivation and kiwi fruit work",
+                    DATE: "",
+                    PLACE: "New Zealand",
+                    MEDIA: [],
+                    TOOLS: ["Physical Movement", "Agriculture"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-08",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "Hilton Hotel",
+                    DESCRIPTION: "Storeperson",
+                    DATE: "12/17 - 05/20",
+                    PLACE: "Queenstown, NZ",
+                    MEDIA: [],
+                    TOOLS: ["Inventory Control", "Stock Handling", "Warehouse Operations"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "drop-exp-09",
+                    CLASS: "DROP",
+                    TYPE: "experience",
+                    WORD: "ediciones&formas",
+                    DESCRIPTION: "Entrepreneur Graphic Designer",
+                    DATE: "05/06 - 07/17",
+                    PLACE: "Medellín, COL",
+                    MEDIA: [],
+                    TOOLS: ["Corel Draw", "Illustrator", "Photoshop", "InDesign", "Lithography"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+
+                // ---------------------------------------------------------
+                // SPHERES - PROJECTS
+                // ---------------------------------------------------------
+                {
+                    ID: "sphere-proj-01",
+                    CLASS: "SPHERE",
+                    TYPE: "project",
+                    WORD: "ARPA SOLUTIONS",
+                    DESCRIPTION: "Automation of financial and legal audit processes",
+                    DATE: "",
+                    PLACE: "Medellín, COL",
+                    MEDIA: [],
+                    TOOLS: ["Python", "Django", "Audit Automation"],
+                    LINKS: [],
+                    RELATIONS: ["drop-exp-05"]
+                },
+                {
+                    ID: "sphere-proj-02",
+                    CLASS: "SPHERE",
+                    TYPE: "project",
+                    WORD: "NZ Trip",
+                    DESCRIPTION: "Website & Media Art Archive",
+                    DATE: "09/23",
+                    PLACE: "New Zealand",
+                    MEDIA: [
+                        { src: "src/art.projects/nzTrip/1.png", label: "1" },
+                        { src: "src/art.projects/nzTrip/4.png", label: "4" },
+                        { src: "src/art.projects/nzTrip/5.png", label: "5" },
+                        { src: "src/art.projects/nzTrip/7.png", label: "7" },
+                        { src: "src/art.projects/nzTrip/8.png", label: "8" },
+                        { src: "src/art.projects/nzTrip/9.png", label: "9" },
+                        { src: "src/art.projects/nzTrip/10.png", label: "10" },
+                        { src: "src/art.projects/nzTrip/12.png", label: "12" },
+                        { src: "src/art.projects/nzTrip/16.png", label: "16" },
+                        { src: "src/art.projects/nzTrip/19.png", label: "19" },
+                        { src: "src/art.projects/nzTrip/20.png", label: "20" },
+                        { src: "src/art.projects/nzTrip/21.png", label: "21" },
+                        { src: "src/art.projects/nzTrip/22.png", label: "22" },
+                        { src: "src/art.projects/nzTrip/23.png", label: "23" },
+                        { src: "src/art.projects/nzTrip/24.png", label: "24" },
+                        { src: "src/art.projects/nzTrip/25.png", label: "25" },
+                        { src: "src/art.projects/nzTrip/26.png", label: "26" },
+                        { src: "src/art.projects/nzTrip/27.png", label: "27" },
+                        { src: "src/art.projects/nzTrip/30.png", label: "30" }
+                    ],
+                    TOOLS: ["Motion Graphics", "Aerial Photography", "Drawing", "Performance", "Land Art"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "sphere-proj-03",
+                    CLASS: "SPHERE",
+                    TYPE: "project",
+                    WORD: "PULSOR",
+                    DESCRIPTION: "Mobile / biokinetic application system",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["Mobile App", "Biokinetic Engine"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "sphere-proj-04",
+                    CLASS: "SPHERE",
+                    TYPE: "project",
+                    WORD: "PULSE SMARTWATCH",
+                    DESCRIPTION: "Wearable / movement-oriented system",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["Wearables", "Biometrics"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "sphere-proj-05",
+                    CLASS: "SPHERE",
+                    TYPE: "project",
+                    WORD: "Z-DIAL BIOKINETIC API",
+                    DESCRIPTION: "Biokinetic language & computational engine",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["API", "JAKO Biokinetic Language"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "sphere-proj-06",
+                    CLASS: "SPHERE",
+                    TYPE: "project",
+                    WORD: "FOTOPANEL.ART",
+                    DESCRIPTION: "Digital visualization and physical panel system",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["Visual Systems", "Physical Computing"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+
+                // ---------------------------------------------------------
+                // SPHERES - BOOKS
+                // ---------------------------------------------------------
+                {
+                    ID: "sphere-book-01",
+                    CLASS: "SPHERE",
+                    TYPE: "book",
+                    WORD: "JAKO // BIOMANIFESTO",
+                    DESCRIPTION: "Original philosophical and artistic seed (BODY -> MIND -> GAP -> PUSH/PULL -> TRACTION -> MOVEMENT -> CREATIVITY)",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["Philosophical Seed"],
+                    LINKS: [],
+                    RELATIONS: ["sphere-book-02"]
+                },
+                {
+                    ID: "sphere-book-02",
+                    CLASS: "SPHERE",
+                    TYPE: "book",
+                    WORD: "BIOKINETIC ENGINE",
+                    DESCRIPTION: "Evolution into artistic, mathematical & computational system (NATURE -> DATA -> DECONSTRUCTION -> MOVEMENT -> CODE -> DROP -> SPACE -> ART)",
+                    DATE: "",
+                    PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["JBL Notation", "P.U.L.S."],
+                    LINKS: [],
+                    RELATIONS: ["sphere-book-01"]
+                }
+            ]
+        };
+
+        /* =========================================================
+           8. VALIDATION & FRONTEND TRANSLATION LAYER
+           ========================================================= */
+        function validateDatabase(db) {
+            const validPairs = [
+                { CLASS: "DROP", TYPE: "education" },
+                { CLASS: "DROP", TYPE: "experience" },
+                { CLASS: "SPHERE", TYPE: "project" },
+                { CLASS: "SPHERE", TYPE: "book" }
+            ];
+
+            db.entities.forEach(entity => {
+                const isValid = validPairs.some(p => p.CLASS === entity.CLASS && p.TYPE === entity.TYPE);
+                if (!isValid) {
+                    console.warn(`[JAKO VALIDATION] Invalid CLASS/TYPE pair for entity ID: ${entity.ID}`);
+                }
+            });
+        }
+
+        /**
+         * Generic Component Renderer
+         * Translates backend entities to the frontend visual components
+         */
+        function renderEntityGroup(typeFilter, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const entities = JAKO_DATABASE.entities.filter(e => e.TYPE === typeFilter);
+
+            container.innerHTML = entities.map((item, index) => {
+                const toolsList = item.TOOLS.length > 0 
+                    ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>` 
+                    : '';
+                
+                const placeLabel = item.PLACE ? `<span class="metadata">[${item.PLACE}]</span>` : '';
+                const dateLabel = item.DATE || '—';
+
+                const hasMedia = item.MEDIA && item.MEDIA.length > 0;
+                const toggleClass = hasMedia ? 'media-toggle' : '';
+
+                // Build media gallery HTML if images are present
+                let mediaHtml = '';
+                if (hasMedia) {
+                    const galleryItems = item.MEDIA.map((m, mIdx) => `
+                        <button class="media-item" type="button" data-media-src="${m.src}" data-media-alt="${m.label}">
+                            <img src="${m.src}" alt="${m.label}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'50\\' height=\\'50\\'><rect width=\\'50\\' height=\\'50\\' fill=\\'%23ccc\\'/></svg>'">
+                            <span>${m.label}</span>
+                        </button>
+                    `).join('');
+
+                    mediaHtml = `
+                        <div class="media-preview media-gallery" id="gallery-${item.ID}">
+                            ${galleryItems}
+                        </div>
+                        <div class="media-preview selected-media-preview" id="preview-${item.ID}" aria-live="polite">
+                            <img alt="Selected view" src="">
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                        <span class="dropSphere-value">
+                            <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
+                            ${placeLabel}
+                            ${toolsList}
+                        </span>
+                        <span class="dropSphere-label">${dateLabel}</span>
+                    </div>
+                    ${mediaHtml}
+                `;
+            }).join('');
+        }
+
+        /* =========================================================
+           9. INTERACTION CONTROLLERS
+           ========================================================= */
+        function initInteractions() {
+            // Theme Toggle Controller
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.addEventListener('click', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                themeBtn.setAttribute('aria-pressed', isDark);
+            });
+
+            // Print / PDF Controller
+            const pdfBtn = document.getElementById('download-pdf');
+            pdfBtn.addEventListener('click', () => {
+                window.print();
+            });
+
+            // Media Gallery Accordion & Image Viewport Controller
+            document.addEventListener('click', (e) => {
+                // Handle Row Media Toggles
+                const toggleRow = e.target.closest('.media-toggle');
+                if (toggleRow) {
+                    const entityId = toggleRow.getAttribute('data-entity-id');
+                    const gallery = document.getElementById(`gallery-${entityId}`);
+                    if (gallery) {
+                        const isOpen = gallery.classList.contains('is-open');
+                        // Close all open galleries
+                        document.querySelectorAll('.media-preview').forEach(el => el.classList.remove('is-open'));
+                        if (!isOpen) {
+                            gallery.classList.add('is-open');
+                        }
+                    }
+                    return;
+                }
+
+                // Handle Gallery Item Thumbnail Selection
+                const mediaItem = e.target.closest('.media-item');
+                if (mediaItem) {
+                    const src = mediaItem.getAttribute('data-media-src');
+                    const gallery = mediaItem.closest('.media-gallery');
+                    const previewContainer = gallery.nextElementSibling;
+                    if (previewContainer && previewContainer.classList.contains('selected-media-preview')) {
+                        const img = previewContainer.querySelector('img');
+                        img.src = src;
+                        previewContainer.classList.add('is-open');
+                    }
+                }
+            });
+        }
+
+        /* Initialization execution */
+        document.addEventListener('DOMContentLoaded', () => {
+            validateDatabase(JAKO_DATABASE);
+            renderEntityGroup('education', 'container-education');
+            renderEntityGroup('experience', 'container-experience');
+            renderEntityGroup('project', 'container-projects');
+            renderEntityGroup('book', 'container-books');
+            initInteractions();
+        });
+    </script>
+</body>
+</html>

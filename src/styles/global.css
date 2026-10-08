@@ -188,12 +188,6 @@ button:hover .icon-stroke {
     gap: 0.2rem;
 }
 
-.language-options {
-    display: flex;
-    align-items: center;
-    gap: 0.05rem;
-}
-
 .header-control {
     height: 28px;
     min-width: 28px;
@@ -215,10 +209,6 @@ button:hover .icon-stroke {
     width: 15px;
     height: 15px;
     fill: currentColor;
-}
-
-.language-option[aria-pressed="true"] {
-    border-color: var(--jako-border);
 }
 
 body.dark-mode .theme-switch-knob {
@@ -268,7 +258,7 @@ body.dark-mode .theme-switch-knob {
     align-items: center;
 }
 
-.profile-section-group {
+.engine-section-group {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -302,10 +292,10 @@ body.dark-mode .theme-switch-knob {
 }
 
 /* =========================================================
-   PROFILE
+   engine
    ========================================================= */
 
-.profile-title-block {
+.engine-title-block {
     display: flex;
     flex-direction: column;
     font-family: 'Orbitron', sans-serif;
@@ -315,19 +305,19 @@ body.dark-mode .theme-switch-knob {
     margin-bottom: 0.25rem;
 }
 
-.profile-title-block span.sub-title {
+.engine-title-block span.sub-title {
     font-size: 5.5px;
     opacity: 0.6;
     letter-spacing: 0.15em;
 }
 
-.profile-box {
+.engine-box {
     display: flex;
     gap: 0.8rem;
     align-items: center;
 }
 
-.profile-avatar {
+.engine-avatar {
     width: 60px;
     height: 60px;
     border-radius: 4px;
@@ -335,7 +325,7 @@ body.dark-mode .theme-switch-knob {
     flex-shrink: 0;
 }
 
-.profile-photo-links {
+.engine-photo-links {
     display: flex;
     flex: 0 0 60px;
     flex-direction: column;
@@ -343,7 +333,7 @@ body.dark-mode .theme-switch-knob {
     gap: 0.2rem;
 }
 
-.profile-github-button {
+.engine-github-button {
     justify-content: center;
     height: auto;
     padding: 0.15rem 0;
@@ -354,17 +344,17 @@ body.dark-mode .theme-switch-knob {
     text-decoration: none;
 }
 
-.profile-text {
+.engine-text {
     line-height: 1.3;
     font-size: 11px;
     font-weight: 500;
 }
 
 /* =========================================================
-   CHECKLIST / EXPERIENCE
+   dropSphere / EXPERIENCE
    ========================================================= */
 
-.checklist-group {
+.dropSphere-group {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -372,35 +362,37 @@ body.dark-mode .theme-switch-knob {
     font-weight: 500;
 }
 
-.checklist-row {
+.dropSphere-row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.6rem;
-    padding-bottom: 0.2rem;
-    border-bottom: 1px dashed var(--jako-border);
+    align-items: baseline;
+    width: 100%;
 }
 
-.checklist-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+.dropSphere-value {
+    flex: 1;
+    min-width: 0;
+    font-size: 11px;
+    text-align: left;
 }
 
-.checklist-label {
+.dropSphere-label {
+    flex-shrink: 0;
+    min-width: 120px;
+    margin-left: 1rem;
+    padding-top: 1px;
     font-family: 'Orbitron', sans-serif;
     font-size: 7.5px;
     font-weight: 700;
     letter-spacing: 0.08em;
     opacity: 0.7;
-    min-width: 120px;
+    text-align: right;
     text-transform: uppercase;
-    padding-top: 1px;
 }
 
-.checklist-value {
-    flex-grow: 1;
-    text-align: right;
-    font-size: 11px;
+.dropSphere-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .project-platform {
@@ -415,7 +407,7 @@ body.dark-mode .theme-switch-knob {
     text-transform: uppercase;
 }
 
-.checklist-row[data-project-id] [hidden] {
+.dropSphere-row[data-project-id] [hidden] {
     display: none !important;
 }
 
@@ -495,10 +487,10 @@ body.dark-mode .theme-switch-knob {
 }
 
 /* =========================================================
-   PROFILE HEADER
+   engine HEADER
    ========================================================= */
 
-.profile-header {
+.engine-header {
     width: 100%;
     max-width: 560px;
     padding: 0.3rem 0.8rem;
@@ -510,7 +502,7 @@ body.dark-mode .theme-switch-knob {
 }
 
 /* =========================================================
-   SCROLL / CERTIFICATIONS
+   SCROLL / mediaS
    ========================================================= */
 
 .vision-scroll-viewport {
@@ -520,28 +512,28 @@ body.dark-mode .theme-switch-knob {
     scrollbar-width: thin;
 }
 
-.certification-toggle {
+.media-toggle {
     cursor: pointer;
 }
 
-.certification-preview {
+.media-preview {
     display: none;
     width: 100%;
     padding: 0.5rem 0;
 }
 
-.certification-preview img {
+.media-preview img {
     display: block;
     width: 100%;
     height: auto;
     border-radius: 4px;
 }
 
-.certification-preview.is-open {
+.media-preview.is-open {
     display: block;
 }
 
-.certification-gallery.is-open {
+.media-gallery.is-open {
     display: flex;
     flex-direction: row;
     gap: 0.4rem;
@@ -550,7 +542,7 @@ body.dark-mode .theme-switch-knob {
     scrollbar-width: thin;
 }
 
-.certification-gallery .certificate-item {
+.media-gallery .media-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -561,7 +553,7 @@ body.dark-mode .theme-switch-knob {
     text-align: center;
 }
 
-.certification-gallery .certificate-item img {
+.media-gallery .media-item img {
     width: 100%;
     height: 72px;
     object-fit: contain;
@@ -570,7 +562,7 @@ body.dark-mode .theme-switch-knob {
     background: #fff;
 }
 
-.certification-gallery .certificate-item span {
+.media-gallery .media-item span {
     font-family: 'Orbitron', sans-serif;
     font-size: 6px;
     font-weight: 700;
@@ -579,25 +571,41 @@ body.dark-mode .theme-switch-knob {
     opacity: 0.6;
 }
 
-.certification-gallery .certificate-item:focus-visible {
+.media-gallery .media-item:focus-visible {
     outline: 1px solid var(--jako-text);
     outline-offset: 2px;
 }
 
-@media (max-width: 420px) {
-    .checklist-row[data-project-id] {
-        flex-wrap: wrap;
-    }
 
-    .checklist-row[data-project-id] > .checklist-value {
-        flex: 1 1 100%;
-    }
+/* =========================================================
+   SHARED SECTION HEADER
+   ========================================================= */
 
-    .checklist-row[data-project-id] > .checklist-label {
-        flex: 1 1 100%;
-        min-width: 0;
-        max-width: none;
-        text-align: left;
-        padding-top: 0;
-    }
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--jako-border);
+    padding-bottom: 0.12rem;
+    margin-bottom: 0.25rem;
+}
+
+.section-heading h2 {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.section-heading > span {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+    text-transform: uppercase;
+}
+
+.metadata {
+    opacity: 0.5;
+    font-size: 8px;
 }
