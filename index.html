@@ -383,6 +383,12 @@
             border: 1px solid var(--jako-border);
             border-radius: 4px;
             background: rgba(255, 255, 255, 0.8);
+            transition: border-color 0.2s ease;
+        }
+
+        .media-item.is-selected img {
+            border-color: var(--jako-text);
+            box-shadow: 0 0 0 1px var(--jako-text);
         }
 
         .media-item span {
@@ -394,13 +400,20 @@
             opacity: 0.6;
         }
 
+        /* Large Preview spanning full width of the entity container */
+        .selected-media-preview {
+            width: 100%;
+        }
+
         .selected-media-preview img {
-            max-width: 100%;
-            max-height: 220px;
+            width: 100%;
+            height: auto;
+            max-height: 480px;
             object-fit: contain;
             border-radius: 4px;
             border: 1px solid var(--jako-border);
             margin-top: 0.3rem;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         /* =========================================================
@@ -436,7 +449,7 @@
                 color: #000 !important;
             }
 
-            #page-bg-overlay, .ambient-gradient, .header-style-bar, .media-preview {
+            #page-bg-overlay, .ambient-gradient, .header-style-bar {
                 display: none !important;
             }
 
@@ -445,6 +458,7 @@
                 height: auto !important;
                 max-height: none !important;
                 padding: 0 !important;
+                max-width: 100% !important;
             }
 
             .vision-card {
@@ -453,6 +467,16 @@
                 background: #fff !important;
                 backdrop-filter: none !important;
                 margin-bottom: 0.5rem;
+                page-break-inside: avoid;
+            }
+
+            /* Preserve open galleries & previews in print */
+            .media-preview.is-open {
+                display: flex !important;
+            }
+
+            .selected-media-preview img {
+                max-height: none !important;
                 page-break-inside: avoid;
             }
 
@@ -515,11 +539,6 @@
                 </div>
             </div>
         </section>
-        <!-- BIOKINETIC DIAL EXTENSION POINT 
-        <div class="dial-extension-slot" id="biokinetic-dial-slot">
-            <span>BIOKINETIC DIAL // RESERVED EXTENSION SLOT</span>
-            <span>[8UL10]</span>
-        </div> -->
 
         <!-- EDUCATION -->
         <section class="vision-card" id="card-education">
@@ -549,14 +568,14 @@
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
 
-        <!-- BOOKS & MANIFESTOS 
+        <!-- BOOKS & MANIFESTOS -->
         <section class="vision-card" id="card-books">
             <div class="section-heading">
                 <h2>Books & Manifestos</h2>
                 <span>RESEARCH / SEED</span>
             </div>
             <div class="dropSphere-group" id="container-books"></div>
-        </section>-->
+        </section>
 
     </main>
 
@@ -721,21 +740,6 @@
                 // ---------------------------------------------------------
                 // SPHERES - PROJECTS
                 // ---------------------------------------------------------
-/*
-                {
-                    ID: "sphere-proj-01",
-                    CLASS: "SPHERE",
-                    TYPE: "project",
-                    WORD: "ARPA SOLUTIONS",
-                    DESCRIPTION: "Automation of financial and legal audit processes",
-                    DATE: "",
-                    PLACE: "Medellín, COL",
-                    MEDIA: [],
-                    TOOLS: ["Python", "Django", "Audit Automation"],
-                    LINKS: [],
-                    RELATIONS: ["drop-exp-05"]
-                },
-                */
                 {
                     ID: "sphere-proj-02",
                     CLASS: "SPHERE",
@@ -769,46 +773,6 @@
                     LINKS: [],
                     RELATIONS: []
                 },
-                /*
-                {
-                    ID: "sphere-proj-03",
-                    CLASS: "SPHERE",
-                    TYPE: "project",
-                    WORD: "PULSOR",
-                    DESCRIPTION: "Mobile / biokinetic application system",
-                    DATE: "",
-                    PLACE: "",
-                    MEDIA: [],
-                    TOOLS: ["Mobile App", "Biokinetic Engine"],
-                    LINKS: [],
-                    RELATIONS: []
-                },
-                {
-                    ID: "sphere-proj-04",
-                    CLASS: "SPHERE",
-                    TYPE: "project",
-                    WORD: "PULSE SMARTWATCH",
-                    DESCRIPTION: "Wearable / movement-oriented system",
-                    DATE: "",
-                    PLACE: "",
-                    MEDIA: [],
-                    TOOLS: ["Wearables", "Biometrics"],
-                    LINKS: [],
-                    RELATIONS: []
-                },
-                {
-                    ID: "sphere-proj-05",
-                    CLASS: "SPHERE",
-                    TYPE: "project",
-                    WORD: "z-Dial Biokinetic API",
-                    DESCRIPTION: "Biokinetic language & computational engine",
-                    DATE: "",
-                    PLACE: "",
-                    MEDIA: [],
-                    TOOLS: ["API", "JAKO Biokinetic Language"],
-                    LINKS: [],
-                    RELATIONS: []
-                },*/
                 {
                     ID: "sphere-proj-06",
                     CLASS: "SPHERE",
@@ -860,21 +824,8 @@
                     MEDIA: [],
                     TOOLS: ["Philosophical Seed"],
                     LINKS: [],
-                    RELATIONS: ["sphere-book-02"]
-                },/*
-                {
-                    ID: "sphere-book-02",
-                    CLASS: "SPHERE",
-                    TYPE: "book",
-                    WORD: "BIOKINETIC ENGINE",
-                    DESCRIPTION: "Evolution into artistic, mathematical & computational system (NATURE -> DATA -> DECONSTRUCTION -> MOVEMENT -> CODE -> DROP -> SPACE -> ART)",
-                    DATE: "",
-                    PLACE: "",
-                    MEDIA: [],
-                    TOOLS: ["JBL Notation", "P.U.L.S."],
-                    LINKS: [],
-                    RELATIONS: ["sphere-book-01"]
-                }*/
+                    RELATIONS: []
+                }
             ]
         };
 
@@ -907,7 +858,7 @@
 
             const entities = JAKO_DATABASE.entities.filter(e => e.TYPE === typeFilter);
 
-            container.innerHTML = entities.map((item, index) => {
+            container.innerHTML = entities.map((item) => {
                 const toolsList = item.TOOLS.length > 0 
                     ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>` 
                     : '';
@@ -921,7 +872,7 @@
                 // Build media gallery HTML if images are present
                 let mediaHtml = '';
                 if (hasMedia) {
-                    const galleryItems = item.MEDIA.map((m, mIdx) => `
+                    const galleryItems = item.MEDIA.map((m) => `
                         <button class="media-item" type="button" data-media-src="${m.src}" data-media-alt="${m.label}">
                             <img src="${m.src}" alt="${m.label}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'50\\' height=\\'50\\'><rect width=\\'50\\' height=\\'50\\' fill=\\'%23ccc\\'/></svg>'">
                             <span>${m.label}</span>
@@ -953,7 +904,7 @@
         }
 
         /* =========================================================
-           9. INTERACTION CONTROLLERS
+           9. INTERACTION CONTROLLERS (INDEPENDENT TOGGLES & FULL WIDTH PREVIEWS)
            ========================================================= */
         function initInteractions() {
             // Theme Toggle Controller
@@ -969,34 +920,58 @@
                 window.print();
             });
 
-            // Media Gallery Accordion & Image Viewport Controller
+            // Independent Accordion & Image Viewport Controller
             document.addEventListener('click', (e) => {
-                // Handle Row Media Toggles
+                // Handle Entity Row Gallery Toggle (Independent toggle per entity)
                 const toggleRow = e.target.closest('.media-toggle');
                 if (toggleRow) {
                     const entityId = toggleRow.getAttribute('data-entity-id');
                     const gallery = document.getElementById(`gallery-${entityId}`);
+                    const preview = document.getElementById(`preview-${entityId}`);
+
                     if (gallery) {
                         const isOpen = gallery.classList.contains('is-open');
-                        // Close all open galleries
-                        document.querySelectorAll('.media-preview').forEach(el => el.classList.remove('is-open'));
-                        if (!isOpen) {
+                        if (isOpen) {
+                            // Close this specific gallery and its large preview
+                            gallery.classList.remove('is-open');
+                            if (preview) {
+                                preview.classList.remove('is-open');
+                                const img = preview.querySelector('img');
+                                if (img) img.src = '';
+                            }
+                            // Clear selected state on thumbnails
+                            gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
+                        } else {
+                            // Open this specific gallery without closing others
                             gallery.classList.add('is-open');
                         }
                     }
                     return;
                 }
 
-                // Handle Gallery Item Thumbnail Selection
+                // Handle Gallery Thumbnail Selection
                 const mediaItem = e.target.closest('.media-item');
                 if (mediaItem) {
                     const src = mediaItem.getAttribute('data-media-src');
                     const gallery = mediaItem.closest('.media-gallery');
                     const previewContainer = gallery.nextElementSibling;
+
                     if (previewContainer && previewContainer.classList.contains('selected-media-preview')) {
                         const img = previewContainer.querySelector('img');
-                        img.src = src;
-                        previewContainer.classList.add('is-open');
+                        
+                        // Toggle logic: if clicking the currently active image, close the large preview
+                        if (mediaItem.classList.contains('is-selected')) {
+                            mediaItem.classList.remove('is-selected');
+                            previewContainer.classList.remove('is-open');
+                            img.src = '';
+                        } else {
+                            // Clear other selection highlights in this gallery
+                            gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
+                            
+                            mediaItem.classList.add('is-selected');
+                            img.src = src;
+                            previewContainer.classList.add('is-open');
+                        }
                     }
                 }
             });
