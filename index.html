@@ -7,7 +7,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <style>
+   <style>
         /* =========================================================
            1. DESIGN TOKENS & GLOBAL RESETS
            ========================================================= */
@@ -15,7 +15,7 @@
             --jako-bg: #f4f5f7;
             --jako-text: #0d0d0d;
             --jako-border: rgba(0, 0, 0, 0.12);
-            --jako-glass: rgba(255, 255, 255, 0.92);
+            --jako-glass: rgba(255, 255, 255, 0.88);
             --gradient-start: rgba(0, 0, 0, 0.02);
             --gradient-mid: rgba(244, 245, 247, 0.85);
             --gradient-end: #f4f5f7;
@@ -26,7 +26,7 @@
             --jako-bg: #111315;
             --jako-text: #f4f5f7;
             --jako-border: rgba(255, 255, 255, 0.16);
-            --jako-glass: rgba(25, 28, 31, 0.92);
+            --jako-glass: rgba(25, 28, 31, 0.88);
             --gradient-start: rgba(255, 255, 255, 0.04);
             --gradient-mid: rgba(17, 19, 21, 0.86);
             --gradient-end: #111315;
@@ -98,7 +98,7 @@
         }
 
         /* =========================================================
-           2. MACRO-BLOCK 1: SUN (HEADER & CONTROLS)
+           2. MACRO-BLOCK 1: SUN (HEADER & CONTROLS DIAL)
            ========================================================= */
         .header-style-bar {
             height: 42px;
@@ -147,39 +147,98 @@
             letter-spacing: 0.15em;
         }
 
-        .site-header .header-controls {
+        /* Contenedor tipo dial calibrador óptico */
+        .header-controls-dial-wrapper {
+            position: relative;
+            width: 118px; /* Ancho justo para visualizar 3 botones */
+            height: 34px;
+            padding: 2px 4px;
+            border-radius: 18px;
+            border: 1px solid var(--jako-border);
+            background: rgba(0, 0, 0, 0.03);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            overflow: hidden;
         }
 
-        .header-control {
+        body.dark-mode .header-controls-dial-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Escala graduada de precisión */
+        .dial-scale-ticks {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--jako-border) 0px,
+                var(--jako-border) 1px,
+                transparent 1px,
+                transparent 7px
+            );
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        /* Tira deslizante horizontal tipo rueda */
+        .header-controls-dial {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            z-index: 1;
+        }
+
+        .header-controls-dial::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Estilo mecánico e hiperrealista de los botones paso a paso */
+        .dial-step {
+            flex: 0 0 30px;
             height: 28px;
-            min-width: 28px;
-            padding: 0 0.5rem;
+            scroll-snap-align: center;
+            border-radius: 50%;
             border: 1px solid var(--jako-border);
-            border-radius: 4px;
-            font-size: 8px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            text-decoration: none;
+            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.05) 100%), var(--jako-glass);
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+                0 1px 3px rgba(0, 0, 0, 0.1);
             color: var(--jako-text);
-            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .header-control:hover {
+        .dial-step:hover {
             border-color: var(--jako-text);
-            opacity: 0.9;
+            transform: scale(1.06);
+            box-shadow: 
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 3px rgba(0, 0, 0, 0.25),
+                0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .dial-step:active {
+            transform: scale(0.94);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
         }
 
         .github-icon, .icon-stroke {
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             fill: currentColor;
             stroke: currentColor;
         }
@@ -212,8 +271,12 @@
             -webkit-backdrop-filter: blur(20px);
             padding: 0.6rem 0.8rem;
             border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.015);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
             width: 100%;
+        }
+
+        body.dark-mode .vision-card {
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .section-heading {
@@ -288,6 +351,11 @@
             align-items: baseline;
             width: 100%;
             cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+
+        .dropSphere-row:hover {
+            opacity: 0.85;
         }
 
         .dropSphere-value {
@@ -383,7 +451,11 @@
             border: 1px solid var(--jako-border);
             border-radius: 4px;
             background: rgba(255, 255, 255, 0.8);
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .media-item:hover img {
+            transform: scale(1.02);
         }
 
         .media-item.is-selected img {
@@ -413,7 +485,8 @@
             border-radius: 4px;
             border: 1px solid var(--jako-border);
             margin-top: 0.3rem;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         /* =========================================================
@@ -438,6 +511,12 @@
             align-items: center;
             gap: 0.4rem;
             cursor: pointer;
+            transition: border-color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-control-action:hover {
+            border-color: var(--jako-text);
+            opacity: 0.9;
         }
 
         @media print {
@@ -506,19 +585,53 @@
             <span class="site-brand">JAKO</span>
         </div>
 
-        <nav class="header-controls" aria-label="Header controls">
-            <a class="header-control" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub">
-                <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                </svg>
-            </a>
+<nav class="header-controls-dial-wrapper" aria-label="Header controls dial">
+            <!-- Marcadores de escala del dial -->
+            <div class="dial-scale-ticks" aria-hidden="true"></div>
 
-            <button class="header-control" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
-                <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="6" width="18" height="12" rx="6" />
-                    <circle class="theme-switch-knob" cx="9" cy="12" r="3.5" fill="currentColor" stroke="none" />
-                </svg>
-            </button>
+            <div class="header-controls-dial" id="controls-dial">
+                <!-- Botón 1: GitHub -->
+                <a class="header-control dial-step" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub">
+                    <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                </a>
+
+                <!-- Botón 2: Theme Toggle -->
+                <button class="header-control dial-step" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="6" width="18" height="12" rx="6" />
+                        <circle class="theme-switch-knob" cx="9" cy="12" r="3.5" fill="currentColor" stroke="none" />
+                    </svg>
+                </button>
+
+                <!-- Botón 3: Expand/Collapse All Galleries (NUEVO) -->
+                <button class="header-control dial-step" id="dial-expand-all" type="button" aria-label="Expand all media galleries" title="Expand All Galleries">
+                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="7 13 12 18 17 13"/>
+                        <polyline points="7 6 12 11 17 6"/>
+                    </svg>
+                </button>
+
+                <!-- Botón 4: Focus / View Mode Toggle (NUEVO) -->
+                <button class="header-control dial-step" id="dial-focus-mode" type="button" aria-label="Toggle high contrast / focus" title="Focus Mode">
+                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8"/>
+                        <line x1="12" y1="2" x2="12" y2="4"/>
+                        <line x1="12" y1="20" x2="12" y2="22"/>
+                        <line x1="2" y1="12" x2="4" y2="12"/>
+                        <line x1="20" y1="12" x2="22" y2="12"/>
+                    </svg>
+                </button>
+
+                <!-- Botón 5: Reset Viewport Scroll (NUEVO) -->
+                <button class="header-control dial-step" id="dial-reset-scroll" type="button" aria-label="Scroll to top" title="Scroll to Top">
+                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="19" x2="12" y2="5"/>
+                        <polyline points="5 12 12 5 19 12"/>
+                    </svg>
+                </button>
+            </div>
         </nav>
     </header>
 
