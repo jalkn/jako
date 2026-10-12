@@ -1,12 +1,10 @@
 
-# JAKO Portfolio — Canonical HTML Generator
-# The complete index.html source is embedded below.
-# Running this script writes index.html beside run.ps1.
-# This script does not modify assets, Git configuration, or other files.
+# JAKO Portfolio — Canonical Generator
+# Source: bio.ps1 | Output: index.html
 
 <#
-JAKO ARCHITECTURAL MODEL
-========================
+JAKO ARCHITECTURE
+-----------------
 
                          JAKO
                            |
@@ -28,49 +26,58 @@ JAKO ARCHITECTURAL MODEL
                            |
                         RELATIONS
 
-ARCHITECTURAL PRINCIPLES
-------------------------
 
-JAKO:
-    The overarching artistic research system.
+FRONTEND ARCHITECTURE
+---------------------
 
-RESEARCH:
-    The investigation connecting the conceptual model,
-    artistic practice, and computational development.
+SUN    — Header and navigation.
+BODY   — Profile, Education, and Job Experience.
+SPIRIT — Projects and Books.
 
-JAKO.STUDIO:
-    The operating studio and development context.
-    It is not a SPHERE.
+CLASS != TYPE != FRONTEND SECTION
 
-PULL / PUSH:
-    Complementary forces representing IMAGINE / INHALE
-    and EXHALE / CREATE. They are not a rigid hierarchy.
+CLASS: DROP | SPHERE
+TYPE: education | experience | project | book
 
-SPHERE:
-    A larger body, system, project, or work.
+DROP + education  -> Education
+DROP + experience -> Job Experience
+SPHERE + project  -> Projects
+SPHERE + book     -> Books
 
-DROPS:
-    Education, individual events, experiences, or data units.
 
-RELATIONS:
-    Connections between entities. The model must not
-    force every entity into a single parent-child tree.
+STRATEGIC MODEL — 70/30
+-----------------------
 
-CONCEPTUAL ENCRYPTION:
-    The public portfolio translates the internal vocabulary
-    into visitor-facing sections and content.
-    This is conceptual/architectural concealment, not
-    cryptographic encryption or a security mechanism.
+70% — COMMERCIAL ENGINE:
+    Validate commercial projects and generate income.
+    Initial priority: Fotopanel.art.
+
+30% — ARTISTIC RESEARCH:
+    Develop JAKO, its public portfolio, Z-Dial,
+    Biokinetic Engine, and related artistic work.
+
+The 70/30 ratio is a proposed 90-day allocation
+of time and energy, not ownership or revenue sharing.
+
+The JAKO portfolio belongs to the 30% research track.
+Commercial projects such as Fotopanel.art belong
+to the 70% track.
 
 GENERATOR CONTRACT
 ------------------
 
-run.ps1 is the canonical source for the public portfolio.
-The embedded HTML is generated as index.html.
-Do not introduce additional output files without approval.
-Do not expose internal architectural labels as public
-section headings unless explicitly approved.
+bio.ps1 is the canonical source for the public portfolio.
+The embedded HTML is currently generated as index.html.
+CSS and JavaScript are embedded; separate output files
+are not currently generated.
+
+Preserve content, design, functionality, and asset paths.
+Do not invent entities, data, links, or relationships.
+Do not edit generated files as the source of truth.
+Do not change output responsibilities without approval.
+Distinguish implemented behavior from verified behavior.
 #>
+
 
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = $PSScriptRoot
