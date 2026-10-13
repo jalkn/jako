@@ -1,282 +1,586 @@
-/* =====================================================
-           GLOBAL FOUNDATION
-           ===================================================== */
 
+        /* =========================================================
+           1. DESIGN TOKENS & GLOBAL RESETS
+           ========================================================= */
         :root {
-            color-scheme: light;
-
-            --page-bg: #f4f5f7;
-            --text-primary: #0d0d0d;
-            --border-subtle: rgba(0, 0, 0, 0.12);
-            --surface-glass: rgba(255, 255, 255, 0.88);
-            --control-bg: rgba(0, 0, 0, 0.03);
-
-            --font-display: 'Orbitron', sans-serif;
-            --font-body: 'Rajdhani', sans-serif;
-            --content-width: 68rem;
+            --jako-bg: #f4f5f7;
+            --jako-text: #0d0d0d;
+            --jako-border: rgba(0, 0, 0, 0.12);
+            --jako-glass: rgba(255, 255, 255, 0.88);
+            --gradient-start: rgba(0, 0, 0, 0.02);
+            --gradient-mid: rgba(244, 245, 247, 0.85);
+            --gradient-end: #f4f5f7;
+            --icon-hover: #000;
         }
 
-        :root[data-theme="dark"] {
-            color-scheme: dark;
-
-            --page-bg: #111315;
-            --text-primary: #f4f5f7;
-            --border-subtle: rgba(255, 255, 255, 0.16);
-            --surface-glass: rgba(25, 28, 31, 0.88);
-            --control-bg: rgba(255, 255, 255, 0.03);
+        body.dark-mode {
+            --jako-bg: #111315;
+            --jako-text: #f4f5f7;
+            --jako-border: rgba(255, 255, 255, 0.16);
+            --jako-glass: rgba(25, 28, 31, 0.88);
+            --gradient-start: rgba(255, 255, 255, 0.04);
+            --gradient-mid: rgba(17, 19, 21, 0.86);
+            --gradient-end: #111315;
+            --icon-hover: #fff;
         }
 
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
             box-sizing: border-box;
-        }
-
-        html,
-        body {
-            min-height: 100%;
             margin: 0;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        html, body {
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
         }
 
         body {
-            min-height: 100vh;
-            background: var(--page-bg);
-            color: var(--text-primary);
-            font-family: var(--font-body);
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--jako-bg);
+            color: var(--jako-text);
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            position: relative;
             letter-spacing: 0.02em;
-            transition:
-                background-color 0.3s ease,
-                color 0.3s ease;
-        }
-
-        body::before {
-            position: fixed;
-            z-index: -1;
-            inset: 0;
-            background: radial-gradient(
-                circle at 50% 30%,
-                rgba(128, 128, 128, 0.04),
-                transparent 70%
-            );
-            content: "";
-            pointer-events: none;
-        }
-
-        button,
-        a {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        button {
-            font: inherit;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         ::selection {
-            background: var(--text-primary);
-            color: var(--page-bg);
+            background-color: var(--jako-text);
+            color: var(--jako-bg);
         }
 
-        /* =====================================================
-           SUN — SITE HEADER
-           ===================================================== */
+        button, span, div {
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        .site-header {
-            position: relative;
-            z-index: 10;
+        /* Ambient Background Layers */
+        #page-bg-overlay, .ambient-gradient {
+            position: fixed;
+            inset: 0;
+        }
 
+        #page-bg-overlay {
+            background: radial-gradient(
+                circle at 50% 30%,
+                var(--gradient-start) 0%,
+                var(--gradient-mid) 65%,
+                var(--gradient-end) 100%
+            );
+            z-index: -1;
+        }
+
+        .ambient-gradient {
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.03),
+                transparent,
+                rgba(0, 0, 0, 0.03)
+            );
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           2. MACRO-BLOCK 1: SUN (HEADER & CONTROLS DIAL)
+           ========================================================= */
+        .header-style-bar {
+            height: 42px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-
             width: 100%;
-            min-height: 42px;
-            padding: 0.3rem 0.8rem;
-
-            border-bottom: 1px solid var(--border-subtle);
-            background: var(--surface-glass);
+            padding: 0 1.2rem;
+            z-index: 100;
+            border-top: 1px solid var(--jako-border);
+            background: var(--jako-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            gap: 0.5rem;
         }
 
-        .site-brand {
+        .header-style-bar.site-header {
+            height: auto;
+            min-height: 42px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0.3rem 0.8rem;
+            border-top: 0;
+            border-bottom: 1px solid var(--jako-border);
+        }
+
+        .site-brand-lockup {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            flex-shrink: 0;
             white-space: nowrap;
         }
 
-        .site-brand__mark {
+        .site-brand-mark {
             display: block;
             width: 22px;
             height: 22px;
+            fill: var(--jako-text);
             flex: 0 0 auto;
-            fill: currentColor;
         }
 
-        .site-brand__name {
-            font-family: var(--font-display);
+        .site-brand {
+            font-family: 'Orbitron', sans-serif;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 0.15em;
         }
 
-        /* =====================================================
-           SUN — HEADER CONTROLS
-           ===================================================== */
-
-        .header-controls {
+        /* Contenedor tipo dial calibrador óptico */
+        .header-controls-dial-wrapper {
             position: relative;
-
-            display: flex;
-            align-items: center;
-
-            width: 118px;
+            width: 76px; /* Two compact controls: GitHub and theme */
             height: 34px;
             padding: 2px 4px;
-
-            overflow: hidden;
-            border: 1px solid var(--border-subtle);
             border-radius: 18px;
-            background: var(--control-bg);
+            border: 1px solid var(--jako-border);
+            background: rgba(0, 0, 0, 0.03);
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
         }
 
-        .header-controls__track {
-            position: relative;
-            z-index: 1;
+        body.dark-mode .header-controls-dial-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
 
+        /* Escala graduada de precisión */
+        .dial-scale-ticks {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--jako-border) 0px,
+                var(--jako-border) 1px,
+                transparent 1px,
+                transparent 7px
+            );
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        /* Tira deslizante horizontal tipo rueda */
+        .header-controls-dial {
             display: flex;
             align-items: center;
             gap: 6px;
-
             width: 100%;
             height: 100%;
             overflow-x: auto;
             overflow-y: hidden;
-
-            scrollbar-width: none;
             scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            z-index: 1;
         }
 
-        .header-controls__track::-webkit-scrollbar {
+        .header-controls-dial::-webkit-scrollbar {
             display: none;
         }
 
-        .header-control {
+        /* Estilo mecánico e hiperrealista de los botones paso a paso */
+        .dial-step {
+            flex: 0 0 30px;
+            height: 28px;
+            scroll-snap-align: center;
+            border-radius: 50%;
+            border: 1px solid var(--jako-border);
+            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.05) 100%), var(--jako-glass);
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+            color: var(--jako-text);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 0 0 30px;
-
-            width: 30px;
-            height: 28px;
-            padding: 0;
-
-            border: 1px solid var(--border-subtle);
-            border-radius: 50%;
-            background: var(--surface-glass);
-            color: var(--text-primary);
-
-            box-shadow:
-                inset 0 1px 1px rgba(255, 255, 255, 0.4),
-                0 1px 3px rgba(0, 0, 0, 0.1);
-
             cursor: pointer;
-            scroll-snap-align: center;
-
-            transition:
-                transform 0.15s ease,
-                border-color 0.15s ease;
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .header-control:hover {
-            border-color: var(--text-primary);
+        .dial-step:hover {
+            border-color: var(--jako-text);
             transform: scale(1.06);
+            box-shadow: 
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 3px rgba(0, 0, 0, 0.25),
+                0 2px 5px rgba(0, 0, 0, 0.15);
         }
 
-        .header-control:active {
+        .dial-step:active {
             transform: scale(0.94);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
         }
 
-        .header-control:focus-visible {
-            outline: 2px solid var(--text-primary);
-            outline-offset: 2px;
-        }
-
-        .header-control__icon {
-            display: block;
+        .github-icon, .icon-stroke {
             width: 14px;
             height: 14px;
             fill: currentColor;
             stroke: currentColor;
         }
 
-        .theme-toggle__knob {
-            transform: translateX(0);
-            transition: transform 0.2s ease;
-        }
-
-        :root[data-theme="dark"] .theme-toggle__knob {
+        body.dark-mode .theme-switch-knob {
             transform: translateX(6px);
         }
 
-        /* =====================================================
-           BODY — PRIMARY PORTFOLIO CONTENT
-           Fotopanel BLOCK 3 structural reference.
-           ===================================================== */
-
-        .portfolio-body {
-            display: grid;
-            gap: clamp(1rem, 2.5vw, 1.5rem);
-            width: min(calc(100% - 2rem), var(--content-width));
-            margin-inline: auto;
-            padding-block: clamp(2rem, 6vw, 4.5rem);
-        }
-
-        .portfolio-section {
-            min-width: 0;
-            padding: clamp(1.25rem, 3.5vw, 2.25rem);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            background: var(--surface-glass);
-        }
-
-        .portfolio-section__title {
-            margin: 0;
-            color: var(--text-primary);
-            font-family: var(--font-display);
-            font-size: clamp(1rem, 2vw, 1.35rem);
-            font-weight: 600;
-            letter-spacing: 0.08em;
-        }
-
-        /* =====================================================
-           SPIRIT — SECONDARY PORTFOLIO CONTENT
-           Fotopanel BLOCK 5 structural reference.
-           ===================================================== */
-
-        .portfolio-spirit {
+        /* =========================================================
+           3. VIEWPORT & CARD SYSTEM
+           ========================================================= */
+        .vision-scroll-viewport {
             width: 100%;
-            border-top: 1px solid var(--border-subtle);
-            background: var(--surface-glass);
+            max-width: 580px;
+            padding: 0.5rem 0.8rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+        }
+
+        .vision-card {
+            background: var(--jako-glass);
+            border: 1px solid var(--jako-border);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            width: 100%;
         }
 
-        .portfolio-spirit__inner {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: clamp(1rem, 2.5vw, 1.5rem);
-            width: min(calc(100% - 2rem), var(--content-width));
-            margin-inline: auto;
-            padding-block: clamp(1.5rem, 4vw, 3rem);
+        body.dark-mode .vision-card {
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        @media (max-width: 40rem) {
-            .portfolio-spirit__inner {
-                grid-template-columns: 1fr;
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--jako-border);
+            padding-bottom: 0.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .section-heading h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8.5px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .section-heading > span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+
+        /* =========================================================
+           4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
+           ========================================================= */
+        .engine-box {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .engine-avatar {
+            width: 62px;
+            height: 62px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid var(--jako-border);
+            flex-shrink: 0;
+        }
+
+        .engine-title-block {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.25rem;
+        }
+
+        .engine-text {
+            line-height: 1.35;
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        /* Entity Row Styles */
+        .dropSphere-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .dropSphere-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+
+        .dropSphere-row:hover {
+            opacity: 0.85;
+        }
+
+        .dropSphere-value {
+            flex: 1;
+            min-width: 0;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .dropSphere-label {
+            flex-shrink: 0;
+            min-width: 90px;
+            margin-left: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7.5px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            opacity: 0.7;
+            text-align: right;
+            text-transform: uppercase;
+        }
+
+        .experience-tools {
+            display: block;
+            margin-top: 0.15rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            opacity: 0.6;
+        }
+
+        .metadata {
+            opacity: 0.55;
+            font-size: 8.5px;
+        }
+
+        /* Extension Slot for Biokinetic Dial */
+        .dial-extension-slot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0.5rem;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px dashed var(--jako-border);
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7px;
+            letter-spacing: 0.12em;
+            opacity: 0.6;
+            margin-top: 0.2rem;
+        }
+
+        body.dark-mode .dial-extension-slot {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* =========================================================
+           5. MEDIA GALLERY & PREVIEWS
+           ========================================================= */
+        .media-preview {
+            display: none;
+            width: 100%;
+            padding: 0.4rem 0 0.2rem 0;
+        }
+
+        .media-preview.is-open {
+            display: flex;
+        }
+
+        .media-gallery {
+            flex-direction: row;
+            gap: 0.4rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .media-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            cursor: pointer;
+            flex: 0 0 88px;
+            background: transparent;
+            border: none;
+        }
+
+        .media-item img {
+            width: 100%;
+            height: 64px;
+            object-fit: contain;
+            border: 1px solid var(--jako-border);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .media-item:hover img {
+            transform: scale(1.02);
+        }
+
+        .media-item.is-selected img {
+            border-color: var(--jako-text);
+            box-shadow: 0 0 0 1px var(--jako-text);
+        }
+
+        .media-item span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* Large Preview spanning full width of the entity container */
+        .selected-media-preview {
+            width: 100%;
+        }
+
+        .selected-media-preview img {
+            width: 100%;
+            height: auto;
+            max-height: 480px;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 1px solid var(--jako-border);
+            margin-top: 0.3rem;
+            background: rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* =========================================================
+           6. FOOTER & PRINT / PDF STYLES
+           ========================================================= */
+        .pdf-footer {
+            justify-content: center;
+        }
+
+        .btn-control-action {
+            padding: 0 0.8rem;
+            height: 28px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--jako-border);
+            border-radius: 4px;
+            background: transparent;
+            color: var(--jako-text);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-control-action:hover {
+            border-color: var(--jako-text);
+            opacity: 0.9;
+        }
+
+        @media print {
+            html, body {
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+                background: #fff !important;
+                color: #000 !important;
+            }
+
+            #page-bg-overlay, .ambient-gradient, .header-style-bar {
+                display: none !important;
+            }
+
+            .vision-scroll-viewport {
+                overflow: visible !important;
+                height: auto !important;
+                max-height: none !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+
+            .vision-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                background: #fff !important;
+                backdrop-filter: none !important;
+                margin-bottom: 0.5rem;
+                page-break-inside: avoid;
+            }
+
+            /* Preserve open galleries & previews in print */
+            .media-preview.is-open {
+                display: flex !important;
+            }
+
+            .selected-media-preview img {
+                max-height: none !important;
+                page-break-inside: avoid;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+ 
+
+        /* SUN — Accessible control states */
+        .dial-step:focus-visible {
+            outline: 2px solid var(--jako-text);
+            outline-offset: 2px;
+        }
+
+        .dial-step:active {
+            transform: scale(0.92);
+        }
+
+        @media (max-width: 360px) {
+            .header-controls-dial-wrapper {
+                width: 72px;
+                height: 32px;
+            }
+
+            .dial-step {
+                flex-basis: 26px;
+                width: 26px;
+                height: 26px;
+            }
+
+            .site-header {
+                padding-inline: 0.6rem;
+                gap: 0.4rem;
             }
         }

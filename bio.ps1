@@ -135,17 +135,11 @@ $ErrorActionPreference = 'Stop'
 $ProjectRoot = $PSScriptRoot
 $OutputPath = Join-Path $ProjectRoot 'index.html'
 
-$html = @'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAKO // Master Architecture Portfolio & CV</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    
-   <style>
+$CssPath = Join-Path $ProjectRoot 'src/global.css'
+$JsPath = Join-Path $ProjectRoot 'src/main.js'
+
+$css = @'
+
         /* =========================================================
            1. DESIGN TOKENS & GLOBAL RESETS
            ========================================================= */
@@ -288,7 +282,7 @@ $html = @'
         /* Contenedor tipo dial calibrador óptico */
         .header-controls-dial-wrapper {
             position: relative;
-            width: 118px; /* Ancho justo para visualizar 3 botones */
+            width: 76px; /* Two compact controls: GitHub and theme */
             height: 34px;
             padding: 2px 4px;
             border-radius: 18px;
@@ -702,123 +696,39 @@ $html = @'
                 print-color-adjust: exact !important;
             }
         }
-    </style>
-</head>
-<body>
+ 
 
-    <div id="page-bg-overlay"></div>
-    <div class="ambient-gradient"></div>
+        /* SUN — Accessible control states */
+        .dial-step:focus-visible {
+            outline: 2px solid var(--jako-text);
+            outline-offset: 2px;
+        }
 
-    <!-- =========================================================
-         MACRO-BLOCK 1: SUN (HEADER)
-         ========================================================= -->
-    <header class="header-style-bar site-header">
-        <div class="site-brand-lockup">
-            <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
-                <g transform="rotate(180 50 50)">
-                    <polygon points="50,42 58,50 50,58 42,50" />
-                    <polygon points="30,65 70,65 80,80 20,80" />
-                </g>
-            </svg>
-            <span class="site-brand">JAKO</span>
-        </div>
+        .dial-step:active {
+            transform: scale(0.92);
+        }
 
-<nav class="header-controls-dial-wrapper" aria-label="Header controls dial">
-            <!-- Marcadores de escala del dial -->
-            <div class="dial-scale-ticks" aria-hidden="true"></div>
+        @media (max-width: 360px) {
+            .header-controls-dial-wrapper {
+                width: 72px;
+                height: 32px;
+            }
 
-            <div class="header-controls-dial" id="controls-dial">
-                <!-- Botón 1: GitHub -->
-                <a class="header-control dial-step" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub">
-                    <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                    </svg>
-                </a>
+            .dial-step {
+                flex-basis: 26px;
+                width: 26px;
+                height: 26px;
+            }
 
-                <!-- Botón 2: Theme Toggle -->
-                <button class="header-control dial-step" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
-                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="6" width="18" height="12" rx="6" />
-                        <circle class="theme-switch-knob" cx="9" cy="12" r="3.5" fill="currentColor" stroke="none" />
-                    </svg>
-                </button>
-            </div>
-        </nav>
-    </header>
+            .site-header {
+                padding-inline: 0.6rem;
+                gap: 0.4rem;
+            }
+        }
+'@
 
-    <!-- =========================================================
-         MAIN VIEWPORT (CONTAINING BODY & SPIRIT)
-         ========================================================= -->
-    <main class="vision-scroll-viewport" id="main-viewport">
+$js = @'
 
-        <!-- MACRO-BLOCK 2: BODY -->
-        <section class="vision-card" id="card-profile">
-            <div class="engine-box">
-                <img src="src/img/photo.png" alt="Alejandro Monsalve M." class="engine-avatar" onerror="this.style.display='none'">
-                <div>
-                    <div class="engine-title-block">ALEJANDRO MONSALVE M.</div>
-                    <p class="engine-text">
-                        Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- EDUCATION -->
-        <section class="vision-card" id="card-education">
-            <div class="section-heading">
-                <h2>Education</h2>
-                <span>COMPLETION</span>
-            </div>
-            <div class="dropSphere-group" id="container-education"></div>
-        </section>
-
-        <!-- JOB EXPERIENCE -->
-        <section class="vision-card" id="card-experience">
-            <div class="section-heading">
-                <h2>Job Experience</h2>
-                <span>START - END</span>
-            </div>
-            <div class="dropSphere-group" id="container-experience"></div>
-        </section>
-
-        <!-- MACRO-BLOCK 3: SPIRIT -->
-        <!-- PROJECTS -->
-        <section class="vision-card" id="card-projects">
-            <div class="section-heading">
-                <h2>Projects</h2>
-                <span>LAUNCH</span>
-            </div>
-            <div class="dropSphere-group" id="container-projects"></div>
-        </section>
-
-        <!-- BOOKS -->
-        <section class="vision-card" id="card-books">
-            <div class="section-heading">
-                <h2>Books</h2>
-                <span></span>
-            </div>
-            <div class="dropSphere-group" id="container-books"></div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER CONTROLS -->
-    <footer class="header-style-bar pdf-footer">
-        <button class="btn-control-action" id="download-pdf" aria-label="Download PDF" title="Download PDF">
-            <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            PDF
-        </button>
-    </footer>
-
-    <!-- =========================================================
-         7. BACKEND ENTITY DICTIONARY & TRANSLATION LAYER
-         ========================================================= -->
-    <script>
         /**
          * JAKO DATABASE - Centralized Entity Registry
          * Canonical Backend Source of Truth
@@ -1210,7 +1120,135 @@ $html = @'
             renderEntityGroup('book', 'container-books');
             initInteractions();
         });
-    </script>
+'@
+
+$html = @'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAKO // Master Architecture Portfolio & CV</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+   <link rel="stylesheet" href="src/global.css">
+</head>
+<body>
+
+    <div id="page-bg-overlay"></div>
+    <div class="ambient-gradient"></div>
+
+    <!-- =========================================================
+         MACRO-BLOCK 1: SUN (HEADER)
+         ========================================================= -->
+    <header class="header-style-bar site-header">
+        <div class="site-brand-lockup">
+            <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+                <g transform="rotate(180 50 50)">
+                    <polygon points="50,42 58,50 50,58 42,50" />
+                    <polygon points="30,65 70,65 80,80 20,80" />
+                </g>
+            </svg>
+            <span class="site-brand">JAKO</span>
+        </div>
+
+<nav class="header-controls-dial-wrapper" aria-label="Header controls dial">
+            <!-- Marcadores de escala del dial -->
+            <div class="dial-scale-ticks" aria-hidden="true"></div>
+
+            <div class="header-controls-dial" id="controls-dial">
+                <!-- Botón 1: GitHub -->
+                <a class="header-control dial-step" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub">
+                    <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                </a>
+
+                <!-- Botón 2: Theme Toggle -->
+                <button class="header-control dial-step" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="6" width="18" height="12" rx="6" />
+                        <circle class="theme-switch-knob" cx="9" cy="12" r="3.5" fill="currentColor" stroke="none" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- =========================================================
+         MAIN VIEWPORT (CONTAINING BODY & SPIRIT)
+         ========================================================= -->
+    <main class="vision-scroll-viewport" id="main-viewport">
+
+        <!-- MACRO-BLOCK 2: BODY -->
+        <section class="vision-card" id="card-profile">
+            <div class="engine-box">
+                <img src="src/img/photo.png" alt="Alejandro Monsalve M." class="engine-avatar" onerror="this.style.display='none'">
+                <div>
+                    <div class="engine-title-block">ALEJANDRO MONSALVE M.</div>
+                    <p class="engine-text">
+                        Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="vision-card" id="card-education">
+            <div class="section-heading">
+                <h2>Education</h2>
+                <span>COMPLETION</span>
+            </div>
+            <div class="dropSphere-group" id="container-education"></div>
+        </section>
+
+        <!-- JOB EXPERIENCE -->
+        <section class="vision-card" id="card-experience">
+            <div class="section-heading">
+                <h2>Job Experience</h2>
+                <span>START - END</span>
+            </div>
+            <div class="dropSphere-group" id="container-experience"></div>
+        </section>
+
+        <!-- MACRO-BLOCK 3: SPIRIT -->
+        <!-- PROJECTS -->
+        <section class="vision-card" id="card-projects">
+            <div class="section-heading">
+                <h2>Projects</h2>
+                <span>LAUNCH</span>
+            </div>
+            <div class="dropSphere-group" id="container-projects"></div>
+        </section>
+
+        <!-- BOOKS -->
+        <section class="vision-card" id="card-books">
+            <div class="section-heading">
+                <h2>Books</h2>
+                <span></span>
+            </div>
+            <div class="dropSphere-group" id="container-books"></div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CONTROLS -->
+    <footer class="header-style-bar pdf-footer">
+        <button class="btn-control-action" id="download-pdf" aria-label="Download PDF" title="Download PDF">
+            <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            PDF
+        </button>
+    </footer>
+
+    <!-- =========================================================
+         7. BACKEND ENTITY DICTIONARY & TRANSLATION LAYER
+         ========================================================= -->
+    <script src="src/main.js" defer></script>
 </body>
 </html>
 '@
@@ -1224,12 +1262,22 @@ try {
         throw 'The embedded HTML does not begin with a valid HTML doctype.'
     }
 
+    $SourceDirectory = Join-Path $ProjectRoot 'src'
+    if (-not (Test-Path -LiteralPath $SourceDirectory -PathType Container)) {
+        New-Item -ItemType Directory -Path $SourceDirectory -Force | Out-Null
+    }
+
     $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
     [System.IO.File]::WriteAllText($OutputPath, $html, $Utf8NoBom)
+    [System.IO.File]::WriteAllText($CssPath, $css, $Utf8NoBom)
+    [System.IO.File]::WriteAllText($JsPath, $js, $Utf8NoBom)
 
-    Write-Host "JAKO index.html generated successfully: $OutputPath" -ForegroundColor Green
+    Write-Host "JAKO portfolio generated successfully:" -ForegroundColor Green
+    Write-Host "  HTML: $OutputPath"
+    Write-Host "  CSS:  $CssPath"
+    Write-Host "  JS:   $JsPath"
 }
 catch {
-    Write-Error "JAKO HTML generation failed: $($_.Exception.Message)"
+    Write-Error "JAKO generation failed: $($_.Exception.Message)"
     exit 1
 }
