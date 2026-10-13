@@ -225,6 +225,19 @@
                     DESCRIPTION: "The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization.",
                     DATE: "02/22",
                     PLACE: "",
+                    MEDIA: [],
+                    TOOLS: ["Philosophical Seed"],
+                    LINKS: [],
+                    RELATIONS: []
+                },
+                {
+                    ID: "sphere-book-02",
+                    CLASS: "SPHERE",
+                    TYPE: "book",
+                    WORD: "Z-DIAL — BIOKINETIC SYSTEM",
+                    DESCRIPTION: "A biokinetic research system exploring alphanumeric coordinates, wave fields, and the Sandwatch model.",
+                    DATE: "",
+                    PLACE: "",
                     MEDIA: [
                         { src: "src/sphere/zDial/biodial.png", label: "BioDial" },
                         { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
