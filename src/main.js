@@ -263,10 +263,10 @@
             const entities = JAKO_DATABASE.entities.filter(e => e.TYPE === typeFilter);
 
             container.innerHTML = entities.map((item) => {
-                const toolsList = item.TOOLS.length > 0 
-                    ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>` 
+                const toolsList = item.TOOLS.length > 0
+                    ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>`
                     : '';
-                
+
                 const placeLabel = item.PLACE ? `<span class="metadata">[${item.PLACE}]</span>` : '';
                 const dateLabel = item.DATE || '—';
 
@@ -311,18 +311,29 @@
            9. INTERACTION CONTROLLERS (INDEPENDENT TOGGLES & FULL WIDTH PREVIEWS)
            ========================================================= */
         function initInteractions() {
-            // Theme Toggle Controller
+            // SUN — Accessible theme controller
             const themeBtn = document.getElementById('theme-toggle');
-            themeBtn.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                themeBtn.setAttribute('aria-pressed', isDark);
-            });
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.body.classList.toggle('dark-mode');
+
+                    themeBtn.setAttribute('aria-pressed', String(isDark));
+                    themeBtn.setAttribute(
+                        'aria-label',
+                        isDark ? 'Switch to light theme' : 'Switch to dark theme'
+                    );
+                });
+            }
 
             // Print / PDF Controller
             const pdfBtn = document.getElementById('download-pdf');
-            pdfBtn.addEventListener('click', () => {
-                window.print();
-            });
+
+            if (pdfBtn) {
+                pdfBtn.addEventListener('click', () => {
+                    window.print();
+                });
+            }
 
             // Independent Accordion & Image Viewport Controller
             document.addEventListener('click', (e) => {
@@ -362,7 +373,7 @@
 
                     if (previewContainer && previewContainer.classList.contains('selected-media-preview')) {
                         const img = previewContainer.querySelector('img');
-                        
+
                         // Toggle logic: if clicking the currently active image, close the large preview
                         if (mediaItem.classList.contains('is-selected')) {
                             mediaItem.classList.remove('is-selected');
@@ -371,7 +382,7 @@
                         } else {
                             // Clear other selection highlights in this gallery
                             gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
-                            
+
                             mediaItem.classList.add('is-selected');
                             img.src = src;
                             previewContainer.classList.add('is-open');

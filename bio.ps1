@@ -30,7 +30,7 @@ JAKO ARCHITECTURE
 FRONTEND ARCHITECTURE
 ---------------------
 
-SUN    — Header and navigation.
+SUN    — Glass header and global controls.
 BODY   — Profile, Education, and Job Experience.
 SPIRIT — Projects and Books.
 
@@ -230,153 +230,132 @@ $css = @'
         }
 
         /* =========================================================
-           2. MACRO-BLOCK 1: SUN (HEADER & CONTROLS DIAL)
+           2. MACRO-BLOCK 1: SUN — CONTINUOUS GLASS HEADER
            ========================================================= */
         .header-style-bar {
-            height: 42px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             width: 100%;
-            padding: 0 1.2rem;
+            min-height: 42px;
+            padding: 0 1rem;
             z-index: 100;
-            border-top: 1px solid var(--jako-border);
             background: var(--jako-glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            gap: 0.5rem;
+            border-bottom: 1px solid var(--jako-border);
+            backdrop-filter: blur(24px) saturate(125%);
+            -webkit-backdrop-filter: blur(24px) saturate(125%);
         }
 
         .header-style-bar.site-header {
-            height: auto;
-            min-height: 42px;
-            flex-wrap: wrap;
             justify-content: space-between;
-            padding: 0.3rem 0.8rem;
+            gap: 1rem;
+            min-height: 46px;
+            padding: 0 1rem;
             border-top: 0;
-            border-bottom: 1px solid var(--jako-border);
         }
 
         .site-brand-lockup {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.45rem;
+            min-width: 0;
+            color: var(--jako-text);
+            text-decoration: none;
             white-space: nowrap;
         }
 
         .site-brand-mark {
             display: block;
-            width: 22px;
-            height: 22px;
-            fill: var(--jako-text);
+            width: 21px;
+            height: 21px;
+            fill: currentColor;
+            opacity: 0.92;
             flex: 0 0 auto;
         }
 
         .site-brand {
             font-family: 'Orbitron', sans-serif;
             font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.15em;
+            font-weight: 700;
+            letter-spacing: 0.2em;
         }
 
-        /* Contenedor tipo dial calibrador óptico */
-        .header-controls-dial-wrapper {
-            position: relative;
-            width: 76px; /* Two compact controls: GitHub and theme */
-            height: 34px;
-            padding: 2px 4px;
-            border-radius: 18px;
-            border: 1px solid var(--jako-border);
-            background: rgba(0, 0, 0, 0.03);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+        .header-controls {
             display: flex;
-            align-items: center;
+            align-items: stretch;
+            flex: 0 0 auto;
+            min-height: 30px;
             overflow: hidden;
-        }
-
-        body.dark-mode .header-controls-dial-wrapper {
-            background: rgba(255, 255, 255, 0.03);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Escala graduada de precisión */
-        .dial-scale-ticks {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--jako-border) 0px,
-                var(--jako-border) 1px,
-                transparent 1px,
-                transparent 7px
-            );
-            opacity: 0.35;
-            z-index: 0;
-        }
-
-        /* Tira deslizante horizontal tipo rueda */
-        .header-controls-dial {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            width: 100%;
-            height: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            z-index: 1;
-        }
-
-        .header-controls-dial::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Estilo mecánico e hiperrealista de los botones paso a paso */
-        .dial-step {
-            flex: 0 0 30px;
-            height: 28px;
-            scroll-snap-align: center;
-            border-radius: 50%;
-            border: 1px solid var(--jako-border);
-            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.05) 100%), var(--jako-glass);
-            box-shadow: 
-                inset 0 1px 1px rgba(255, 255, 255, 0.6),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.15),
-                0 1px 3px rgba(0, 0, 0, 0.1);
             color: var(--jako-text);
-            display: flex;
+            background: var(--jako-glass);
+            border: 1px solid var(--jako-border);
+            border-radius: 3px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.035);
+        }
+
+        .header-control {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: 38px;
+            min-height: 30px;
+            padding: 0;
+            color: inherit;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
             cursor: pointer;
-            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
-        .dial-step:hover {
-            border-color: var(--jako-text);
-            transform: scale(1.06);
-            box-shadow: 
-                inset 0 1px 2px rgba(255, 255, 255, 0.8),
-                inset 0 -1px 3px rgba(0, 0, 0, 0.25),
-                0 2px 5px rgba(0, 0, 0, 0.15);
+        .header-control + .header-control {
+            border-left: 1px solid var(--jako-border);
         }
 
-        .dial-step:active {
-            transform: scale(0.94);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+        .header-control:hover {
+            background: var(--jako-border);
         }
 
-        .github-icon, .icon-stroke {
+        .header-control:active {
+            background: var(--jako-border);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-control:focus-visible,
+        .site-brand-lockup:focus-visible {
+            outline: 1px solid var(--jako-text);
+            outline-offset: -3px;
+        }
+
+        .header-icon {
+            display: block;
             width: 14px;
             height: 14px;
+            color: currentColor;
             fill: currentColor;
-            stroke: currentColor;
+            stroke: none;
+            opacity: 0.76;
+            transition: opacity 0.2s ease;
         }
 
-        body.dark-mode .theme-switch-knob {
-            transform: translateX(6px);
+        .theme-icon {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.35;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .theme-icon-sun {
+            fill: currentColor;
+            stroke: none;
+        }
+
+        .header-control:hover .header-icon {
+            opacity: 1;
         }
 
         /* =========================================================
@@ -696,33 +675,32 @@ $css = @'
                 print-color-adjust: exact !important;
             }
         }
- 
 
-        /* SUN — Accessible control states */
-        .dial-step:focus-visible {
-            outline: 2px solid var(--jako-text);
-            outline-offset: 2px;
-        }
-
-        .dial-step:active {
-            transform: scale(0.92);
-        }
 
         @media (max-width: 360px) {
-            .header-controls-dial-wrapper {
-                width: 72px;
-                height: 32px;
-            }
-
-            .dial-step {
-                flex-basis: 26px;
-                width: 26px;
-                height: 26px;
-            }
-
             .site-header {
-                padding-inline: 0.6rem;
-                gap: 0.4rem;
+                min-height: 42px;
+                padding-inline: 0.65rem;
+                gap: 0.5rem;
+            }
+
+            .site-brand-mark {
+                width: 19px;
+                height: 19px;
+            }
+
+            .site-brand {
+                font-size: 10px;
+                letter-spacing: 0.16em;
+            }
+
+            .header-control {
+                width: 34px;
+                min-height: 28px;
+            }
+
+            .header-controls {
+                min-height: 28px;
             }
         }
 '@
@@ -993,10 +971,10 @@ $js = @'
             const entities = JAKO_DATABASE.entities.filter(e => e.TYPE === typeFilter);
 
             container.innerHTML = entities.map((item) => {
-                const toolsList = item.TOOLS.length > 0 
-                    ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>` 
+                const toolsList = item.TOOLS.length > 0
+                    ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>`
                     : '';
-                
+
                 const placeLabel = item.PLACE ? `<span class="metadata">[${item.PLACE}]</span>` : '';
                 const dateLabel = item.DATE || '—';
 
@@ -1041,18 +1019,29 @@ $js = @'
            9. INTERACTION CONTROLLERS (INDEPENDENT TOGGLES & FULL WIDTH PREVIEWS)
            ========================================================= */
         function initInteractions() {
-            // Theme Toggle Controller
+            // SUN — Accessible theme controller
             const themeBtn = document.getElementById('theme-toggle');
-            themeBtn.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                themeBtn.setAttribute('aria-pressed', isDark);
-            });
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.body.classList.toggle('dark-mode');
+
+                    themeBtn.setAttribute('aria-pressed', String(isDark));
+                    themeBtn.setAttribute(
+                        'aria-label',
+                        isDark ? 'Switch to light theme' : 'Switch to dark theme'
+                    );
+                });
+            }
 
             // Print / PDF Controller
             const pdfBtn = document.getElementById('download-pdf');
-            pdfBtn.addEventListener('click', () => {
-                window.print();
-            });
+
+            if (pdfBtn) {
+                pdfBtn.addEventListener('click', () => {
+                    window.print();
+                });
+            }
 
             // Independent Accordion & Image Viewport Controller
             document.addEventListener('click', (e) => {
@@ -1092,7 +1081,7 @@ $js = @'
 
                     if (previewContainer && previewContainer.classList.contains('selected-media-preview')) {
                         const img = previewContainer.querySelector('img');
-                        
+
                         // Toggle logic: if clicking the currently active image, close the large preview
                         if (mediaItem.classList.contains('is-selected')) {
                             mediaItem.classList.remove('is-selected');
@@ -1101,7 +1090,7 @@ $js = @'
                         } else {
                             // Clear other selection highlights in this gallery
                             gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
-                            
+
                             mediaItem.classList.add('is-selected');
                             img.src = src;
                             previewContainer.classList.add('is-open');
@@ -1131,7 +1120,7 @@ $html = @'
     <title>JAKO // Master Architecture Portfolio & CV</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    
+
    <link rel="stylesheet" href="src/global.css">
 </head>
 <body>
@@ -1140,10 +1129,10 @@ $html = @'
     <div class="ambient-gradient"></div>
 
     <!-- =========================================================
-         MACRO-BLOCK 1: SUN (HEADER)
+         MACRO-BLOCK 1: SUN
          ========================================================= -->
-    <header class="header-style-bar site-header">
-        <div class="site-brand-lockup">
+    <header class="header-style-bar site-header" id="top">
+        <a class="site-brand-lockup" href="#top" aria-label="JAKO home">
             <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
                 <g transform="rotate(180 50 50)">
                     <polygon points="50,42 58,50 50,58 42,50" />
@@ -1151,28 +1140,20 @@ $html = @'
                 </g>
             </svg>
             <span class="site-brand">JAKO</span>
-        </div>
+        </a>
 
-<nav class="header-controls-dial-wrapper" aria-label="Header controls dial">
-            <!-- Marcadores de escala del dial -->
-            <div class="dial-scale-ticks" aria-hidden="true"></div>
-
-            <div class="header-controls-dial" id="controls-dial">
-                <!-- Botón 1: GitHub -->
-                <a class="header-control dial-step" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub">
-                    <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                    </svg>
-                </a>
-
-                <!-- Botón 2: Theme Toggle -->
-                <button class="header-control dial-step" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
-                    <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="6" width="18" height="12" rx="6" />
-                        <circle class="theme-switch-knob" cx="9" cy="12" r="3.5" fill="currentColor" stroke="none" />
-                    </svg>
-                </button>
-            </div>
+        <nav class="header-controls" aria-label="Global controls">
+            <a class="header-control" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub">
+                <svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                </svg>
+            </a>
+            <button class="header-control" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Toggle theme">
+                <svg class="header-icon theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle class="theme-icon-sun" cx="12" cy="12" r="3.5" />
+                    <path class="theme-icon-rays" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+                </svg>
+            </button>
         </nav>
     </header>
 
