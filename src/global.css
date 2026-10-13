@@ -13,9 +13,10 @@
 
             --font-display: 'Orbitron', sans-serif;
             --font-body: 'Rajdhani', sans-serif;
+            --content-width: 68rem;
         }
 
-        body.dark-mode {
+        :root[data-theme="dark"] {
             color-scheme: dark;
 
             --page-bg: #111315;
@@ -218,6 +219,64 @@
             transition: transform 0.2s ease;
         }
 
-        body.dark-mode .theme-toggle__knob {
+        :root[data-theme="dark"] .theme-toggle__knob {
             transform: translateX(6px);
+        }
+
+        /* =====================================================
+           BODY — PRIMARY PORTFOLIO CONTENT
+           Fotopanel BLOCK 3 structural reference.
+           ===================================================== */
+
+        .portfolio-body {
+            display: grid;
+            gap: clamp(1rem, 2.5vw, 1.5rem);
+            width: min(calc(100% - 2rem), var(--content-width));
+            margin-inline: auto;
+            padding-block: clamp(2rem, 6vw, 4.5rem);
+        }
+
+        .portfolio-section {
+            min-width: 0;
+            padding: clamp(1.25rem, 3.5vw, 2.25rem);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            background: var(--surface-glass);
+        }
+
+        .portfolio-section__title {
+            margin: 0;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: clamp(1rem, 2vw, 1.35rem);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+        }
+
+        /* =====================================================
+           SPIRIT — SECONDARY PORTFOLIO CONTENT
+           Fotopanel BLOCK 5 structural reference.
+           ===================================================== */
+
+        .portfolio-spirit {
+            width: 100%;
+            border-top: 1px solid var(--border-subtle);
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .portfolio-spirit__inner {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: clamp(1rem, 2.5vw, 1.5rem);
+            width: min(calc(100% - 2rem), var(--content-width));
+            margin-inline: auto;
+            padding-block: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        @media (max-width: 40rem) {
+            .portfolio-spirit__inner {
+                grid-template-columns: 1fr;
+            }
         }
