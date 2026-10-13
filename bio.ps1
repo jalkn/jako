@@ -52,6 +52,41 @@ SPIRIT
 └── section-books
     └── list-books
 
+src/global.css
+│
+├── 01. DESIGN TOKENS
+│   ├── Colors
+│   ├── Typography
+│   ├── Borders and surfaces
+│   └── Spacing and transitions
+│
+├── 02. THEMES
+│   ├── Light
+│   └── Dark
+│
+├── 03. GLOBAL FOUNDATION
+│   ├── Reset and box-sizing
+│   ├── Body and viewport
+│   └── Accessibility
+│
+├── 04. SHARED COMPONENTS
+│   ├── Buttons
+│   ├── SVG icons
+│   └── Glass surfaces
+│
+├── 05. SUN
+│   ├── Site header
+│   ├── Brand
+│   └── Header controls
+│
+├── 06. BODY
+│
+├── 07. SPIRIT
+│
+├── 08. SHARED INTERACTIONS
+│
+└── 09. RESPONSIVE AND PRINT
+
 CLASS != TYPE != FRONTEND SECTION
 
 CLASS: DROP | SPHERE
