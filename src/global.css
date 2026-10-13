@@ -1,0 +1,223 @@
+/* =====================================================
+           GLOBAL FOUNDATION
+           ===================================================== */
+
+        :root {
+            color-scheme: light;
+
+            --page-bg: #f4f5f7;
+            --text-primary: #0d0d0d;
+            --border-subtle: rgba(0, 0, 0, 0.12);
+            --surface-glass: rgba(255, 255, 255, 0.88);
+            --control-bg: rgba(0, 0, 0, 0.03);
+
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+        }
+
+        body.dark-mode {
+            color-scheme: dark;
+
+            --page-bg: #111315;
+            --text-primary: #f4f5f7;
+            --border-subtle: rgba(255, 255, 255, 0.16);
+            --surface-glass: rgba(25, 28, 31, 0.88);
+            --control-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--page-bg);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            letter-spacing: 0.02em;
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease;
+        }
+
+        body::before {
+            position: fixed;
+            z-index: -1;
+            inset: 0;
+            background: radial-gradient(
+                circle at 50% 30%,
+                rgba(128, 128, 128, 0.04),
+                transparent 70%
+            );
+            content: "";
+            pointer-events: none;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        ::selection {
+            background: var(--text-primary);
+            color: var(--page-bg);
+        }
+
+        /* =====================================================
+           SUN — SITE HEADER
+           ===================================================== */
+
+        .site-header {
+            position: relative;
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+
+            width: 100%;
+            min-height: 42px;
+            padding: 0.3rem 0.8rem;
+
+            border-bottom: 1px solid var(--border-subtle);
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .site-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .site-brand__mark {
+            display: block;
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+            fill: currentColor;
+        }
+
+        .site-brand__name {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+        }
+
+        /* =====================================================
+           SUN — HEADER CONTROLS
+           ===================================================== */
+
+        .header-controls {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            width: 118px;
+            height: 34px;
+            padding: 2px 4px;
+
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            background: var(--control-bg);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-controls__track {
+            position: relative;
+            z-index: 1;
+
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            scrollbar-width: none;
+            scroll-snap-type: x mandatory;
+        }
+
+        .header-controls__track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .header-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 30px;
+
+            width: 30px;
+            height: 28px;
+            padding: 0;
+
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            background: var(--surface-glass);
+            color: var(--text-primary);
+
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.4),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+
+            cursor: pointer;
+            scroll-snap-align: center;
+
+            transition:
+                transform 0.15s ease,
+                border-color 0.15s ease;
+        }
+
+        .header-control:hover {
+            border-color: var(--text-primary);
+            transform: scale(1.06);
+        }
+
+        .header-control:active {
+            transform: scale(0.94);
+        }
+
+        .header-control:focus-visible {
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+
+        .header-control__icon {
+            display: block;
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            stroke: currentColor;
+        }
+
+        .theme-toggle__knob {
+            transform: translateX(0);
+            transition: transform 0.2s ease;
+        }
+
+        body.dark-mode .theme-toggle__knob {
+            transform: translateX(6px);
+        }
