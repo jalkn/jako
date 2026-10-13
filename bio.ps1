@@ -930,11 +930,15 @@ $js = @'
                     CLASS: "SPHERE",
                     TYPE: "book",
                     WORD: "BIOMANIFESTO & THE COGNITIVE SYSTEM",
-                    DESCRIPTION: "the unconscious mind, bopdy as source of creativity.",
-                    DATE: "",
+                    DESCRIPTION: "The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization.",
+                    DATE: "02/22",
                     PLACE: "",
-                    MEDIA: [],
-                    TOOLS: ["Philosophical Seed"],
+                    MEDIA: [
+                        { src: "src/sphere/zDial/biodial.png", label: "BioDial" },
+                        { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
+                        { src: "src/sphere/zDial/sphere.png", label: "Sphere" }
+                    ],
+                    TOOLS: ["Biokinetic Research", "Z-Dial"],
                     LINKS: [],
                     RELATIONS: []
                 }
@@ -1203,10 +1207,10 @@ $html = @'
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
 
-        <!-- BOOKS -->
+        <!-- RESEARCHS -->
         <section class="vision-card" id="card-books">
             <div class="section-heading">
-                <h2>Books</h2>
+                <h2>Researchs</h2>
                 <span></span>
             </div>
             <div class="dropSphere-group" id="container-books"></div>

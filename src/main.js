@@ -222,11 +222,15 @@
                     CLASS: "SPHERE",
                     TYPE: "book",
                     WORD: "BIOMANIFESTO & THE COGNITIVE SYSTEM",
-                    DESCRIPTION: "the unconscious mind, bopdy as source of creativity.",
-                    DATE: "",
+                    DESCRIPTION: "The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization.",
+                    DATE: "02/22",
                     PLACE: "",
-                    MEDIA: [],
-                    TOOLS: ["Philosophical Seed"],
+                    MEDIA: [
+                        { src: "src/sphere/zDial/biodial.png", label: "BioDial" },
+                        { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
+                        { src: "src/sphere/zDial/sphere.png", label: "Sphere" }
+                    ],
+                    TOOLS: ["Biokinetic Research", "Z-Dial"],
                     LINKS: [],
                     RELATIONS: []
                 }
