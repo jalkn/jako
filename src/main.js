@@ -19,9 +19,9 @@
                     CLASS: "DROP",
                     TYPE: "education",
                     WORD: "Full Stack Development",
-                    DESCRIPTION: "W3Schools",
+                    DESCRIPTION: "Certifications",
                     DATE: "12/23",
-                    PLACE: "Online",
+                    PLACE: "W3Schools, Online",
                     MEDIA: [
                         { src: "src/drop/certify/sqlmedia.png", label: "SQL" },
                         { src: "src/drop/certify/pythonmedia.png", label: "Python" },
@@ -39,10 +39,10 @@
                     ID: "drop-edu-02",
                     CLASS: "DROP",
                     TYPE: "education",
-                    WORD: "Fine Arts Recognition Level 7",
-                    DESCRIPTION: "NZQA",
+                    WORD: "Fine Arts",
+                    DESCRIPTION: "Recognition Level 7",
                     DATE: "12/22",
-                    PLACE: "Auckland, NZ",
+                    PLACE: "NZQA, Auckland, NZ",
                     MEDIA: [
                         { src: "src/drop/certify/NZQA.png", label: "Degree" }
                     ],
@@ -54,15 +54,15 @@
                     ID: "drop-edu-03",
                     CLASS: "DROP",
                     TYPE: "education",
-                    WORD: "Plastic Arts Educator Degree",
-                    DESCRIPTION: "University of Antioquia",
+                    WORD: "Plastic Arts Educator",
+                    DESCRIPTION: "Degree",
                     DATE: "03/15",
-                    PLACE: "Medellín, COL",
+                    PLACE: "University of Antioquia, Medellín, COL",
                     MEDIA: [
                         { src: "src/drop/certify/degreemedia.png", label: "English" },
                         { src: "src/drop/certify/certificadoGrado.png", label: "Spanish" }
                     ],
-                    TOOLS: ["Action Painting", "Sculpture", "Drawing", "Video Art", "Photography"],
+                    TOOLS: ["Action Painting", "Performance", "Drawing", "Video Art", "Photography"],
                     LINKS: [],
                     RELATIONS: []
                 },
