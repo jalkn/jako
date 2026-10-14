@@ -731,14 +731,15 @@ $js = @'
                     DATE: "12/23",
                     PLACE: "Online",
                     MEDIA: [
-                        { src: "src/certify/sqlmedia.png", label: "SQL" },
-                        { src: "src/certify/pythonmedia.png", label: "Python" },
-                        { src: "src/certify/pandasmedia.png", label: "Pandas" },
-                        { src: "src/certify/djangomedia.png", label: "Django" },
-                        { src: "src/certify/AWScloudmedia.png", label: "AWS Cloud" },
-                        { src: "src/certify/htmlmedia.png", label: "HTML" }
+                        { src: "src/drop/certify/sqlmedia.png", label: "SQL" },
+                        { src: "src/drop/certify/pythonmedia.png", label: "Python" },
+                        { src: "src/drop/certify/pandasmedia.png", label: "Pandas" },
+                        { src: "src/drop/certify/djangomedia.png", label: "Django" },
+                        { src: "src/drop/certify/AWScloudmedia.png", label: "AWS Cloud" },
+                        { src: "src/drop/certify/htmlmedia.png", label: "HTML" },
+                        { src: "src/drop/certify/phpMedia.png", label: "PHP" },
                     ],
-                    TOOLS: ["SQL", "Python", "Pandas", "Django", "AWS", "HTML"],
+                    TOOLS: ["SQL", "Python", "Pandas", "Django", "AWS", "HTML", "PHP", "JS"],
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -751,9 +752,9 @@ $js = @'
                     DATE: "12/22",
                     PLACE: "Auckland, NZ",
                     MEDIA: [
-                        { src: "src/certify/NZQA.png", label: "Degree" }
+                        { src: "src/drop/certify/NZQA.png", label: "Degree" }
                     ],
-                    TOOLS: [],
+                    TOOLS: ["Media Art", "Generative Art", "Land Art", "Biokinetic Art"],
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -766,10 +767,10 @@ $js = @'
                     DATE: "03/15",
                     PLACE: "Medellín, COL",
                     MEDIA: [
-                        { src: "src/certify/degreemedia.png", label: "English" },
-                        { src: "src/certify/certificadoGrado.png", label: "Spanish" }
+                        { src: "src/drop/certify/degreemedia.png", label: "English" },
+                        { src: "src/drop/certify/certificadoGrado.png", label: "Spanish" }
                     ],
-                    TOOLS: [],
+                    TOOLS: ["Action Painting", "Sculpture", "Drawing", "Video Art", "Photography"],
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -942,8 +943,8 @@ $js = @'
                     ID: "sphere-book-02",
                     CLASS: "SPHERE",
                     TYPE: "book",
-                    WORD: "Z-DIAL — BIOKINETIC SYSTEM",
-                    DESCRIPTION: "A biokinetic research system exploring alphanumeric coordinates, wave fields, and the Sandwatch model.",
+                    WORD: "Z-DIAL — BIOKINETIC ENGINE",
+                    DESCRIPTION: "A biokinetic transducer that transforms temporal and movement variables into alphanumeric coordinates through the P.U.L.S. vector language and the three-wave model: REPS, VECTOR, and SETS.",
                     DATE: "",
                     PLACE: "",
                     MEDIA: [
@@ -951,10 +952,11 @@ $js = @'
                         { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
                         { src: "src/sphere/zDial/sphere.png", label: "Sphere" }
                     ],
-                    TOOLS: ["Biokinetic Research", "Z-Dial"],
+                    TOOLS: ["P.U.L.S.", "Three-Wave Model", "Biokinetic Transduction"],
                     LINKS: [],
                     RELATIONS: []
                 }
+
             ]
         };
 
@@ -998,12 +1000,12 @@ $js = @'
                 const hasMedia = item.MEDIA && item.MEDIA.length > 0;
                 const toggleClass = hasMedia ? 'media-toggle' : '';
 
-                // Build media gallery HTML if images are present
+                // Construcción del HTML de la galería con lazy loading para imágenes
                 let mediaHtml = '';
                 if (hasMedia) {
                     const galleryItems = item.MEDIA.map((m) => `
                         <button class="media-item" type="button" data-media-src="${m.src}" data-media-alt="${m.label}">
-                            <img src="${m.src}" alt="${m.label}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'50\\' height=\\'50\\'><rect width=\\'50\\' height=\\'50\\' fill=\\'%23ccc\\'/></svg>'">
+                            <img src="${m.src}" alt="${m.label}" loading="lazy" decoding="async" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'50\\' height=\\'50\\'><rect width=\\'50\\' height=\\'50\\' fill=\\'%23ccc\\'/></svg>'">
                             <span>${m.label}</span>
                         </button>
                     `).join('');
@@ -1013,7 +1015,7 @@ $js = @'
                             ${galleryItems}
                         </div>
                         <div class="media-preview selected-media-preview" id="preview-${item.ID}" aria-live="polite">
-                            <img alt="Selected view" src="">
+                            <img alt="Selected view" src="" loading="lazy" decoding="async">
                         </div>
                     `;
                 }
@@ -1220,14 +1222,14 @@ $html = @'
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
 
-        <!-- RESEARCHS -->
+        <!-- RESEARCHS 
         <section class="vision-card" id="card-books">
             <div class="section-heading">
                 <h2>Researchs</h2>
                 <span></span>
             </div>
             <div class="dropSphere-group" id="container-books"></div>
-        </section>
+        </section> -->
 
     </main>
 
