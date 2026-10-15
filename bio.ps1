@@ -908,7 +908,7 @@ $js = @'
                     TYPE: "project",
                     WORD: "fotopanel.art",
                     DESCRIPTION: "Mobile and Web app",
-                    DATE: "",
+                    DATE: "11/23",
                     PLACE: "",
                     MEDIA: [],
                     TOOLS: ["Visual Systems", "Physical Computing"],
@@ -947,11 +947,11 @@ $js = @'
                     CLASS: "SPHERE",
                     TYPE: "book",
                     WORD: "BIOMANIFESTO & THE COGNITIVE SYSTEM",
-                    DESCRIPTION: "The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization.",
+                    DESCRIPTION: "",
                     DATE: "02/22",
                     PLACE: "",
                     MEDIA: [],
-                    TOOLS: ["Philosophical Seed"],
+                    TOOLS: ["The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization."],
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -960,15 +960,16 @@ $js = @'
                     CLASS: "SPHERE",
                     TYPE: "book",
                     WORD: "Z-DIAL — BIOKINETIC ENGINE",
-                    DESCRIPTION: "A biokinetic transducer that transforms temporal and movement variables into alphanumeric coordinates through the P.U.L.S. vector language and the three-wave model: REPS, VECTOR, and SETS.",
-                    DATE: "",
+                    DESCRIPTION: "",
+                    DATE: "0626",
                     PLACE: "",
                     MEDIA: [
                         { src: "src/sphere/zDial/biodial.png", label: "BioDial" },
                         { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
                         { src: "src/sphere/zDial/sphere.png", label: "Sphere" }
                     ],
-                    TOOLS: ["P.U.L.S.", "Three-Wave Model", "Biokinetic Transduction"],
+                    TOOLS: [""
+                    ],
                     LINKS: [],
                     RELATIONS: []
                 }

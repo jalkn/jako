@@ -1,7 +1,5 @@
-
         /**
          * JAKO DATABASE - Centralized Entity Registry
-         * Canonical Backend Source of Truth
          */
         const JAKO_DATABASE = {
             metadata: {
@@ -11,9 +9,6 @@
                 architecture: "SUN_BODY_SPIRIT"
             },
             entities: [
-                // ---------------------------------------------------------
-                // DROPS - EDUCATION
-                // ---------------------------------------------------------
                 {
                     ID: "drop-edu-01",
                     CLASS: "DROP",
@@ -66,10 +61,6 @@
                     LINKS: [],
                     RELATIONS: []
                 },
-
-                // ---------------------------------------------------------
-                // DROPS - EXPERIENCE
-                // ---------------------------------------------------------
                 {
                     ID: "drop-exp-01",
                     CLASS: "DROP",
@@ -141,10 +132,6 @@
                     LINKS: [],
                     RELATIONS: []
                 },
-
-                // ---------------------------------------------------------
-                // SPHERES - PROJECTS
-                // ---------------------------------------------------------
                 {
                     ID: "sphere-proj-02",
                     CLASS: "SPHERE",
@@ -184,7 +171,7 @@
                     TYPE: "project",
                     WORD: "fotopanel.art",
                     DESCRIPTION: "Mobile and Web app",
-                    DATE: "",
+                    DATE: "11/23",
                     PLACE: "",
                     MEDIA: [],
                     TOOLS: ["Visual Systems", "Physical Computing"],
@@ -214,20 +201,16 @@
                     LINKS: [],
                     RELATIONS: []
                 },
-
-                // ---------------------------------------------------------
-                // SPHERES - BOOKS
-                // ---------------------------------------------------------
                 {
                     ID: "sphere-book-01",
                     CLASS: "SPHERE",
                     TYPE: "book",
                     WORD: "BIOMANIFESTO & THE COGNITIVE SYSTEM",
-                    DESCRIPTION: "The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization.",
+                    DESCRIPTION: "",
                     DATE: "02/22",
                     PLACE: "",
                     MEDIA: [],
-                    TOOLS: ["Philosophical Seed"],
+                    TOOLS: ["The unconscious mind and the body as a source of creativity. Z-Dial biokinetic visualization."],
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -236,25 +219,21 @@
                     CLASS: "SPHERE",
                     TYPE: "book",
                     WORD: "Z-DIAL — BIOKINETIC ENGINE",
-                    DESCRIPTION: "A biokinetic transducer that transforms temporal and movement variables into alphanumeric coordinates through the P.U.L.S. vector language and the three-wave model: REPS, VECTOR, and SETS.",
-                    DATE: "",
+                    DESCRIPTION: "",
+                    DATE: "0626",
                     PLACE: "",
                     MEDIA: [
                         { src: "src/sphere/zDial/biodial.png", label: "BioDial" },
                         { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
                         { src: "src/sphere/zDial/sphere.png", label: "Sphere" }
                     ],
-                    TOOLS: ["P.U.L.S.", "Three-Wave Model", "Biokinetic Transduction"],
+                    TOOLS: [""],
                     LINKS: [],
                     RELATIONS: []
                 }
-
             ]
         };
 
-        /* =========================================================
-           8. VALIDATION & FRONTEND TRANSLATION LAYER
-           ========================================================= */
         function validateDatabase(db) {
             const validPairs = [
                 { CLASS: "DROP", TYPE: "education" },
@@ -271,10 +250,6 @@
             });
         }
 
-        /**
-         * Generic Component Renderer
-         * Translates backend entities to the frontend visual components
-         */
         function renderEntityGroup(typeFilter, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -282,7 +257,7 @@
             const entities = JAKO_DATABASE.entities.filter(e => e.TYPE === typeFilter);
 
             container.innerHTML = entities.map((item) => {
-                const toolsList = item.TOOLS.length > 0
+                const toolsList = item.TOOLS.length > 0 && item.TOOLS[0] !== ""
                     ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>`
                     : '';
 
@@ -295,7 +270,6 @@
                 const hasMedia = item.MEDIA && item.MEDIA.length > 0;
                 const toggleClass = hasMedia ? 'media-toggle' : '';
 
-                // Construcción del HTML de la galería con lazy loading para imágenes
                 let mediaHtml = '';
                 if (hasMedia) {
                     const galleryItems = item.MEDIA.map((m) => `
@@ -316,7 +290,7 @@
                 }
 
                 return `
-<div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                    <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
                         <div class="dropSphere-value">
                             <div class="dropSphere-line-primary">
                                 <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
@@ -333,26 +307,23 @@
             }).join('');
         }
 
-        /* =========================================================
-           9. INTERACTION CONTROLLERS (INDEPENDENT TOGGLES & FULL WIDTH PREVIEWS)
-           ========================================================= */
         function initInteractions() {
-            // SUN — Accessible theme controller
+            // SUN — Accessible Theme Controller
             const themeBtn = document.getElementById('theme-toggle');
 
             if (themeBtn) {
                 themeBtn.addEventListener('click', () => {
-                    const isDark = document.body.classList.toggle('dark-mode');
+                    const isLight = document.body.classList.toggle('light-mode');
 
-                    themeBtn.setAttribute('aria-pressed', String(isDark));
+                    themeBtn.setAttribute('aria-pressed', String(!isLight));
                     themeBtn.setAttribute(
                         'aria-label',
-                        isDark ? 'Switch to light theme' : 'Switch to dark theme'
+                        isLight ? 'Switch to dark theme' : 'Switch to light theme'
                     );
                 });
             }
 
-            // Print / PDF Controller
+            // Print / PDF Controller in Header Controls
             const pdfBtn = document.getElementById('download-pdf');
 
             if (pdfBtn) {
@@ -361,9 +332,8 @@
                 });
             }
 
-            // Independent Accordion & Image Viewport Controller
+            // Accordion & Image Viewport Controller
             document.addEventListener('click', (e) => {
-                // Handle Entity Row Gallery Toggle (Independent toggle per entity)
                 const toggleRow = e.target.closest('.media-toggle');
                 if (toggleRow) {
                     const entityId = toggleRow.getAttribute('data-entity-id');
@@ -373,24 +343,20 @@
                     if (gallery) {
                         const isOpen = gallery.classList.contains('is-open');
                         if (isOpen) {
-                            // Close this specific gallery and its large preview
                             gallery.classList.remove('is-open');
                             if (preview) {
                                 preview.classList.remove('is-open');
                                 const img = preview.querySelector('img');
                                 if (img) img.src = '';
                             }
-                            // Clear selected state on thumbnails
                             gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
                         } else {
-                            // Open this specific gallery without closing others
                             gallery.classList.add('is-open');
                         }
                     }
                     return;
                 }
 
-                // Handle Gallery Thumbnail Selection
                 const mediaItem = e.target.closest('.media-item');
                 if (mediaItem) {
                     const src = mediaItem.getAttribute('data-media-src');
@@ -400,15 +366,12 @@
                     if (previewContainer && previewContainer.classList.contains('selected-media-preview')) {
                         const img = previewContainer.querySelector('img');
 
-                        // Toggle logic: if clicking the currently active image, close the large preview
                         if (mediaItem.classList.contains('is-selected')) {
                             mediaItem.classList.remove('is-selected');
                             previewContainer.classList.remove('is-open');
                             img.src = '';
                         } else {
-                            // Clear other selection highlights in this gallery
                             gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
-
                             mediaItem.classList.add('is-selected');
                             img.src = src;
                             previewContainer.classList.add('is-open');
@@ -418,7 +381,6 @@
             });
         }
 
-        /* Initialization execution */
         document.addEventListener('DOMContentLoaded', () => {
             validateDatabase(JAKO_DATABASE);
             renderEntityGroup('education', 'container-education');

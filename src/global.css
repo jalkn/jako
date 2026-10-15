@@ -1,19 +1,7 @@
-
         /* =========================================================
-           1. DESIGN TOKENS & GLOBAL RESETS
+           1. DESIGN TOKENS & GLOBAL RESETS (DEFAULT: DARK MODE)
            ========================================================= */
         :root {
-            --jako-bg: #f4f5f7;
-            --jako-text: #0d0d0d;
-            --jako-border: rgba(0, 0, 0, 0.12);
-            --jako-glass: rgba(255, 255, 255, 0.88);
-            --gradient-start: rgba(0, 0, 0, 0.02);
-            --gradient-mid: rgba(244, 245, 247, 0.85);
-            --gradient-end: #f4f5f7;
-            --icon-hover: #000;
-        }
-
-        body.dark-mode {
             --jako-bg: #111315;
             --jako-text: #f4f5f7;
             --jako-border: rgba(255, 255, 255, 0.16);
@@ -22,6 +10,17 @@
             --gradient-mid: rgba(17, 19, 21, 0.86);
             --gradient-end: #111315;
             --icon-hover: #fff;
+        }
+
+        body.light-mode {
+            --jako-bg: #f4f5f7;
+            --jako-text: #0d0d0d;
+            --jako-border: rgba(0, 0, 0, 0.12);
+            --jako-glass: rgba(255, 255, 255, 0.88);
+            --gradient-start: rgba(0, 0, 0, 0.02);
+            --gradient-mid: rgba(244, 245, 247, 0.85);
+            --gradient-end: #f4f5f7;
+            --icon-hover: #000;
         }
 
         *, *::before, *::after {
@@ -44,7 +43,7 @@
             width: 100vw;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             user-select: none;
             position: relative;
@@ -200,6 +199,14 @@
             transition: opacity 0.2s ease;
         }
 
+        .icon-stroke {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .theme-icon {
             fill: none;
             stroke: currentColor;
@@ -223,7 +230,7 @@
         .vision-scroll-viewport {
             width: 100%;
             max-width: 580px;
-            padding: 0.5rem 0.8rem;
+            padding: 0.5rem 0.8rem 1rem 0.8rem;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -241,12 +248,12 @@
             -webkit-backdrop-filter: blur(20px);
             padding: 0.6rem 0.8rem;
             border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             width: 100%;
         }
 
-        body.dark-mode .vision-card {
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        body.light-mode .vision-card {
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
 
         .section-heading {
@@ -277,7 +284,7 @@
             text-align: right;
         }
 
-/* =========================================================
+        /* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -378,26 +385,6 @@
             opacity: 0.55;
             font-size: 8.5px;
         }
-        
-        /* Extension Slot for Biokinetic Dial */
-        .dial-extension-slot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.3rem 0.5rem;
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px dashed var(--jako-border);
-            border-radius: 4px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 7px;
-            letter-spacing: 0.12em;
-            opacity: 0.6;
-            margin-top: 0.2rem;
-        }
-
-        body.dark-mode .dial-extension-slot {
-            background: rgba(255, 255, 255, 0.03);
-        }
 
         /* =========================================================
            5. MEDIA GALLERY & PREVIEWS
@@ -458,7 +445,6 @@
             opacity: 0.6;
         }
 
-        /* Large Preview spanning full width of the entity container */
         .selected-media-preview {
             width: 100%;
         }
@@ -476,35 +462,8 @@
         }
 
         /* =========================================================
-           6. FOOTER & PRINT / PDF STYLES
+           6. PRINT / PDF STYLES
            ========================================================= */
-        .pdf-footer {
-            justify-content: center;
-        }
-
-        .btn-control-action {
-            padding: 0 0.8rem;
-            height: 28px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            border: 1px solid var(--jako-border);
-            border-radius: 4px;
-            background: transparent;
-            color: var(--jako-text);
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            cursor: pointer;
-            transition: border-color 0.2s ease, opacity 0.2s ease;
-        }
-
-        .btn-control-action:hover {
-            border-color: var(--jako-text);
-            opacity: 0.9;
-        }
-
         @media print {
             html, body {
                 height: auto !important;
@@ -535,7 +494,6 @@
                 page-break-inside: avoid;
             }
 
-            /* Preserve open galleries & previews in print */
             .media-preview.is-open {
                 display: flex !important;
             }
@@ -550,7 +508,6 @@
                 print-color-adjust: exact !important;
             }
         }
-
 
         @media (max-width: 360px) {
             .site-header {
