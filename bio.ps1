@@ -767,7 +767,7 @@ $js = @'
                     DATE: "03/15",
                     PLACE: "University of Antioquia, Medellín, COL",
                     MEDIA: [
-                        { src: "src/drop/certify/degreemedia.png", label: "English" },
+                        { src: "src/drop/certify/degreeQ.png", label: "English" },
                         { src: "src/drop/certify/certificadoGrado.png", label: "Spanish" }
                     ],
                     TOOLS: ["Art Education & Pedagogy", "Action Painting", "Performance", "Drawing", "Video Art", "Photography"],
