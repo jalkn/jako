@@ -418,7 +418,7 @@ $css = @'
             text-align: right;
         }
 
-        /* =========================================================
+/* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -455,13 +455,12 @@ $css = @'
         .dropSphere-group {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.5rem;
         }
 
         .dropSphere-row {
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+            flex-direction: column;
             width: 100%;
             cursor: pointer;
             transition: opacity 0.15s ease;
@@ -472,31 +471,43 @@ $css = @'
         }
 
         .dropSphere-value {
-            flex: 1;
-            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            width: 100%;
             font-size: 11px;
             line-height: 1.3;
         }
 
+        .dropSphere-line-primary {
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .dropSphere-line-secondary {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
 
         .dropSphere-label {
             flex-shrink: 0;
-            min-width: 55px;
-            margin-right: 0.8rem;
-            margin-left: 0;
             font-family: monospace;
             font-size: 8px;
             font-weight: 500;
             letter-spacing: 0.02em;
             opacity: 0.55;
-            text-align: right;
-            line-height: 1.15;
-            white-space: pre-line;
+            line-height: 1;
+            white-space: nowrap;
         }
 
         .experience-tools {
-            display: block;
-            margin-top: 0.15rem;
+            display: inline-block;
             font-family: 'Orbitron', sans-serif;
             font-size: 6px;
             font-weight: 700;
@@ -508,7 +519,7 @@ $css = @'
             opacity: 0.55;
             font-size: 8.5px;
         }
-
+        
         /* Extension Slot for Biokinetic Dial */
         .dial-extension-slot {
             display: flex;
@@ -1029,13 +1040,17 @@ $js = @'
                 }
 
                 return `
-                    <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
-                        <span class="dropSphere-label">${dateLabel}</span>
-                        <span class="dropSphere-value">
-                            <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
-                            ${placeLabel}
-                            ${toolsList}
-                        </span>
+<div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                        <div class="dropSphere-value">
+                            <div class="dropSphere-line-primary">
+                                <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
+                                ${placeLabel}
+                            </div>
+                            <div class="dropSphere-line-secondary">
+                                <span class="dropSphere-label">${dateLabel}</span>
+                                ${toolsList}
+                            </div>
+                        </div>
                     </div>
                     ${mediaHtml}
                 `;
