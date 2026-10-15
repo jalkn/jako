@@ -415,7 +415,8 @@ $css = @'
             opacity: 0.5;
             text-transform: uppercase;
         }
-/* =========================================================
+
+        /* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -486,10 +487,6 @@ $css = @'
             opacity: 0.7;
             text-align: right;
             text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 0.4rem;
         }
 
         .experience-tools {
@@ -505,87 +502,6 @@ $css = @'
         .metadata {
             opacity: 0.55;
             font-size: 8.5px;
-        }
-
-        /* Lock / Unlock Authorization Button Styles */
-        .verify-lock-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 6.5px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 1px 5px;
-            border: 1px solid var(--jako-border);
-            border-radius: 3px;
-            background: transparent;
-            color: var(--jako-text);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .verify-lock-btn:hover {
-            background: var(--jako-text);
-            color: var(--jako-bg);
-        }
-
-        /* OTP Authorization Panel Inline Styles */
-        .otp-verify-panel {
-            display: none;
-            flex-direction: column;
-            gap: 0.35rem;
-            padding: 0.45rem 0.6rem;
-            margin-top: 0.3rem;
-            border: 1px dashed var(--jako-border);
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        body.dark-mode .otp-verify-panel {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .otp-verify-panel.is-open {
-            display: flex;
-        }
-
-        .otp-input-group {
-            display: flex;
-            gap: 0.4rem;
-        }
-
-        .otp-input {
-            flex: 1;
-            background: transparent;
-            border: 1px solid var(--jako-border);
-            border-radius: 3px;
-            padding: 0.2rem 0.4rem;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 10px;
-            color: var(--jako-text);
-            outline: none;
-        }
-
-        .otp-input:focus {
-            border-color: var(--jako-text);
-        }
-
-        .otp-submit-btn {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 7px;
-            font-weight: 700;
-            padding: 0 0.5rem;
-            border: 1px solid var(--jako-border);
-            border-radius: 3px;
-            background: var(--jako-text);
-            color: var(--jako-bg);
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-        }
-
-        .otp-submit-btn:hover {
-            opacity: 0.85;
         }
 
         /* Extension Slot for Biokinetic Dial */
@@ -821,10 +737,9 @@ $js = @'
                         { src: "src/drop/certify/djangomedia.png", label: "Django" },
                         { src: "src/drop/certify/AWScloudmedia.png", label: "AWS Cloud" },
                         { src: "src/drop/certify/htmlmedia.png", label: "HTML" },
-                        { src: "src/drop/certify/phpMedia.png", label: "PHP" }
+                        { src: "src/drop/certify/phpMedia.png", label: "PHP" },
                     ],
                     TOOLS: ["SQL", "Python", "Pandas", "Django", "AWS", "HTML", "PHP", "JS"],
-                    PROTECTED: true,
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -840,7 +755,6 @@ $js = @'
                         { src: "src/drop/certify/NZQA.png", label: "Degree" }
                     ],
                     TOOLS: ["Media Art", "Generative Art", "Land Art", "Biokinetic Art"],
-                    PROTECTED: true,
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -857,7 +771,6 @@ $js = @'
                         { src: "src/drop/certify/certificadoGrado.png", label: "Spanish" }
                     ],
                     TOOLS: ["Art Education & Pedagogy", "Action Painting", "Performance", "Drawing", "Video Art", "Photography"],
-                    PROTECTED: true,
                     LINKS: [],
                     RELATIONS: []
                 },
@@ -1066,9 +979,9 @@ $js = @'
             });
         }
 
-/**
+        /**
          * Generic Component Renderer
-         * Translates backend entities to the frontend visual components with optional protection lock
+         * Translates backend entities to the frontend visual components
          */
         function renderEntityGroup(typeFilter, containerId) {
             const container = document.getElementById(containerId);
@@ -1085,20 +998,9 @@ $js = @'
                 const dateLabel = item.DATE || '—';
 
                 const hasMedia = item.MEDIA && item.MEDIA.length > 0;
-                const isProtected = Boolean(item.PROTECTED);
-                const toggleClass = (hasMedia && !isProtected) ? 'media-toggle' : '';
+                const toggleClass = hasMedia ? 'media-toggle' : '';
 
-                // Integrated SVG Eye Icon + VIEW Button Lock UI
-                const lockAction = isProtected ? `
-                    <button class="verify-lock-btn" type="button" data-auth-id="${item.ID}" onclick="toggleOtpPanel(event, '${item.ID}')">
-                        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px; height:10px;">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        VIEW
-                    </button>
-                ` : '';
-
+                // Construcción del HTML de la galería con lazy loading para imágenes
                 let mediaHtml = '';
                 if (hasMedia) {
                     const galleryItems = item.MEDIA.map((m) => `
@@ -1118,21 +1020,6 @@ $js = @'
                     `;
                 }
 
-                // Inline OTP Authorization Panel
-                const otpPanel = isProtected ? `
-                    <div class="otp-verify-panel" id="otp-panel-${item.ID}">
-                        <span style="font-size: 8.5px; opacity: 0.8; font-family: 'Orbitron', sans-serif;">VERIFICATION REQUIRED TO VIEW DIPLOMAS & CERTIFICATES</span>
-                        <div class="otp-input-group">
-                            <input type="text" class="otp-input" id="otp-contact-${item.ID}" placeholder="Enter your email address..." />
-                            <button class="otp-submit-btn" type="button" onclick="sendOtpCode('${item.ID}')">SEND CODE</button>
-                        </div>
-                        <div class="otp-input-group" id="otp-confirm-group-${item.ID}" style="display:none; margin-top:0.25rem;">
-                            <input type="text" class="otp-input" id="otp-code-${item.ID}" placeholder="Enter 6-digit approval code" maxLength="6" />
-                            <button class="otp-submit-btn" type="button" onclick="verifyOtpCode('${item.ID}')">CONFIRM & VIEW</button>
-                        </div>
-                    </div>
-                ` : '';
-
                 return `
                     <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
                         <span class="dropSphere-value">
@@ -1140,81 +1027,11 @@ $js = @'
                             ${placeLabel}
                             ${toolsList}
                         </span>
-                        <span class="dropSphere-label">
-                            ${lockAction}
-                            <span>${dateLabel}</span>
-                        </span>
+                        <span class="dropSphere-label">${dateLabel}</span>
                     </div>
-                    ${otpPanel}
                     ${mediaHtml}
                 `;
             }).join('');
-        }
-
-        /* OTP Authorization Controllers with EmailJS Integration (Option B) */
-        function toggleOtpPanel(event, entityId) {
-            event.stopPropagation();
-            const panel = document.getElementById(`otp-panel-${entityId}`);
-            if (panel) {
-                panel.classList.toggle('is-open');
-            }
-        }
-
-        // Store active OTP code temporarily in memory
-        window.activeOtpCodes = window.activeOtpCodes || {};
-
-        function sendOtpCode(entityId) {
-            const contactInput = document.getElementById(`otp-contact-${entityId}`);
-            const contact = contactInput ? contactInput.value.trim() : '';
-            if (!contact || !contact.includes('@')) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            // Generate a random 6-digit OTP code
-            const generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-            window.activeOtpCodes[entityId] = generatedCode;
-
-            // Dispatch email via EmailJS API directly from GitHub Pages client
-            if (typeof emailjs !== 'undefined') {
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                    to_email: contact,
-                    otp_code: generatedCode,
-                    entity_id: entityId
-                }).then(() => {
-                    alert(`Approval code sent successfully to ${contact}. Check your inbox.`);
-                }).catch((error) => {
-                    console.warn("EmailJS delivery failed, falling back to local verification logic.", error);
-                    alert(`Approval code dispatched to ${contact}. (Testing code: ${generatedCode})`);
-                });
-            } else {
-                // Testing fallback when EmailJS SDK is not active
-                alert(`Approval code dispatched to ${contact}. (Demo code: ${generatedCode})`);
-            }
-
-            const confirmGroup = document.getElementById(`otp-confirm-group-${entityId}`);
-            if (confirmGroup) confirmGroup.style.display = 'flex';
-        }
-
-        function verifyOtpCode(entityId) {
-            const codeInput = document.getElementById(`otp-code-${entityId}`);
-            const inputCode = codeInput ? codeInput.value.trim() : '';
-            const expectedCode = window.activeOtpCodes[entityId];
-
-            if ((expectedCode && inputCode === expectedCode) || inputCode === "123456") {
-                alert("Verification successful. Certificates unlocked.");
-                const panel = document.getElementById(`otp-panel-${entityId}`);
-                if (panel) panel.classList.remove('is-open');
-
-                const gallery = document.getElementById(`gallery-${entityId}`);
-                if (gallery) gallery.classList.add('is-open');
-
-                // Enable interactive gallery click toggle dynamically
-                const row = document.querySelector(`[data-entity-id="${entityId}"]`);
-                if (row) row.classList.add('media-toggle');
-            } else {
-                alert("Invalid verification code. Please check your email and try again.");
-            }
         }
 
         /* =========================================================
@@ -1323,16 +1140,7 @@ $html = @'
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <!-- EmailJS SDK for static website email delivery -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            // Initialize EmailJS with your Public Key
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
-    </script>
-
-    <link rel="stylesheet" href="src/global.css">
+   <link rel="stylesheet" href="src/global.css">
 </head>
 <body>
 
