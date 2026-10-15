@@ -399,14 +399,6 @@ $css = @'
             margin-bottom: 0.4rem;
         }
 
-        .section-heading h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8.5px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
         .section-heading > span {
             font-family: 'Orbitron', sans-serif;
             font-size: 6px;
@@ -414,6 +406,16 @@ $css = @'
             letter-spacing: 0.1em;
             opacity: 0.5;
             text-transform: uppercase;
+            text-align: left;
+        }
+
+        .section-heading h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8.5px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: right;
         }
 
         /* =========================================================
@@ -476,17 +478,20 @@ $css = @'
             line-height: 1.3;
         }
 
+
         .dropSphere-label {
             flex-shrink: 0;
-            min-width: 90px;
-            margin-left: 0.8rem;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 7.5px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            opacity: 0.7;
+            min-width: 55px;
+            margin-right: 0.8rem;
+            margin-left: 0;
+            font-family: monospace;
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            opacity: 0.55;
             text-align: right;
-            text-transform: uppercase;
+            line-height: 1.15;
+            white-space: pre-line;
         }
 
         .experience-tools {
@@ -995,7 +1000,10 @@ $js = @'
                     : '';
 
                 const placeLabel = item.PLACE ? `<span class="metadata">[${item.PLACE}]</span>` : '';
-                const dateLabel = item.DATE || '—';
+                let dateLabel = item.DATE || '—';
+                if (dateLabel.includes(' - ')) {
+                    dateLabel = dateLabel.replace(' - ', '\n');
+                }
 
                 const hasMedia = item.MEDIA && item.MEDIA.length > 0;
                 const toggleClass = hasMedia ? 'media-toggle' : '';
@@ -1022,12 +1030,12 @@ $js = @'
 
                 return `
                     <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                        <span class="dropSphere-label">${dateLabel}</span>
                         <span class="dropSphere-value">
                             <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
                             ${placeLabel}
                             ${toolsList}
                         </span>
-                        <span class="dropSphere-label">${dateLabel}</span>
                     </div>
                     ${mediaHtml}
                 `;
@@ -1194,11 +1202,11 @@ $html = @'
             </div>
         </section>
 
-        <!-- EDUCATION -->
+  <!-- EDUCATION -->
         <section class="vision-card" id="card-education">
             <div class="section-heading">
-                <h2>Education</h2>
                 <span>COMPLETION</span>
+                <h2>Education</h2>
             </div>
             <div class="dropSphere-group" id="container-education"></div>
         </section>
@@ -1206,8 +1214,8 @@ $html = @'
         <!-- JOB EXPERIENCE -->
         <section class="vision-card" id="card-experience">
             <div class="section-heading">
-                <h2>Job Experience</h2>
                 <span>START - END</span>
+                <h2>Job Experience</h2>
             </div>
             <div class="dropSphere-group" id="container-experience"></div>
         </section>
@@ -1216,20 +1224,20 @@ $html = @'
         <!-- PROJECTS -->
         <section class="vision-card" id="card-projects">
             <div class="section-heading">
-                <h2>Projects</h2>
                 <span>LAUNCH</span>
+                <h2>Projects</h2>
             </div>
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
 
-        <!-- RESEARCHS 
+        <!-- RESEARCHS --> 
         <section class="vision-card" id="card-books">
             <div class="section-heading">
-                <h2>Researchs</h2>
-                <span></span>
+                <span>PUBLIC</span>
+                <h2>Research</h2>
             </div>
             <div class="dropSphere-group" id="container-books"></div>
-        </section> -->
+        </section> 
 
     </main>
 

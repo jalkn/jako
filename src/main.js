@@ -287,7 +287,10 @@
                     : '';
 
                 const placeLabel = item.PLACE ? `<span class="metadata">[${item.PLACE}]</span>` : '';
-                const dateLabel = item.DATE || '—';
+                let dateLabel = item.DATE || '—';
+                if (dateLabel.includes(' - ')) {
+                    dateLabel = dateLabel.replace(' - ', '\n');
+                }
 
                 const hasMedia = item.MEDIA && item.MEDIA.length > 0;
                 const toggleClass = hasMedia ? 'media-toggle' : '';
@@ -314,12 +317,12 @@
 
                 return `
                     <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                        <span class="dropSphere-label">${dateLabel}</span>
                         <span class="dropSphere-value">
                             <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
                             ${placeLabel}
                             ${toolsList}
                         </span>
-                        <span class="dropSphere-label">${dateLabel}</span>
                     </div>
                     ${mediaHtml}
                 `;
