@@ -274,8 +274,7 @@
             opacity: 0.5;
             text-transform: uppercase;
         }
-
-        /* =========================================================
+/* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -346,6 +345,10 @@
             opacity: 0.7;
             text-align: right;
             text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.4rem;
         }
 
         .experience-tools {
@@ -361,6 +364,87 @@
         .metadata {
             opacity: 0.55;
             font-size: 8.5px;
+        }
+
+        /* Lock / Unlock Authorization Button Styles */
+        .verify-lock-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6.5px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 1px 5px;
+            border: 1px solid var(--jako-border);
+            border-radius: 3px;
+            background: transparent;
+            color: var(--jako-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .verify-lock-btn:hover {
+            background: var(--jako-text);
+            color: var(--jako-bg);
+        }
+
+        /* OTP Authorization Panel Inline Styles */
+        .otp-verify-panel {
+            display: none;
+            flex-direction: column;
+            gap: 0.35rem;
+            padding: 0.45rem 0.6rem;
+            margin-top: 0.3rem;
+            border: 1px dashed var(--jako-border);
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        body.dark-mode .otp-verify-panel {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .otp-verify-panel.is-open {
+            display: flex;
+        }
+
+        .otp-input-group {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .otp-input {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--jako-border);
+            border-radius: 3px;
+            padding: 0.2rem 0.4rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 10px;
+            color: var(--jako-text);
+            outline: none;
+        }
+
+        .otp-input:focus {
+            border-color: var(--jako-text);
+        }
+
+        .otp-submit-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7px;
+            font-weight: 700;
+            padding: 0 0.5rem;
+            border: 1px solid var(--jako-border);
+            border-radius: 3px;
+            background: var(--jako-text);
+            color: var(--jako-bg);
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .otp-submit-btn:hover {
+            opacity: 0.85;
         }
 
         /* Extension Slot for Biokinetic Dial */
