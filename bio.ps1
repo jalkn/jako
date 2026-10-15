@@ -1205,7 +1205,6 @@ $html = @'
   <!-- EDUCATION -->
         <section class="vision-card" id="card-education">
             <div class="section-heading">
-                <span>COMPLETION</span>
                 <h2>Education</h2>
             </div>
             <div class="dropSphere-group" id="container-education"></div>
@@ -1214,7 +1213,6 @@ $html = @'
         <!-- JOB EXPERIENCE -->
         <section class="vision-card" id="card-experience">
             <div class="section-heading">
-                <span>START - END</span>
                 <h2>Job Experience</h2>
             </div>
             <div class="dropSphere-group" id="container-experience"></div>
@@ -1224,7 +1222,6 @@ $html = @'
         <!-- PROJECTS -->
         <section class="vision-card" id="card-projects">
             <div class="section-heading">
-                <span>LAUNCH</span>
                 <h2>Projects</h2>
             </div>
             <div class="dropSphere-group" id="container-projects"></div>
@@ -1233,7 +1230,6 @@ $html = @'
         <!-- RESEARCHS --> 
         <section class="vision-card" id="card-books">
             <div class="section-heading">
-                <span>PUBLIC</span>
                 <h2>Research</h2>
             </div>
             <div class="dropSphere-group" id="container-books"></div>

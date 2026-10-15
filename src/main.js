@@ -316,13 +316,17 @@
                 }
 
                 return `
-                    <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
-                        <span class="dropSphere-label">${dateLabel}</span>
-                        <span class="dropSphere-value">
-                            <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
-                            ${placeLabel}
-                            ${toolsList}
-                        </span>
+<div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                        <div class="dropSphere-value">
+                            <div class="dropSphere-line-primary">
+                                <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
+                                ${placeLabel}
+                            </div>
+                            <div class="dropSphere-line-secondary">
+                                <span class="dropSphere-label">${dateLabel}</span>
+                                ${toolsList}
+                            </div>
+                        </div>
                     </div>
                     ${mediaHtml}
                 `;
