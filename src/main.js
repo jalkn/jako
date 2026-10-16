@@ -65,9 +65,9 @@
                     ID: "drop-exp-01",
                     CLASS: "DROP",
                     TYPE: "experience",
-                    WORD: "Celsia S.A. E.S.P.",
-                    DESCRIPTION: "Software Developer",
-                    DATE: "03/25 - 10/25",
+                    WORD: "jako.studio",
+                    DESCRIPTION: "Media Art",
+                    DATE: "03/25 - ACTIVE",
                     PLACE: "Medellín, COL",
                     MEDIA: [],
                     TOOLS: ["Python", "SQL", "Pandas", "Git"],
@@ -307,7 +307,7 @@
             }).join('');
         }
 
-function initInteractions() {
+        function initInteractions() {
             // SUN — Accessible Theme Controller
             const themeBtn = document.getElementById('theme-toggle');
 
@@ -332,29 +332,35 @@ function initInteractions() {
                 });
             }
 
-            // Profile Photo Toggle Controller (Dynamically inserts or removes avatar image)
+            // Profile Photo & Name Toggle Controller
             const avatarBtn = document.getElementById('avatar-toggle');
             const engineBox = document.getElementById('engine-box');
+            const profileName = document.getElementById('profile-name');
 
             if (avatarBtn && engineBox) {
                 avatarBtn.addEventListener('click', () => {
                     let existingAvatar = engineBox.querySelector('.engine-avatar');
 
                     if (existingAvatar) {
-                        // If image is visible, remove it to collapse back to initial layout
+                        // Collapse photo and restore name to 'JAKO'
                         existingAvatar.remove();
+                        if (profileName) profileName.textContent = 'JAKO';
                     } else {
-                        // Create and prepend image element to restore original layout
+                        // Create and prepend photo element, update name to full title
                         const img = document.createElement('img');
                         img.src = 'src/img/photo.png';
                         img.alt = 'Alejandro Monsalve M.';
                         img.className = 'engine-avatar';
                         img.onerror = function() { this.style.display = 'none'; };
 
-                        // Clicking directly on the photo also removes it
-                        img.addEventListener('click', () => img.remove());
+                        // Clicking directly on the photo also removes it and resets name to 'JAKO'
+                        img.addEventListener('click', () => {
+                            img.remove();
+                            if (profileName) profileName.textContent = 'JAKO';
+                        });
 
                         engineBox.prepend(img);
+                        if (profileName) profileName.textContent = 'ALEJANDRO MONSALVE M.';
                     }
                 });
             }

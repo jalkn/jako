@@ -20,11 +20,17 @@
         <a class="site-brand-lockup" href="#top" aria-label="JAKO home">
             <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
                 <g transform="rotate(180 50 50)">
+                    <!-- Upper Trapezoid (Inverted Mirror) -->
+                    <polygon points="80,20 20,20 30,35 70,35" />
+
+                    <!-- Center Diamond -->
                     <polygon points="50,42 58,50 50,58 42,50" />
+
+                    <!-- Lower Trapezoid -->
                     <polygon points="30,65 70,65 80,80 20,80" />
                 </g>
             </svg>
-            <span class="site-brand">JAKO</span>
+            <span class="site-brand">BIO</span>
         </a>
 
         <nav class="header-controls" aria-label="Global controls">
@@ -54,30 +60,30 @@
          ========================================================= -->
     <main class="vision-scroll-viewport" id="main-viewport">
 
-        <!-- MACRO-BLOCK 2: BODY -->
-                <section class="vision-card" id="card-profile">
-                    <!-- Profile Engine Box (Avatar will be inserted dynamically at the start of engine-box) -->
-                    <div class="engine-box" id="engine-box">
-                        <div>
-                            <!-- Title Block with Embedded Toggle Button -->
-                            <div class="engine-title-block">
-                                
-                                <button class="profile-photo-btn" id="avatar-toggle" type="button" aria-label="Toggle profile photo" title="Toggle photo">
+<!-- MACRO-BLOCK 2: BODY -->
+        <section class="vision-card" id="card-profile">
+            <!-- Profile Engine Box (Avatar is inserted/removed dynamically) -->
+            <div class="engine-box" id="engine-box">
+                <div>
+                    <!-- Title Block with Default 'JAKO' Name and Embedded Toggle Button -->
+                    <div class="engine-title-block">
+                        
+                        <button class="profile-photo-btn" id="avatar-toggle" type="button" aria-label="Toggle profile photo" title="Toggle photo">
                                     <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
                                         <g transform="rotate(90 50 50)">
                                             <polygon points="50,42 58,50 50,58 42,50" />
                                             <polygon points="30,65 70,65 80,80 20,80" />
                                         </g>
                                     </svg>
-                                </button>
-                                <span>ALEJANDRO MONSALVE M.</span>
-                            </div>
-                            <p class="engine-text">
-                                Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
-                            </p>
-                        </div>
+                        </button>
+                        <span id="profile-name">JAKO</span>
                     </div>
-                </section>
+                    <p class="engine-text">
+                        Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
+                    </p>
+                </div>
+            </div>
+        </section>
 
         <!-- EDUCATION -->
         <section class="vision-card" id="card-education">
@@ -103,7 +109,6 @@
             </div>
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
-
         <!-- RESEARCH --> 
         <section class="vision-card" id="card-books">
             <div class="section-heading">

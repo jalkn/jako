@@ -387,7 +387,7 @@ $css = @'
             text-align: right;
         }
 
-        /* =========================================================
+/* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -403,14 +403,53 @@ $css = @'
             object-fit: cover;
             border: 1px solid var(--jako-border);
             flex-shrink: 0;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
         }
 
+        .engine-avatar:hover {
+            opacity: 0.85;
+        }
+
+        /* Profile Title Block & Embedded SVG Button */
         .engine-title-block {
             font-family: 'Orbitron', sans-serif;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.15em;
             margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .profile-photo-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--jako-text);
+            opacity: 0.6;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+
+        .profile-photo-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .profile-photo-icon {
+            width: 13px;
+            height: 13px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .engine-text {
@@ -708,9 +747,9 @@ $js = @'
                     ID: "drop-exp-01",
                     CLASS: "DROP",
                     TYPE: "experience",
-                    WORD: "Celsia S.A. E.S.P.",
-                    DESCRIPTION: "Software Developer",
-                    DATE: "03/25 - 10/25",
+                    WORD: "jako.studio",
+                    DESCRIPTION: "Media Art",
+                    DATE: "03/25 - ACTIVE",
                     PLACE: "Medellín, COL",
                     MEDIA: [],
                     TOOLS: ["Python", "SQL", "Pandas", "Git"],
@@ -975,6 +1014,39 @@ $js = @'
                 });
             }
 
+            // Profile Photo & Name Toggle Controller
+            const avatarBtn = document.getElementById('avatar-toggle');
+            const engineBox = document.getElementById('engine-box');
+            const profileName = document.getElementById('profile-name');
+
+            if (avatarBtn && engineBox) {
+                avatarBtn.addEventListener('click', () => {
+                    let existingAvatar = engineBox.querySelector('.engine-avatar');
+
+                    if (existingAvatar) {
+                        // Collapse photo and restore name to 'JAKO'
+                        existingAvatar.remove();
+                        if (profileName) profileName.textContent = 'JAKO';
+                    } else {
+                        // Create and prepend photo element, update name to full title
+                        const img = document.createElement('img');
+                        img.src = 'src/img/photo.png';
+                        img.alt = 'Alejandro Monsalve M.';
+                        img.className = 'engine-avatar';
+                        img.onerror = function() { this.style.display = 'none'; };
+
+                        // Clicking directly on the photo also removes it and resets name to 'JAKO'
+                        img.addEventListener('click', () => {
+                            img.remove();
+                            if (profileName) profileName.textContent = 'JAKO';
+                        });
+
+                        engineBox.prepend(img);
+                        if (profileName) profileName.textContent = 'ALEJANDRO MONSALVE M.';
+                    }
+                });
+            }
+
             // Accordion & Image Viewport Controller
             document.addEventListener('click', (e) => {
                 const toggleRow = e.target.closest('.media-toggle');
@@ -1057,11 +1129,17 @@ $html = @'
         <a class="site-brand-lockup" href="#top" aria-label="JAKO home">
             <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
                 <g transform="rotate(180 50 50)">
+                    <!-- Upper Trapezoid (Inverted Mirror) -->
+                    <polygon points="80,20 20,20 30,35 70,35" />
+
+                    <!-- Center Diamond -->
                     <polygon points="50,42 58,50 50,58 42,50" />
+
+                    <!-- Lower Trapezoid -->
                     <polygon points="30,65 70,65 80,80 20,80" />
                 </g>
             </svg>
-            <span class="site-brand">JAKO</span>
+            <span class="site-brand">BIO</span>
         </a>
 
         <nav class="header-controls" aria-label="Global controls">
@@ -1091,12 +1169,24 @@ $html = @'
          ========================================================= -->
     <main class="vision-scroll-viewport" id="main-viewport">
 
-        <!-- MACRO-BLOCK 2: BODY -->
+<!-- MACRO-BLOCK 2: BODY -->
         <section class="vision-card" id="card-profile">
-            <div class="engine-box">
-                <img src="src/img/photo.png" alt="Alejandro Monsalve M." class="engine-avatar" onerror="this.style.display='none'">
+            <!-- Profile Engine Box (Avatar is inserted/removed dynamically) -->
+            <div class="engine-box" id="engine-box">
                 <div>
-                    <div class="engine-title-block">ALEJANDRO MONSALVE M.</div>
+                    <!-- Title Block with Default 'JAKO' Name and Embedded Toggle Button -->
+                    <div class="engine-title-block">
+                        
+                        <button class="profile-photo-btn" id="avatar-toggle" type="button" aria-label="Toggle profile photo" title="Toggle photo">
+                                    <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+                                        <g transform="rotate(90 50 50)">
+                                            <polygon points="50,42 58,50 50,58 42,50" />
+                                            <polygon points="30,65 70,65 80,80 20,80" />
+                                        </g>
+                                    </svg>
+                        </button>
+                        <span id="profile-name">JAKO</span>
+                    </div>
                     <p class="engine-text">
                         Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
                     </p>
@@ -1128,7 +1218,6 @@ $html = @'
             </div>
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
-
         <!-- RESEARCH --> 
         <section class="vision-card" id="card-books">
             <div class="section-heading">
