@@ -1,4 +1,3 @@
-
 # JAKO Portfolio — Canonical Generator
 # Source: bio.ps1 | Output: index.html
 
@@ -37,7 +36,7 @@ SPIRIT — Projects and Books.
 SUN
 └── site-header
     ├── site-brand
-    └── header-controls
+    └── header-controls (GitHub, PDF, Theme Toggle)
 
 BODY
 ├── section-profile
@@ -62,7 +61,7 @@ src/global.css
 │
 ├── 02. THEMES
 │   ├── Light
-│   └── Dark
+│   └── Dark (Default)
 │
 ├── 03. GLOBAL FOUNDATION
 │   ├── Reset and box-sizing
@@ -87,74 +86,25 @@ src/global.css
 │
 └── 09. RESPONSIVE AND PRINT
 
-CLASS != TYPE != FRONTEND SECTION
-
-CLASS: DROP | SPHERE
-TYPE: education | experience | project | book
-
-DROP + education  -> Education
-DROP + experience -> Job Experience
-SPHERE + project  -> Projects
-SPHERE + book     -> Books
-
-
-STRATEGIC MODEL — 70/30
------------------------
-
-70% — COMMERCIAL ENGINE:
-    Validate commercial projects and generate income.
-    Initial priority: Fotopanel.art.
-
-30% — ARTISTIC RESEARCH:
-    Develop JAKO, its public portfolio, Z-Dial,
-    Biokinetic Engine, and related artistic work.
-
-The 70/30 ratio is a proposed 90-day allocation
-of time and energy, not ownership or revenue sharing.
-
-The JAKO portfolio belongs to the 30% research track.
-Commercial projects such as Fotopanel.art belong
-to the 70% track.
-
 GENERATOR CONTRACT
 ------------------
 
 bio.ps1 is the canonical source for the public portfolio.
 bio.ps1 generates index.html at the repository root and writes
 CSS and JavaScript to src/global.css and src/main.js.
-
-Preserve content, design, functionality, and asset paths.
-Do not invent entities, data, links, or relationships.
-Do not edit generated files as the source of truth.
-Do not change output responsibilities without approval.
-Distinguish implemented behavior from verified behavior.
 #>
 
-
 $ErrorActionPreference = 'Stop'
-$ProjectRoot = $PSScriptRoot
+$ProjectRoot =$PSScriptRoot
 $OutputPath = Join-Path $ProjectRoot 'index.html'
-
 $CssPath = Join-Path $ProjectRoot 'src/global.css'
 $JsPath = Join-Path $ProjectRoot 'src/main.js'
 
 $css = @'
-
         /* =========================================================
-           1. DESIGN TOKENS & GLOBAL RESETS
+           1. DESIGN TOKENS & GLOBAL RESETS (DEFAULT: DARK MODE)
            ========================================================= */
         :root {
-            --jako-bg: #f4f5f7;
-            --jako-text: #0d0d0d;
-            --jako-border: rgba(0, 0, 0, 0.12);
-            --jako-glass: rgba(255, 255, 255, 0.88);
-            --gradient-start: rgba(0, 0, 0, 0.02);
-            --gradient-mid: rgba(244, 245, 247, 0.85);
-            --gradient-end: #f4f5f7;
-            --icon-hover: #000;
-        }
-
-        body.dark-mode {
             --jako-bg: #111315;
             --jako-text: #f4f5f7;
             --jako-border: rgba(255, 255, 255, 0.16);
@@ -163,6 +113,17 @@ $css = @'
             --gradient-mid: rgba(17, 19, 21, 0.86);
             --gradient-end: #111315;
             --icon-hover: #fff;
+        }
+
+        body.light-mode {
+            --jako-bg: #f4f5f7;
+            --jako-text: #0d0d0d;
+            --jako-border: rgba(0, 0, 0, 0.12);
+            --jako-glass: rgba(255, 255, 255, 0.88);
+            --gradient-start: rgba(0, 0, 0, 0.02);
+            --gradient-mid: rgba(244, 245, 247, 0.85);
+            --gradient-end: #f4f5f7;
+            --icon-hover: #000;
         }
 
         *, *::before, *::after {
@@ -185,7 +146,7 @@ $css = @'
             width: 100vw;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             user-select: none;
             position: relative;
@@ -341,6 +302,14 @@ $css = @'
             transition: opacity 0.2s ease;
         }
 
+        .icon-stroke {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .theme-icon {
             fill: none;
             stroke: currentColor;
@@ -364,7 +333,7 @@ $css = @'
         .vision-scroll-viewport {
             width: 100%;
             max-width: 580px;
-            padding: 0.5rem 0.8rem;
+            padding: 0.5rem 0.8rem 1rem 0.8rem;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -382,12 +351,12 @@ $css = @'
             -webkit-backdrop-filter: blur(20px);
             padding: 0.6rem 0.8rem;
             border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             width: 100%;
         }
 
-        body.dark-mode .vision-card {
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        body.light-mode .vision-card {
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
 
         .section-heading {
@@ -418,7 +387,7 @@ $css = @'
             text-align: right;
         }
 
-/* =========================================================
+        /* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -519,26 +488,6 @@ $css = @'
             opacity: 0.55;
             font-size: 8.5px;
         }
-        
-        /* Extension Slot for Biokinetic Dial */
-        .dial-extension-slot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.3rem 0.5rem;
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px dashed var(--jako-border);
-            border-radius: 4px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 7px;
-            letter-spacing: 0.12em;
-            opacity: 0.6;
-            margin-top: 0.2rem;
-        }
-
-        body.dark-mode .dial-extension-slot {
-            background: rgba(255, 255, 255, 0.03);
-        }
 
         /* =========================================================
            5. MEDIA GALLERY & PREVIEWS
@@ -599,7 +548,6 @@ $css = @'
             opacity: 0.6;
         }
 
-        /* Large Preview spanning full width of the entity container */
         .selected-media-preview {
             width: 100%;
         }
@@ -617,35 +565,8 @@ $css = @'
         }
 
         /* =========================================================
-           6. FOOTER & PRINT / PDF STYLES
+           6. PRINT / PDF STYLES
            ========================================================= */
-        .pdf-footer {
-            justify-content: center;
-        }
-
-        .btn-control-action {
-            padding: 0 0.8rem;
-            height: 28px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            border: 1px solid var(--jako-border);
-            border-radius: 4px;
-            background: transparent;
-            color: var(--jako-text);
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            cursor: pointer;
-            transition: border-color 0.2s ease, opacity 0.2s ease;
-        }
-
-        .btn-control-action:hover {
-            border-color: var(--jako-text);
-            opacity: 0.9;
-        }
-
         @media print {
             html, body {
                 height: auto !important;
@@ -676,7 +597,6 @@ $css = @'
                 page-break-inside: avoid;
             }
 
-            /* Preserve open galleries & previews in print */
             .media-preview.is-open {
                 display: flex !important;
             }
@@ -691,7 +611,6 @@ $css = @'
                 print-color-adjust: exact !important;
             }
         }
-
 
         @media (max-width: 360px) {
             .site-header {
@@ -722,10 +641,8 @@ $css = @'
 '@
 
 $js = @'
-
         /**
          * JAKO DATABASE - Centralized Entity Registry
-         * Canonical Backend Source of Truth
          */
         const JAKO_DATABASE = {
             metadata: {
@@ -735,9 +652,6 @@ $js = @'
                 architecture: "SUN_BODY_SPIRIT"
             },
             entities: [
-                // ---------------------------------------------------------
-                // DROPS - EDUCATION
-                // ---------------------------------------------------------
                 {
                     ID: "drop-edu-01",
                     CLASS: "DROP",
@@ -790,10 +704,6 @@ $js = @'
                     LINKS: [],
                     RELATIONS: []
                 },
-
-                // ---------------------------------------------------------
-                // DROPS - EXPERIENCE
-                // ---------------------------------------------------------
                 {
                     ID: "drop-exp-01",
                     CLASS: "DROP",
@@ -865,10 +775,6 @@ $js = @'
                     LINKS: [],
                     RELATIONS: []
                 },
-
-                // ---------------------------------------------------------
-                // SPHERES - PROJECTS
-                // ---------------------------------------------------------
                 {
                     ID: "sphere-proj-02",
                     CLASS: "SPHERE",
@@ -938,10 +844,6 @@ $js = @'
                     LINKS: [],
                     RELATIONS: []
                 },
-
-                // ---------------------------------------------------------
-                // SPHERES - BOOKS
-                // ---------------------------------------------------------
                 {
                     ID: "sphere-book-01",
                     CLASS: "SPHERE",
@@ -968,18 +870,13 @@ $js = @'
                         { src: "src/sphere/zDial/dropdial.png", label: "DropDial" },
                         { src: "src/sphere/zDial/sphere.png", label: "Sphere" }
                     ],
-                    TOOLS: [""
-                    ],
+                    TOOLS: [""],
                     LINKS: [],
                     RELATIONS: []
                 }
-
             ]
         };
 
-        /* =========================================================
-           8. VALIDATION & FRONTEND TRANSLATION LAYER
-           ========================================================= */
         function validateDatabase(db) {
             const validPairs = [
                 { CLASS: "DROP", TYPE: "education" },
@@ -996,10 +893,6 @@ $js = @'
             });
         }
 
-        /**
-         * Generic Component Renderer
-         * Translates backend entities to the frontend visual components
-         */
         function renderEntityGroup(typeFilter, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -1007,7 +900,7 @@ $js = @'
             const entities = JAKO_DATABASE.entities.filter(e => e.TYPE === typeFilter);
 
             container.innerHTML = entities.map((item) => {
-                const toolsList = item.TOOLS.length > 0
+                const toolsList = item.TOOLS.length > 0 && item.TOOLS[0] !== ""
                     ? `<span class="experience-tools">${item.TOOLS.join(' · ')}</span>`
                     : '';
 
@@ -1020,7 +913,6 @@ $js = @'
                 const hasMedia = item.MEDIA && item.MEDIA.length > 0;
                 const toggleClass = hasMedia ? 'media-toggle' : '';
 
-                // Construcción del HTML de la galería con lazy loading para imágenes
                 let mediaHtml = '';
                 if (hasMedia) {
                     const galleryItems = item.MEDIA.map((m) => `
@@ -1041,7 +933,7 @@ $js = @'
                 }
 
                 return `
-<div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
+                    <div class="dropSphere-row ${toggleClass}" data-entity-id="${item.ID}">
                         <div class="dropSphere-value">
                             <div class="dropSphere-line-primary">
                                 <strong>${item.WORD}</strong> ${item.DESCRIPTION ? '// ' + item.DESCRIPTION : ''}
@@ -1058,26 +950,23 @@ $js = @'
             }).join('');
         }
 
-        /* =========================================================
-           9. INTERACTION CONTROLLERS (INDEPENDENT TOGGLES & FULL WIDTH PREVIEWS)
-           ========================================================= */
         function initInteractions() {
-            // SUN — Accessible theme controller
+            // SUN — Accessible Theme Controller
             const themeBtn = document.getElementById('theme-toggle');
 
             if (themeBtn) {
                 themeBtn.addEventListener('click', () => {
-                    const isDark = document.body.classList.toggle('dark-mode');
+                    const isLight = document.body.classList.toggle('light-mode');
 
-                    themeBtn.setAttribute('aria-pressed', String(isDark));
+                    themeBtn.setAttribute('aria-pressed', String(!isLight));
                     themeBtn.setAttribute(
                         'aria-label',
-                        isDark ? 'Switch to light theme' : 'Switch to dark theme'
+                        isLight ? 'Switch to dark theme' : 'Switch to light theme'
                     );
                 });
             }
 
-            // Print / PDF Controller
+            // Print / PDF Controller in Header Controls
             const pdfBtn = document.getElementById('download-pdf');
 
             if (pdfBtn) {
@@ -1086,9 +975,8 @@ $js = @'
                 });
             }
 
-            // Independent Accordion & Image Viewport Controller
+            // Accordion & Image Viewport Controller
             document.addEventListener('click', (e) => {
-                // Handle Entity Row Gallery Toggle (Independent toggle per entity)
                 const toggleRow = e.target.closest('.media-toggle');
                 if (toggleRow) {
                     const entityId = toggleRow.getAttribute('data-entity-id');
@@ -1098,24 +986,20 @@ $js = @'
                     if (gallery) {
                         const isOpen = gallery.classList.contains('is-open');
                         if (isOpen) {
-                            // Close this specific gallery and its large preview
                             gallery.classList.remove('is-open');
                             if (preview) {
                                 preview.classList.remove('is-open');
                                 const img = preview.querySelector('img');
                                 if (img) img.src = '';
                             }
-                            // Clear selected state on thumbnails
                             gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
                         } else {
-                            // Open this specific gallery without closing others
                             gallery.classList.add('is-open');
                         }
                     }
                     return;
                 }
 
-                // Handle Gallery Thumbnail Selection
                 const mediaItem = e.target.closest('.media-item');
                 if (mediaItem) {
                     const src = mediaItem.getAttribute('data-media-src');
@@ -1125,15 +1009,12 @@ $js = @'
                     if (previewContainer && previewContainer.classList.contains('selected-media-preview')) {
                         const img = previewContainer.querySelector('img');
 
-                        // Toggle logic: if clicking the currently active image, close the large preview
                         if (mediaItem.classList.contains('is-selected')) {
                             mediaItem.classList.remove('is-selected');
                             previewContainer.classList.remove('is-open');
                             img.src = '';
                         } else {
-                            // Clear other selection highlights in this gallery
                             gallery.querySelectorAll('.media-item').forEach(btn => btn.classList.remove('is-selected'));
-
                             mediaItem.classList.add('is-selected');
                             img.src = src;
                             previewContainer.classList.add('is-open');
@@ -1143,7 +1024,6 @@ $js = @'
             });
         }
 
-        /* Initialization execution */
         document.addEventListener('DOMContentLoaded', () => {
             validateDatabase(JAKO_DATABASE);
             renderEntityGroup('education', 'container-education');
@@ -1163,8 +1043,7 @@ $html = @'
     <title>JAKO // Master Architecture Portfolio & CV</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-
-   <link rel="stylesheet" href="src/global.css">
+    <link rel="stylesheet" href="src/global.css">
 </head>
 <body>
 
@@ -1191,7 +1070,14 @@ $html = @'
                     <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
                 </svg>
             </a>
-            <button class="header-control" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Toggle theme">
+            <button class="header-control" id="download-pdf" type="button" aria-label="Download PDF" title="Download PDF">
+                <svg class="header-icon icon-stroke" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+            </button>
+            <button class="header-control" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true" title="Toggle theme">
                 <svg class="header-icon theme-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <circle class="theme-icon-sun" cx="12" cy="12" r="3.5" />
                     <path class="theme-icon-rays" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
@@ -1218,7 +1104,7 @@ $html = @'
             </div>
         </section>
 
-  <!-- EDUCATION -->
+        <!-- EDUCATION -->
         <section class="vision-card" id="card-education">
             <div class="section-heading">
                 <h2>Education</h2>
@@ -1243,7 +1129,7 @@ $html = @'
             <div class="dropSphere-group" id="container-projects"></div>
         </section>
 
-        <!-- RESEARCHS --> 
+        <!-- RESEARCH --> 
         <section class="vision-card" id="card-books">
             <div class="section-heading">
                 <h2>Research</h2>
@@ -1253,21 +1139,6 @@ $html = @'
 
     </main>
 
-    <!-- FOOTER CONTROLS -->
-    <footer class="header-style-bar pdf-footer">
-        <button class="btn-control-action" id="download-pdf" aria-label="Download PDF" title="Download PDF">
-            <svg class="icon-stroke" viewBox="0 0 24 24" fill="none" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            PDF
-        </button>
-    </footer>
-
-    <!-- =========================================================
-         7. BACKEND ENTITY DICTIONARY & TRANSLATION LAYER
-         ========================================================= -->
     <script src="src/main.js" defer></script>
 </body>
 </html>
@@ -1288,9 +1159,9 @@ try {
     }
 
     $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-    [System.IO.File]::WriteAllText($OutputPath, $html, $Utf8NoBom)
-    [System.IO.File]::WriteAllText($CssPath, $css, $Utf8NoBom)
-    [System.IO.File]::WriteAllText($JsPath, $js, $Utf8NoBom)
+    [System.IO.File]::WriteAllText($OutputPath, $html,$Utf8NoBom)
+    [System.IO.File]::WriteAllText($CssPath, $css,$Utf8NoBom)
+    [System.IO.File]::WriteAllText($JsPath, $js,$Utf8NoBom)
 
     Write-Host "JAKO portfolio generated successfully:" -ForegroundColor Green
     Write-Host "  HTML: $OutputPath"

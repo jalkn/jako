@@ -55,17 +55,29 @@
     <main class="vision-scroll-viewport" id="main-viewport">
 
         <!-- MACRO-BLOCK 2: BODY -->
-        <section class="vision-card" id="card-profile">
-            <div class="engine-box">
-                <img src="src/img/photo.png" alt="Alejandro Monsalve M." class="engine-avatar" onerror="this.style.display='none'">
-                <div>
-                    <div class="engine-title-block">ALEJANDRO MONSALVE M.</div>
-                    <p class="engine-text">
-                        Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
-                    </p>
-                </div>
-            </div>
-        </section>
+                <section class="vision-card" id="card-profile">
+                    <!-- Profile Engine Box (Avatar will be inserted dynamically at the start of engine-box) -->
+                    <div class="engine-box" id="engine-box">
+                        <div>
+                            <!-- Title Block with Embedded Toggle Button -->
+                            <div class="engine-title-block">
+                                
+                                <button class="profile-photo-btn" id="avatar-toggle" type="button" aria-label="Toggle profile photo" title="Toggle photo">
+                                    <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+                                        <g transform="rotate(90 50 50)">
+                                            <polygon points="50,42 58,50 50,58 42,50" />
+                                            <polygon points="30,65 70,65 80,80 20,80" />
+                                        </g>
+                                    </svg>
+                                </button>
+                                <span>ALEJANDRO MONSALVE M.</span>
+                            </div>
+                            <p class="engine-text">
+                                Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
+                            </p>
+                        </div>
+                    </div>
+                </section>
 
         <!-- EDUCATION -->
         <section class="vision-card" id="card-education">

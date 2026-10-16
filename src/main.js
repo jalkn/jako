@@ -307,7 +307,7 @@
             }).join('');
         }
 
-        function initInteractions() {
+function initInteractions() {
             // SUN — Accessible Theme Controller
             const themeBtn = document.getElementById('theme-toggle');
 
@@ -329,6 +329,33 @@
             if (pdfBtn) {
                 pdfBtn.addEventListener('click', () => {
                     window.print();
+                });
+            }
+
+            // Profile Photo Toggle Controller (Dynamically inserts or removes avatar image)
+            const avatarBtn = document.getElementById('avatar-toggle');
+            const engineBox = document.getElementById('engine-box');
+
+            if (avatarBtn && engineBox) {
+                avatarBtn.addEventListener('click', () => {
+                    let existingAvatar = engineBox.querySelector('.engine-avatar');
+
+                    if (existingAvatar) {
+                        // If image is visible, remove it to collapse back to initial layout
+                        existingAvatar.remove();
+                    } else {
+                        // Create and prepend image element to restore original layout
+                        const img = document.createElement('img');
+                        img.src = 'src/img/photo.png';
+                        img.alt = 'Alejandro Monsalve M.';
+                        img.className = 'engine-avatar';
+                        img.onerror = function() { this.style.display = 'none'; };
+
+                        // Clicking directly on the photo also removes it
+                        img.addEventListener('click', () => img.remove());
+
+                        engineBox.prepend(img);
+                    }
                 });
             }
 

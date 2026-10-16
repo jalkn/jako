@@ -284,7 +284,7 @@
             text-align: right;
         }
 
-        /* =========================================================
+/* =========================================================
            4. MACRO-BLOCK 2: BODY (PROFILE, EDUCATION, EXPERIENCE)
            ========================================================= */
         .engine-box {
@@ -300,14 +300,53 @@
             object-fit: cover;
             border: 1px solid var(--jako-border);
             flex-shrink: 0;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
         }
 
+        .engine-avatar:hover {
+            opacity: 0.85;
+        }
+
+        /* Profile Title Block & Embedded SVG Button */
         .engine-title-block {
             font-family: 'Orbitron', sans-serif;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.15em;
             margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .profile-photo-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--jako-text);
+            opacity: 0.6;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+
+        .profile-photo-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .profile-photo-icon {
+            width: 13px;
+            height: 13px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .engine-text {
