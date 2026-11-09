@@ -1,5 +1,5 @@
 /* =========================================================================
-   JAKO ECOSYSTEM — HYPERREALISTIC GLOBAL STYLES (MATCHING PULSDIAL DESIGN)
+   JAKO ECOSYSTEM — HYPERREALISTIC GLOBAL STYLES & CENTER AZIMUTH OVERLAY
    ========================================================================= */
 
 :root[data-theme="dark"] {
@@ -59,10 +59,15 @@ body {
     background: radial-gradient(circle at 50% 50%, var(--gradient-start) 15%, var(--gradient-mid) 80%, var(--gradient-end) 100%);
     z-index: -1;
     transform: translateZ(0);
+    transition: background 0.5s ease;
+}
+
+body.grass-bg-active #page-bg-overlay {
+    background: url('../../img/grass.png') center center / cover no-repeat !important;
 }
 
 /* =========================================================
-   BLOCK 1: HEADER BAR
+   BLOCK 1: HEADER BAR (CLEAN & MINIMALIST)
    ========================================================= */
 .header-style-bar {
     display: flex;
@@ -104,20 +109,16 @@ body {
 
 .header-controls {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     min-height: 30px;
-    background: var(--jako-glass);
-    border: 1px solid var(--jako-border);
-    border-radius: 3px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.035);
 }
 
 .header-control {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0.8rem;
     min-height: 30px;
+    padding: 0 0.6rem;
     color: inherit;
     background: transparent;
     border: 0;
@@ -126,10 +127,6 @@ body {
     font-family: 'Orbitron', sans-serif;
     font-size: 10px;
     transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.header-control + .header-control {
-    border-left: 1px solid var(--jako-border);
 }
 
 .header-control:hover {
@@ -146,21 +143,8 @@ body {
     transition: opacity 0.2s ease;
 }
 
-.theme-icon {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.35;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.theme-icon-sun {
-    fill: currentColor;
-    stroke: none;
-}
-
 /* =========================================================
-   BLOCKS 2 & 3: TELEMETRY STRIPS (INFINITE TICKER)
+   BLOCKS 2 & 4: TELEMETRY STRIPS (INFINITE TICKER)
    ========================================================= */
 .telemetry-strip {
     width: 100%;
@@ -174,6 +158,7 @@ body {
     position: relative;
     cursor: grab;
     backdrop-filter: blur(12px);
+    z-index: 90;
 }
 
 .telemetry-strip:active {
@@ -197,12 +182,22 @@ body {
     gap: 0.4rem;
 }
 
+.ticker-item.interactive-azimuth {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.ticker-item.interactive-azimuth:hover {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
 .ticker-item span {
     opacity: 0.5;
 }
 
 /* =========================================================
-   MAIN VIEWPORT STAGE (CONTAINER FOR APPS)
+   BLOCK 3: MAIN VIEWPORT STAGE & CENTER AZIMUTH OVERLAY
    ========================================================= */
 .jako-main-stage {
     position: relative;
@@ -212,6 +207,23 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+.center-azimuth-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.center-azimuth-overlay.is-active {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .app-viewport-container {
@@ -225,7 +237,7 @@ body {
 }
 
 /* =========================================================
-   BLOCK 4: FOOTER BAR
+   BLOCK 5: FOOTER BAR & EXTREME RIGHT BUTTON CLUSTER
    ========================================================= */
 .jako-footer {
     display: flex;
@@ -237,12 +249,13 @@ body {
     backdrop-filter: blur(24px) saturate(125%);
     -webkit-backdrop-filter: blur(24px) saturate(125%);
     font-size: 11px;
+    z-index: 100;
 }
 
 .footer-cluster {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .status-dot {
@@ -251,4 +264,30 @@ body {
     border-radius: 50%;
     background: var(--jako-text);
     box-shadow: 0 0 10px var(--jako-led);
+}
+
+.footer-btn-group {
+    display: flex;
+    align-items: center;
+    background: var(--jako-glass);
+    border: 1px solid var(--jako-border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.footer-btn-group .header-control + .header-control {
+    border-left: 1px solid var(--jako-border);
+}
+
+.theme-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.theme-icon-sun {
+    fill: currentColor;
+    stroke: none;
 }

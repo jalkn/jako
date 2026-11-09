@@ -1,10 +1,10 @@
 #!/usr/bin/env pwsh
 # =========================================================================
 # JAKO CORE — MAIN ECOSYSTEM HUB GENERATOR
-# File: jako.ps1 | Architecture, Layout & Data Flow Manifest
+# File: jako.ps1 | Architecture, Layout & Solar Azimuth Overlay Manifest
 # Output: package.json, astro.config.mjs, src/styles/hub.css, 
 #         src/scripts/hub.js, public/index.html, index.html
-# Version: 1.1.0 | Updated: 2026-11-09
+# Version: 1.3.0 | Updated: 2026-11-09
 # =========================================================================
 
 <#
@@ -23,9 +23,9 @@
 +------------------+       +-------------------+            +-------------------+
 | GLOBAL TELEMETRY |       |   MULTI-CHANNEL   |            |   APP TELEMETRY   |
 | (Python / SQLite)|       |   MAIN STAGE      |            |   (Local Engine)  |
-| - Biokinetic Δ   |       | - 3D / WebGL      |            | - Action/Vector   |
-| - Solar Azimuth  |       | - Video Mapping   |            | - Sets / Reps     |
-| - Vault Database |       | - Laser Vector    |            | - Telemetry Ticker|
+| - Biokinetic Δ   |       | - Central Azimuth |            | - Action/Vector   |
+| - Solar Azimuth  |       | - Grass / LandArt |            | - Sets / Reps     |
+| - Vault Database |       | - Laser / WebGL   |            | - Telemetry Ticker|
 +------------------+       +-------------------+            +-------------------+
 
 ===========================================================================
@@ -33,34 +33,19 @@
 ===========================================================================
 
 +-------------------------------------------------------------------------+
-| BLOCK 1: HEADER BAR (Sun / Identity, Global Navigation, Mode Selectors) |
+| BLOCK 1: HEADER BAR (Sun / Identity & GitHub Navigation Anchor)         |
 +-------------------------------------------------------------------------+
-| BLOCK 2: SYSTEM TELEMETRY STRIP (Infinite Loop / Drag: Global Data)     |
+| BLOCK 2: SYSTEM TELEMETRY STRIP (Interactive Click on AZIMUTH [142.5°]) |
 +-------------------------------------------------------------------------+
 |                                                                         |
-|                          MAIN VIEWPORT STAGE                            |
-|                 (Reserved for App Injection in Next Phase)              |
+|                BLOCK 3: MAIN VIEWPORT STAGE                             |
+|        (Center-Rotating Azimuth Vector Line + Optional Grass Canvas)    |
 |                                                                         |
 +-------------------------------------------------------------------------+
-| BLOCK 3: APP TELEMETRY STRIP (Infinite Loop / Drag: Local App Metrics)  |
+| BLOCK 4: APP TELEMETRY STRIP (Infinite Loop / Drag: Local App Metrics)  |
 +-------------------------------------------------------------------------+
-| BLOCK 4: FOOTER & MASTER CONTROLS (Ecosystem Sync, Mapping, Settings)   |
+| BLOCK 5: FOOTER (Engine Status + [Grass Toggle] + [Theme Toggle])       |
 +-------------------------------------------------------------------------+
-
-===========================================================================
-03. REPOSITORY INTEGRATION MAP
-===========================================================================
-
-jako.ps1 (Hub Orchestrator)
- ├── jako-pulsDial   (Biokinetic Transducer Engine & SVG/3D View)
- ├── jako-dropDial   (Particle & Flow Biokinetic Engine)
- ├── jako-alfaDial   (Neural Frequency & Solar Synchronization)
- ├── jako-beatDial   (Web Audio & Sound Geometry Engine)
- ├── jako-fotoPanel  (Spatial Large-Format Inkjet Preview)
- ├── jako-beatWord   (Phoneme-to-Vector Mapping Engine)
- ├── jako-bioManifest(Cognitive System & BioManifiesto SSG)
- ├── jako-bioUI      (Automated CV Generation: UI Jobs & Art Portfolio)
- └── jako-vision     (Artistic Strategy & Open Call Registry)
 #>
 
 $ErrorActionPreference = 'Stop'
@@ -100,8 +85,8 @@ $packageJson = @'
 {
   "name": "jako-ecosystem",
   "type": "module",
-  "version": "1.1.0",
-  "description": "JAKO Biokinetic Ecosystem Hub & Multichannel Stage",
+  "version": "1.3.0",
+  "description": "JAKO Biokinetic Ecosystem Hub & Center-Rotating Azimuth Stage",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -140,7 +125,7 @@ Write-ProjectFile -Path 'astro.config.mjs' -Content $astroConfig
 Write-Status "[3/6] Generating hyperrealistic external CSS (src/styles/hub.css)..." Yellow
 $hubCss = @'
 /* =========================================================================
-   JAKO ECOSYSTEM — HYPERREALISTIC GLOBAL STYLES (MATCHING PULSDIAL DESIGN)
+   JAKO ECOSYSTEM — HYPERREALISTIC GLOBAL STYLES & CENTER AZIMUTH OVERLAY
    ========================================================================= */
 
 :root[data-theme="dark"] {
@@ -200,10 +185,15 @@ body {
     background: radial-gradient(circle at 50% 50%, var(--gradient-start) 15%, var(--gradient-mid) 80%, var(--gradient-end) 100%);
     z-index: -1;
     transform: translateZ(0);
+    transition: background 0.5s ease;
+}
+
+body.grass-bg-active #page-bg-overlay {
+    background: url('../../img/grass.png') center center / cover no-repeat !important;
 }
 
 /* =========================================================
-   BLOCK 1: HEADER BAR
+   BLOCK 1: HEADER BAR (CLEAN & MINIMALIST)
    ========================================================= */
 .header-style-bar {
     display: flex;
@@ -245,20 +235,16 @@ body {
 
 .header-controls {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     min-height: 30px;
-    background: var(--jako-glass);
-    border: 1px solid var(--jako-border);
-    border-radius: 3px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.035);
 }
 
 .header-control {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0.8rem;
     min-height: 30px;
+    padding: 0 0.6rem;
     color: inherit;
     background: transparent;
     border: 0;
@@ -267,10 +253,6 @@ body {
     font-family: 'Orbitron', sans-serif;
     font-size: 10px;
     transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.header-control + .header-control {
-    border-left: 1px solid var(--jako-border);
 }
 
 .header-control:hover {
@@ -287,21 +269,8 @@ body {
     transition: opacity 0.2s ease;
 }
 
-.theme-icon {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.35;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.theme-icon-sun {
-    fill: currentColor;
-    stroke: none;
-}
-
 /* =========================================================
-   BLOCKS 2 & 3: TELEMETRY STRIPS (INFINITE TICKER)
+   BLOCKS 2 & 4: TELEMETRY STRIPS (INFINITE TICKER)
    ========================================================= */
 .telemetry-strip {
     width: 100%;
@@ -315,6 +284,7 @@ body {
     position: relative;
     cursor: grab;
     backdrop-filter: blur(12px);
+    z-index: 90;
 }
 
 .telemetry-strip:active {
@@ -338,12 +308,22 @@ body {
     gap: 0.4rem;
 }
 
+.ticker-item.interactive-azimuth {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.ticker-item.interactive-azimuth:hover {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
 .ticker-item span {
     opacity: 0.5;
 }
 
 /* =========================================================
-   MAIN VIEWPORT STAGE (CONTAINER FOR APPS)
+   BLOCK 3: MAIN VIEWPORT STAGE & CENTER AZIMUTH OVERLAY
    ========================================================= */
 .jako-main-stage {
     position: relative;
@@ -353,6 +333,23 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+.center-azimuth-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.center-azimuth-overlay.is-active {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .app-viewport-container {
@@ -366,7 +363,7 @@ body {
 }
 
 /* =========================================================
-   BLOCK 4: FOOTER BAR
+   BLOCK 5: FOOTER BAR & EXTREME RIGHT BUTTON CLUSTER
    ========================================================= */
 .jako-footer {
     display: flex;
@@ -378,12 +375,13 @@ body {
     backdrop-filter: blur(24px) saturate(125%);
     -webkit-backdrop-filter: blur(24px) saturate(125%);
     font-size: 11px;
+    z-index: 100;
 }
 
 .footer-cluster {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .status-dot {
@@ -392,6 +390,32 @@ body {
     border-radius: 50%;
     background: var(--jako-text);
     box-shadow: 0 0 10px var(--jako-led);
+}
+
+.footer-btn-group {
+    display: flex;
+    align-items: center;
+    background: var(--jako-glass);
+    border: 1px solid var(--jako-border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.footer-btn-group .header-control + .header-control {
+    border-left: 1px solid var(--jako-border);
+}
+
+.theme-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.theme-icon-sun {
+    fill: currentColor;
+    stroke: none;
 }
 '@
 Write-ProjectFile -Path 'src/styles/hub.css' -Content $hubCss
@@ -402,7 +426,7 @@ Write-ProjectFile -Path 'src/styles/hub.css' -Content $hubCss
 Write-Status "[4/6] Generating external JavaScript logic (src/scripts/hub.js)..." Yellow
 $hubJs = @'
 /* =========================================================================
-   JAKO ECOSYSTEM — HUB INTERACTION & TELEMETRY ENGINE
+   JAKO ECOSYSTEM — HUB INTERACTION & CENTER SOLAR AZIMUTH VECTOR ENGINE
    ========================================================================= */
 
 const $ = id => document.getElementById(id);
@@ -415,6 +439,16 @@ const toggleTheme = () => {
     if (themeBtn) themeBtn.setAttribute('aria-pressed', String(newTheme === 'dark'));
 };
 
+const toggleGrassBackground = () => {
+    document.body.classList.toggle('grass-bg-active');
+    const grassBtn = $('btn-grass-toggle');
+    if (grassBtn) {
+        const isActive = document.body.classList.contains('grass-bg-active');
+        grassBtn.style.background = isActive ? 'var(--jako-border)' : 'transparent';
+    }
+};
+
+// Setup Drag & Infinite Loop for Telemetry Strips
 function setupTelemetryStrip(stripId, tickerId) {
     const strip = $(stripId);
     const ticker = $(tickerId);
@@ -455,15 +489,94 @@ function setupTelemetryStrip(stripId, tickerId) {
     animate();
 }
 
+// -------------------------------------------------------------------------
+// CENTER ROTATING SOLAR AZIMUTH VECTOR RENDERER
+// -------------------------------------------------------------------------
+function initCenterAzimuthEngine() {
+    const targetAzimuth = 142.5; // Degree angle
+    const svgOverlay = $('center-azimuth-svg');
+    if (!svgOverlay) return;
+
+    function renderCenterAzimuth() {
+        const stage = $('main-stage');
+        if (!stage) return;
+
+        const width = stage.clientWidth;
+        const height = stage.clientHeight;
+        const cx = width / 2;
+        const cy = height / 2;
+        const radius = Math.min(cx, cy) * 0.75;
+
+        // Convert angle (0° = North = straight up) to radians
+        const angleRad = (targetAzimuth - 90) * (Math.PI / 180);
+        const endX = cx + radius * Math.cos(angleRad);
+        const endY = cy + radius * Math.sin(angleRad);
+
+        svgOverlay.innerHTML = `
+            <g transform="translate(0,0)">
+                <!-- Outer Compass Ring -->
+                <circle cx="${cx}" cy="${cy}" r="${radius}" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2 4" fill="none" />
+                <circle cx="${cx}" cy="${cy}" r="${radius * 0.5}" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none" />
+
+                <!-- Cardinal Pole Labels -->
+                <text x="${cx}" y="${cy - radius - 10}" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle" font-family="Orbitron">N</text>
+                <text x="${cx + radius + 15}" y="${cy + 4}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="start" font-family="Orbitron">E</text>
+                <text x="${cx}" y="${cy + radius + 20}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" font-family="Orbitron">S</text>
+                <text x="${cx - radius - 15}" y="${cy + 4}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="end" font-family="Orbitron">W</text>
+
+                <!-- Center Point Nucleus -->
+                <circle cx="${cx}" cy="${cy}" r="3" fill="#ffffff" />
+                
+                <!-- Rotating Azimuth Line Vector from Center -->
+                <line x1="${cx}" y1="${cy}" x2="${endX}" y2="${endY}" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4 2" />
+                <circle cx="${endX}" cy="${endY}" r="4" fill="#ffffff" />
+
+                <!-- Azimuth Coordinate Tag -->
+                <text x="${endX + 10}" y="${endY + 4}" fill="#ffffff" font-size="10" font-weight="700" font-family="Orbitron">
+                    AZIMUTH ${targetAzimuth}° N
+                </text>
+            </g>
+        `;
+    }
+
+    renderCenterAzimuth();
+    window.addEventListener('resize', renderCenterAzimuth);
+}
+
+function toggleAzimuthView() {
+    const svgOverlay = $('center-azimuth-svg');
+    if (svgOverlay) {
+        svgOverlay.classList.toggle('is-active');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     setupTelemetryStrip('system-strip', 'system-ticker');
     setupTelemetryStrip('app-strip', 'app-ticker');
+    initCenterAzimuthEngine();
+
+    // Event listener for interactive AZIMUTH ticker click
+    const azimuthItem = $('azimuth-ticker-item');
+    if (azimuthItem) {
+        azimuthItem.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleAzimuthView();
+        });
+    }
 
     const themeBtn = $('theme-toggle');
     if (themeBtn) {
         themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             toggleTheme();
+        });
+    }
+
+    const grassBtn = $('btn-grass-toggle');
+    if (grassBtn) {
+        grassBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleGrassBackground();
         });
     }
 });
@@ -473,7 +586,7 @@ Write-ProjectFile -Path 'src/scripts/hub.js' -Content $hubJs
 # -------------------------------------------------------------------------
 # 5. HTML Shell Layout (4-Block Architecture linking external CSS/JS)
 # -------------------------------------------------------------------------
-Write-Status "[5/6] Generating HTML structure with external CSS and JS links..." Yellow
+Write-Status "[5/6] Generating HTML structure with Center Azimuth Vector Stage..." Yellow
 $mainHtml = @'
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -488,7 +601,7 @@ $mainHtml = @'
 
     <div id="page-bg-overlay"></div>
 
-    <!-- BLOCK 1: HEADER -->
+    <!-- BLOCK 1: HEADER (CLEAN BRANDING + GITHUB ANCHOR) -->
     <header class="header-style-bar" id="top">
         <a class="site-brand-lockup" href="#top" aria-label="JAKO home">
             <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
@@ -498,7 +611,7 @@ $mainHtml = @'
                     <polygon points="30,65 70,65 80,80 20,80" />
                 </g>
             </svg>
-            <span class="site-brand">JAKO.LAB</span>
+            <span class="site-brand">JAKO</span>
         </a>
 
         <nav class="header-controls">
@@ -507,19 +620,13 @@ $mainHtml = @'
                     <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
                 </svg>
             </a>
-            <button class="header-control" id="theme-toggle" type="button" title="Toggle theme">
-                <svg class="header-icon theme-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle class="theme-icon-sun" cx="12" cy="12" r="3.5" />
-                    <path class="theme-icon-rays" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
-                </svg>
-            </button>
         </nav>
     </header>
 
-    <!-- BLOCK 2: SYSTEM TELEMETRY STRIP (GLOBAL) -->
+    <!-- BLOCK 2: SYSTEM TELEMETRY STRIP (GLOBAL - CLICKABLE AZIMUTH) -->
     <section class="telemetry-strip" id="system-strip">
         <div class="ticker-track" id="system-ticker">
-            <div class="ticker-item">SYSTEM_READY <span>[AZIMUTH: 142.5°]</span></div>
+            <div class="ticker-item interactive-azimuth" id="azimuth-ticker-item">AZIMUTH <span>[142.5°]</span></div>
             <div class="ticker-item">SUN_ELEVATION <span>[48.2°]</span></div>
             <div class="ticker-item">GLOBAL_DELTA <span>[Δ=1.04]</span></div>
             <div class="ticker-item">RESONANCE <span>[HOMEOSTASIS]</span></div>
@@ -528,14 +635,17 @@ $mainHtml = @'
         </div>
     </section>
 
-    <!-- MAIN VIEWPORT STAGE (RESERVED FOR NEXT PHASE APP INJECTION) -->
-    <main class="jako-main-stage">
+    <!-- BLOCK 3: MAIN VIEWPORT STAGE -->
+    <main class="jako-main-stage" id="main-stage">
+        <!-- SVG Vector Canvas for Center-Rotating Solar Azimuth -->
+        <svg class="center-azimuth-overlay is-active" id="center-azimuth-svg"></svg>
+
         <div class="app-viewport-container" id="app-viewport">
             <!-- Stage reserved for App injection -->
         </div>
     </main>
 
-    <!-- BLOCK 3: APP TELEMETRY STRIP (LOCAL) -->
+    <!-- BLOCK 4: APP TELEMETRY STRIP (LOCAL) -->
     <section class="telemetry-strip" id="app-strip">
         <div class="ticker-track" id="app-ticker">
             <div class="ticker-item">APP <span>[READY]</span></div>
@@ -544,7 +654,7 @@ $mainHtml = @'
         </div>
     </section>
 
-    <!-- BLOCK 4: FOOTER -->
+    <!-- BLOCK 5: FOOTER (WITH EXTREME RIGHT CONTROL CLUSTER) -->
     <footer class="jako-footer">
         <div class="footer-cluster">
             <div class="status-dot"></div>
@@ -553,7 +663,15 @@ $mainHtml = @'
         </div>
 
         <div class="footer-cluster">
-            <button class="header-control" id="btn-settings">SETTINGS & MAPPING</button>
+            <div class="footer-btn-group">
+                <button class="header-control" id="btn-grass-toggle" type="button" title="Toggle Grass Background">LAND ART</button>
+                <button class="header-control" id="theme-toggle" type="button" title="Toggle theme">
+                    <svg class="header-icon theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle class="theme-icon-sun" cx="12" cy="12" r="3.5" />
+                        <path class="theme-icon-rays" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </footer>
 
@@ -570,5 +688,5 @@ Write-Status "`n[6/6] Writing index.html at root..." Yellow
 Write-ProjectFile -Path 'index.html' -Content $mainHtml
 
 Write-Status "`n=========================================================" Green
-Write-Status "JAKO MAIN HUB INITIALIZED — 4-BLOCK HYPERREALISTIC READY" Green
+Write-Status "JAKO MAIN HUB INITIALIZED — CENTER AZIMUTH VECTOR READY" Green
 Write-Status "=========================================================" Green
