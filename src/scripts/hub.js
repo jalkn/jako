@@ -1,5 +1,5 @@
 /* =========================================================================
-   JAKO ECOSYSTEM — HUB INTERACTION & CENTER SOLAR AZIMUTH VECTOR ENGINE
+   JAKO ECOSYSTEM — HUB INTERACTION & 60FPS ANIMATED AZIMUTH VECTOR ENGINE
    ========================================================================= */
 
 const $ = id => document.getElementById(id);
@@ -63,57 +63,64 @@ function setupTelemetryStrip(stripId, tickerId) {
 }
 
 // -------------------------------------------------------------------------
-// CENTER ROTATING SOLAR AZIMUTH VECTOR RENDERER
+// CENTER ROTATING SOLAR AZIMUTH VECTOR RENDERER (FLUID 60FPS MOTION)
 // -------------------------------------------------------------------------
+let baseAzimuth = 142.5;
+let animationFrameId = null;
+
 function initCenterAzimuthEngine() {
-    const targetAzimuth = 142.5; // Degree angle
     const svgOverlay = $('center-azimuth-svg');
     if (!svgOverlay) return;
 
-    function renderCenterAzimuth() {
+    function renderFrame(timestamp) {
         const stage = $('main-stage');
-        if (!stage) return;
+        if (stage && svgOverlay.classList.contains('is-active')) {
+            const width = stage.clientWidth;
+            const height = stage.clientHeight;
+            const cx = width / 2;
+            const cy = height / 2;
+            const radius = Math.min(cx, cy) * 0.38;
 
-        const width = stage.clientWidth;
-        const height = stage.clientHeight;
-        const cx = width / 2;
-        const cy = height / 2;
-        const radius = Math.min(cx, cy) * 0.75;
+            // Smooth sine-wave motion interpolation using high-precision timestamp
+            const timeInSeconds = timestamp / 1000;
+            const liveAzimuth = baseAzimuth + (Math.sin(timeInSeconds * 1.5) * 1.8);
 
-        // Convert angle (0° = North = straight up) to radians
-        const angleRad = (targetAzimuth - 90) * (Math.PI / 180);
-        const endX = cx + radius * Math.cos(angleRad);
-        const endY = cy + radius * Math.sin(angleRad);
+            // Convert angle (0° = North = straight up) to radians
+            const angleRad = (liveAzimuth - 90) * (Math.PI / 180);
+            const endX = cx + radius * Math.cos(angleRad);
+            const endY = cy + radius * Math.sin(angleRad);
 
-        svgOverlay.innerHTML = `
-            <g transform="translate(0,0)">
-                <!-- Outer Compass Ring -->
-                <circle cx="${cx}" cy="${cy}" r="${radius}" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2 4" fill="none" />
-                <circle cx="${cx}" cy="${cy}" r="${radius * 0.5}" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none" />
+            svgOverlay.innerHTML = `
+                <g transform="translate(0,0)">
+                    <!-- Outer Compass Ring -->
+                    <circle cx="${cx}" cy="${cy}" r="${radius}" stroke="rgba(255,255,255,0.18)" stroke-width="1" stroke-dasharray="3 4" fill="none" />
+                    <circle cx="${cx}" cy="${cy}" r="${radius * 0.5}" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none" />
 
-                <!-- Cardinal Pole Labels -->
-                <text x="${cx}" y="${cy - radius - 10}" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle" font-family="Orbitron">N</text>
-                <text x="${cx + radius + 15}" y="${cy + 4}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="start" font-family="Orbitron">E</text>
-                <text x="${cx}" y="${cy + radius + 20}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" font-family="Orbitron">S</text>
-                <text x="${cx - radius - 15}" y="${cy + 4}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="end" font-family="Orbitron">W</text>
+                    <!-- Cardinal Pole Labels -->
+                    <text x="${cx}" y="${cy - radius - 12}" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle" font-family="Orbitron">N</text>
+                    <text x="${cx + radius + 16}" y="${cy + 4}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="start" font-family="Orbitron">E</text>
+                    <text x="${cx}" y="${cy + radius + 22}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" font-family="Orbitron">S</text>
+                    <text x="${cx - radius - 16}" y="${cy + 4}" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="end" font-family="Orbitron">W</text>
 
-                <!-- Center Point Nucleus -->
-                <circle cx="${cx}" cy="${cy}" r="3" fill="#ffffff" />
-                
-                <!-- Rotating Azimuth Line Vector from Center -->
-                <line x1="${cx}" y1="${cy}" x2="${endX}" y2="${endY}" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4 2" />
-                <circle cx="${endX}" cy="${endY}" r="4" fill="#ffffff" />
+                    <!-- Center Point Nucleus -->
+                    <circle cx="${cx}" cy="${cy}" r="3" fill="#ffffff" />
+                    
+                    <!-- Rotating Azimuth Vector Line -->
+                    <line x1="${cx}" y1="${cy}" x2="${endX}" y2="${endY}" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4 2" />
+                    <circle cx="${endX}" cy="${endY}" r="4" fill="#ffffff" />
 
-                <!-- Azimuth Coordinate Tag -->
-                <text x="${endX + 10}" y="${endY + 4}" fill="#ffffff" font-size="10" font-weight="700" font-family="Orbitron">
-                    AZIMUTH ${targetAzimuth}° N
-                </text>
-            </g>
-        `;
+                    <!-- Azimuth Coordinate Tag -->
+                    <text x="${endX + 12}" y="${endY + 4}" fill="#ffffff" font-size="10" font-weight="700" font-family="Orbitron">
+                        AZIMUTH ${liveAzimuth.toFixed(1)}° N
+                    </text>
+                </g>
+            `;
+        }
+        animationFrameId = requestAnimationFrame(renderFrame);
     }
 
-    renderCenterAzimuth();
-    window.addEventListener('resize', renderCenterAzimuth);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(renderFrame);
 }
 
 function toggleAzimuthView() {
@@ -128,14 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTelemetryStrip('app-strip', 'app-ticker');
     initCenterAzimuthEngine();
 
-    // Event listener for interactive AZIMUTH ticker click
-    const azimuthItem = $('azimuth-ticker-item');
-    if (azimuthItem) {
-        azimuthItem.addEventListener('click', (e) => {
+    // Delegation listener for interactive AZIMUTH ticker item clicks
+    document.body.addEventListener('click', (e) => {
+        const item = e.target.closest('#azimuth-ticker-item, .interactive-azimuth');
+        if (item) {
             e.stopPropagation();
             toggleAzimuthView();
-        });
-    }
+        }
+    });
 
     const themeBtn = $('theme-toggle');
     if (themeBtn) {

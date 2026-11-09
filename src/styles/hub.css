@@ -59,11 +59,11 @@ body {
     background: radial-gradient(circle at 50% 50%, var(--gradient-start) 15%, var(--gradient-mid) 80%, var(--gradient-end) 100%);
     z-index: -1;
     transform: translateZ(0);
-    transition: background 0.5s ease;
+    transition: background 0.5s ease, opacity 0.5s ease;
 }
 
 body.grass-bg-active #page-bg-overlay {
-    background: url('../../img/grass.png') center center / cover no-repeat !important;
+    background: url('img/grass.png') center center / cover no-repeat !important;
 }
 
 /* =========================================================
@@ -72,7 +72,7 @@ body.grass-bg-active #page-bg-overlay {
 .header-style-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
     min-height: 46px;
     padding: 0 1rem;
@@ -105,42 +105,6 @@ body.grass-bg-active #page-bg-overlay {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.2em;
-}
-
-.header-controls {
-    display: flex;
-    align-items: center;
-    min-height: 30px;
-}
-
-.header-control {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 30px;
-    padding: 0 0.6rem;
-    color: inherit;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    text-decoration: none;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 10px;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.header-control:hover {
-    background: var(--jako-border);
-}
-
-.header-icon {
-    display: block;
-    width: 14px;
-    height: 14px;
-    color: currentColor;
-    fill: currentColor;
-    opacity: 0.76;
-    transition: opacity 0.2s ease;
 }
 
 /* =========================================================
@@ -237,12 +201,12 @@ body.grass-bg-active #page-bg-overlay {
 }
 
 /* =========================================================
-   BLOCK 5: FOOTER BAR & EXTREME RIGHT BUTTON CLUSTER
+   BLOCK 5: FOOTER BAR & RIGHT CONTROL CLUSTER
    ========================================================= */
 .jako-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 1rem;
     background: var(--jako-glass);
     border-top: 1px solid var(--jako-border);
@@ -258,14 +222,6 @@ body.grass-bg-active #page-bg-overlay {
     gap: 0.5rem;
 }
 
-.status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--jako-text);
-    box-shadow: 0 0 10px var(--jako-led);
-}
-
 .footer-btn-group {
     display: flex;
     align-items: center;
@@ -273,6 +229,26 @@ body.grass-bg-active #page-bg-overlay {
     border: 1px solid var(--jako-border);
     border-radius: 3px;
     overflow: hidden;
+}
+
+.header-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0 0.8rem;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.header-control:hover {
+    background: var(--jako-border);
 }
 
 .footer-btn-group .header-control + .header-control {

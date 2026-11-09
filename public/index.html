@@ -11,7 +11,7 @@
 
     <div id="page-bg-overlay"></div>
 
-    <!-- BLOCK 1: HEADER (CLEAN BRANDING + GITHUB ANCHOR) -->
+    <!-- BLOCK 1: HEADER (CLEAN BRANDING ONLY) -->
     <header class="header-style-bar" id="top">
         <a class="site-brand-lockup" href="#top" aria-label="JAKO home">
             <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
@@ -23,14 +23,6 @@
             </svg>
             <span class="site-brand">JAKO</span>
         </a>
-
-        <nav class="header-controls">
-            <a class="header-control" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" title="GitHub">
-                <svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                </svg>
-            </a>
-        </nav>
     </header>
 
     <!-- BLOCK 2: SYSTEM TELEMETRY STRIP (GLOBAL - CLICKABLE AZIMUTH) -->
@@ -44,8 +36,8 @@
 
     <!-- BLOCK 3: MAIN VIEWPORT STAGE -->
     <main class="jako-main-stage" id="main-stage">
-        <!-- SVG Vector Canvas for Center-Rotating Solar Azimuth -->
-        <svg class="center-azimuth-overlay is-active" id="center-azimuth-svg"></svg>
+        <!-- SVG Vector Canvas for Center-Rotating Solar Azimuth (Hidden by default) -->
+        <svg class="center-azimuth-overlay" id="center-azimuth-svg"></svg>
 
         <div class="app-viewport-container" id="app-viewport">
             <!-- Stage reserved for App injection -->
@@ -61,14 +53,8 @@
         </div>
     </section>
 
-    <!-- BLOCK 5: FOOTER (WITH EXTREME RIGHT CONTROL CLUSTER) -->
+    <!-- BLOCK 5: FOOTER (RIGHT-ALIGNED CONTROLS) -->
     <footer class="jako-footer">
-        <div class="footer-cluster">
-            <div class="status-dot"></div>
-            <span>ENGINE: OPERATIONAL</span>
-            <span id="current-app-label" style="font-family: Orbitron; font-weight: 700; margin-left: 1rem;">HUB: READY</span>
-        </div>
-
         <div class="footer-cluster">
             <div class="footer-btn-group">
                 <button class="header-control" id="btn-grass-toggle" type="button" title="Toggle Grass Background">LAND ART</button>
