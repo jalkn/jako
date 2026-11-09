@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <g transform="rotate(180 50 50)">
+        <polygon points="80,20 20,20 30,35 70,35" />
+        <polygon points="50,42 58,50 50,58 42,50" />
+        <polygon points="30,65 70,65 80,80 20,80" />
+    </g>
+</svg>

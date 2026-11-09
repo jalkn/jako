@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-[#0a0a0a] text-[#f4f4f4] scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mycelium Tech-Lab // ZENERGIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { 
+            theme: { 
+                extend: { 
+                    colors: { 
+                        'zenergy-blue': '#1e40af' 
+                    },
+                    fontFamily: { 'sans': ['Orbitron', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Capa Maestra de Geolocalización Satelital y Alta Resolución de Césped */
+        body { 
+            font-family: 'Orbitron', sans-serif; 
+            scroll-behavior: smooth; 
+            letter-spacing: 0.05em; 
+            /* Se optimiza el renderizado repitiendo el patrón natural para conservar nitidez táctica 1:1 sin estiramiento */
+            background-image: linear-gradient(rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.85)), url('//img/grass.png');
+            background-repeat: repeat;
+            background-size: auto;
+            background-attachment: fixed;
+            background-position: center;
+        } 
+        
+        /* Contenedores de Cristal Líquido Oscuro */
+        .glass-dark { 
+            background: rgba(10, 10, 10, 0.65); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(12px); 
+        }
+
+        /* Animaciones del Escáner Láser */
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-zenergy-blue selection:text-white p-4 md:p-8">
+
+    <header class="w-full max-w-6xl mx-auto glass-dark rounded-xl p-5 flex justify-between items-center border border-white/10 mb-8">
+        <div>
+            <h1 class="text-xs md:text-sm font-black tracking-[0.3em] text-white uppercase animate-pulse">MYCELIUM TECH-LAB // ZENERGIA</h1>
+            <p class="text-[9px] text-zinc-500 mt-1 uppercase font-mono tracking-widest">SISTEMA DE MONITOREO CUÁNTICO // SANTA ELENA, ANTIOQUIA</p>
+        </div>
+        <div class="text-right hidden sm:block">
+            <span class="text-[9px] bg-zinc-900 px-3 py-1 text-emerald-500 font-mono tracking-widest rounded border border-zinc-800 shadow-inner">Z_LINK: ACTIVE</span>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-center max-w-4xl mx-auto w-full">
+        
+        <section id="inventario" class="w-full mb-12 text-center">
+            <span class="text-[10px] text-zinc-500 font-mono tracking-[0.3em] uppercase block mb-4">INVENTARIO_ACTIVO</span>
+            
+            <div onclick="scrollToSection('#dial-monitor')" class="max-w-xs mx-auto glass-dark border border-white/10 p-6 rounded-xl relative group cursor-pointer transition-all duration-500 hover:border-white/30 hover:translate-y-[-4px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.7)]">
+                <div class="absolute top-3 right-3 w-2 h-2 bg-zenergy-blue rounded-full animate-ping"></div>
+                <div class="w-full aspect-[4/3] bg-cover bg-center rounded-lg opacity-70 group-hover:opacity-100 transition-opacity duration-500 mb-4 border border-white/5" style="background-image: url('img/z-brick.jpg');"></div>
+                <h3 class="text-xs font-black tracking-widest text-white uppercase group-hover:text-zenergy-blue transition-colors">Z_BRICK</h3>
+                <p class="text-[9px] text-zinc-500 font-mono mt-1 uppercase">Bioladrillo de micelio sintetizado</p>
+            </div>
+        </section>
+
+        <div class="w-full flex flex-col items-center my-6 relative select-none">
+            <div class="w-[1px] h-10 bg-gradient-to-b from-white/20 to-zenergy-blue/40"></div>
+            <div class="glass-dark border border-zenergy-blue/30 px-4 py-1 rounded-full my-2 flex items-center gap-2 shadow-[0_0_15px_rgba(30,64,175,0.15)]">
+                <span class="w-1.5 h-1.5 bg-zenergy-blue rounded-full animate-pulse"></span>
+                <span class="text-[9px] font-mono tracking-[0.25em] text-zenergy-blue font-bold uppercase">SYNERGY_FLOW</span>
+            </div>
+            <div class="w-[1px] h-10 bg-gradient-to-b from-zenergy-blue/40 to-white/20"></div>
+        </div>
+
+        <section id="pulsor-control" class="w-full glass-dark rounded-2xl p-6 border border-white/10 mb-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl">
+            <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center border-b border-white/5 pb-4 mb-6 gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                    <h2 class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-300">PROTO_PULSOR v1.02 // MATRIZ ACÚSTICA</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="playBeat('audio/beat1.wav')" class="text-[9px] font-bold text-zinc-400 hover:text-white border border-white/10 hover:border-white/30 px-3 py-1 rounded bg-zinc-900/50 transition-all font-mono tracking-wider">PULSO_01</button>
+                    <button onclick="playBeat('audio/beat2.wav')" class="text-[9px] font-bold text-zinc-400 hover:text-white border border-white/10 hover:border-white/30 px-3 py-1 rounded bg-zinc-900/50 transition-all font-mono tracking-wider">PULSO_02</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div class="p-3 bg-zinc-900/40 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-zinc-500 font-mono tracking-widest block mb-1 uppercase">S_STATUS</span>
+                    <span id="z-status" class="text-xs font-bold text-white tracking-wide uppercase">CALIBRANDO</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-zinc-500 font-mono tracking-widest block mb-1 uppercase">FREQ_BASE</span>
+                    <span id="z-freq" class="text-xs font-bold text-white tracking-wide font-mono">00Hz</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-zinc-500 font-mono tracking-widest block mb-1 uppercase">REPS_PULSE</span>
+                    <span id="z-reps" class="text-xs font-bold text-white tracking-wide font-mono">00</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-zinc-500 font-mono tracking-widest block mb-1 uppercase">Z_DIAL_INDEX</span>
+                    <span id="z-dial" class="text-xs font-bold text-zenergy-blue tracking-widest font-mono">000000</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="w-full flex flex-col items-center my-6 relative select-none">
+            <div class="w-[1px] h-10 bg-gradient-to-b from-white/20 to-emerald-500/40"></div>
+            <div class="glass-dark border border-emerald-500/30 px-4 py-1 rounded-full my-2 flex items-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span class="text-[9px] font-mono tracking-[0.25em] text-emerald-500 font-bold uppercase">BODY_RESONANCE</span>
+            </div>
+            <div class="w-[1px] h-10 bg-gradient-to-b from-emerald-500/40 to-white/20"></div>
+        </div>
+
+        <section id="dial-monitor" class="w-full flex flex-col items-center justify-center relative overflow-hidden py-12 mb-8">
+            <div class="relative z-10 flex flex-col items-center w-full text-center">
+                
+                <div class="relative w-full max-w-[310px] sm:max-w-[400px] md:max-w-[440px] aspect-square group transition-all duration-700 ease-out select-none cursor-crosshair transform hover:-translate-y-3 drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] hover:drop-shadow-[0_45px_35px_rgba(0,0,0,0.85)]">
+                    
+                    <div class="w-full h-full bg-white/30 group-hover:bg-white/60 p-[1.5px] transition-all duration-500 relative"
+                         style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+                        
+                        <div class="absolute inset-0 bg-cover bg-center opacity-45 brightness-100 group-hover:opacity-20 group-hover:brightness-50 transition-all duration-700 ease-out"
+                             style="background-image: url('img/miscelio.png'); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+                        </div>
+
+                        <div class="absolute inset-0 flex flex-col items-center justify-center z-10">
+                            <div class="absolute top-[25%] left-0 w-full h-[1px] bg-white/10 group-hover:bg-white/30 transition-colors duration-500"></div>
+                            <div class="absolute bottom-[25%] left-0 w-full h-[1px] bg-white/10 group-hover:bg-white/30 transition-colors duration-500"></div>
+                            
+                            <div id="big-dial" 
+                                class="w-full text-[1.4rem] sm:text-[2.2rem] md:text-[2.8rem] font-black text-white/60 group-hover:text-white transition-all duration-500 tracking-[0.15em] leading-none uppercase pl-[0.15em] text-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)] group-hover:drop-shadow-[0_0_35px_rgba(255,255,255,1)]">
+                                000000
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-12 w-full max-w-xl flex flex-col items-center gap-4 relative z-20 select-none">
+                    <p id="protocol-desc" class="text-[10px] sm:text-[11px] md:text-[12px] text-white/80 tracking-[0.25em] font-light text-center uppercase leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] underline decoration-white/10 underline-offset-8">
+                        sincronizando_frecuencias...
+                    </p>
+                    <div class="w-16 h-[1px] bg-white/10 overflow-hidden relative mt-1">
+                        <div class="h-full bg-white/50 w-1/2 animate-[scan_2s_linear_infinite]"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full max-w-6xl mx-auto glass-dark rounded-xl p-5 mt-12 flex flex-col sm:flex-row justify-between items-center border border-white/10 text-[9px] text-zinc-500 font-mono tracking-wider gap-4">
+        <div class="uppercase text-center sm:text-left font-bold">
+            ZENERGIA MYCELIUM TECH-LAB // PROTOCOLO DE TRANSMISIÓN EXTERNA
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="https://zenergy.world/manifesto" target="_blank" class="tracking-widest uppercase bg-zinc-900 px-3 py-1 text-white font-bold rounded border border-zinc-800 hover:bg-zenergy-blue hover:text-white hover:border-blue-700 transition-all duration-300 shadow-inner">
+                LINK: CORE_MANIFESTO ↗
+            </a>
+            <span class="tracking-widest uppercase bg-zinc-900/50 px-2 py-1 rounded border border-white/5 text-zinc-600 hidden md:inline">
+                S_QUAD: LIVE_SYS // PHI_VALIDATED
+            </span>
+        </div>
+    </footer>
+
+    <script>
+        const $ = id => document.getElementById(id.replace('#', ''));
+
+        const updateZ = () => {
+            const date = new Date();
+            const s = String(date.getSeconds()).padStart(2, '0');
+            const f = String(date.getMinutes()).padStart(2, '0');
+            const reps = String((date.getHours() % 12) || 12).padStart(2, '0');
+            
+            const states = ['ESTABLE', 'RESONANDO', 'PULSANDO', 'INDUCIDO', 'MUTANDO'];
+            const statusIdx = (date.getMinutes() + date.getSeconds()) % states.length;
+            
+            if ($('z-status')) $('z-status').innerText = states[statusIdx];
+            if ($('z-freq')) $('z-freq').innerText = `${f}Hz`;
+            if ($('z-reps')) $('z-reps').innerText = reps;
+            
+            // Construcción del Dial Alfanumérico Unificado
+            const res = `${s}${f}${reps}`;
+            if ($('big-dial')) $('big-dial').innerText = res;
+            if ($('z-dial')) $('z-dial').innerText = res;
+            
+            if ($('protocol-desc')) {
+                $('protocol-desc').innerText = `${s} rondas de ${reps} pulsores biocinéticos [ s_sync: activo ]`;
+            }
+        };
+
+        updateZ();
+        setInterval(updateZ, 1000); // Actualización a 1s para fluidez métrica real
+
+        function playBeat(url) {
+            const audio = new Audio(url);
+            audio.play().catch(() => {
+                console.warn("z-sync: interacción requerida para activar pulso de audio.");
+            });
+            if ("vibrate" in navigator) navigator.vibrate(50);
+        }
+
+        function scrollToSection(sectionId) {
+            const target = $(sectionId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

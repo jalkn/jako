@@ -1,52 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAKO // Master Architecture Portfolio & CV</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="src/global.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JAKO — Biokinetic Transducer Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/styles/hub.css">
 </head>
 <body>
 
     <div id="page-bg-overlay"></div>
-    <div class="ambient-gradient"></div>
 
-    <!-- =========================================================
-         MACRO-BLOCK 1: SUN
-         ========================================================= -->
-    <header class="header-style-bar site-header" id="top">
+    <!-- BLOCK 1: HEADER -->
+    <header class="header-style-bar" id="top">
         <a class="site-brand-lockup" href="#top" aria-label="JAKO home">
             <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
                 <g transform="rotate(180 50 50)">
-                    <!-- Upper Trapezoid (Inverted Mirror) -->
                     <polygon points="80,20 20,20 30,35 70,35" />
-
-                    <!-- Center Diamond -->
                     <polygon points="50,42 58,50 50,58 42,50" />
-
-                    <!-- Lower Trapezoid -->
                     <polygon points="30,65 70,65 80,80 20,80" />
                 </g>
             </svg>
-            <span class="site-brand"></span>
+            <span class="site-brand">JAKO.LAB</span>
         </a>
 
-        <nav class="header-controls" aria-label="Global controls">
-            <a class="header-control" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub">
+        <nav class="header-controls">
+            <a class="header-control" href="https://github.com/jalkn" target="_blank" rel="noopener noreferrer" title="GitHub">
                 <svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.655 1.653.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
                 </svg>
             </a>
-            <button class="header-control" id="download-pdf" type="button" aria-label="Download PDF" title="Download PDF">
-                <svg class="header-icon icon-stroke" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-            </button>
-            <button class="header-control" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true" title="Toggle theme">
+            <button class="header-control" id="theme-toggle" type="button" title="Toggle theme">
                 <svg class="header-icon theme-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <circle class="theme-icon-sun" cx="12" cy="12" r="3.5" />
                     <path class="theme-icon-rays" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
@@ -55,70 +39,47 @@
         </nav>
     </header>
 
-    <!-- =========================================================
-         MAIN VIEWPORT (CONTAINING BODY & SPIRIT)
-         ========================================================= -->
-    <main class="vision-scroll-viewport" id="main-viewport">
+    <!-- BLOCK 2: SYSTEM TELEMETRY STRIP (GLOBAL) -->
+    <section class="telemetry-strip" id="system-strip">
+        <div class="ticker-track" id="system-ticker">
+            <div class="ticker-item">SYSTEM_READY <span>[AZIMUTH: 142.5°]</span></div>
+            <div class="ticker-item">SUN_ELEVATION <span>[48.2°]</span></div>
+            <div class="ticker-item">GLOBAL_DELTA <span>[Δ=1.04]</span></div>
+            <div class="ticker-item">RESONANCE <span>[HOMEOSTASIS]</span></div>
+            <div class="ticker-item">ACTIVE_MODULES <span>[9 APPS]</span></div>
+            <div class="ticker-item">VAULT_COMMITS <span>[RELATIONAL_OK]</span></div>
+        </div>
+    </section>
 
-<!-- MACRO-BLOCK 2: BODY -->
-        <section class="vision-card" id="card-profile">
-            <!-- Profile Engine Box (Avatar is inserted/removed dynamically) -->
-            <div class="engine-box" id="engine-box">
-                <div>
-                    <!-- Title Block with Default 'JAKO' Name and Embedded Toggle Button -->
-                    <div class="engine-title-block">
-                        
-                        <button class="profile-photo-btn" id="avatar-toggle" type="button" aria-label="Toggle profile photo" title="Toggle photo">
-                                    <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
-                                        <g transform="rotate(90 50 50)">
-                                            <polygon points="50,42 58,50 50,58 42,50" />
-                                            <polygon points="30,65 70,65 80,80 20,80" />
-                                        </g>
-                                    </svg>
-                        </button>
-                        <span id="profile-name">BIO</span>
-                    </div>
-                    <p class="engine-text">
-                        Multidisciplinary artist and software developer working across plastic arts, digital interfaces, visual systems, and biokinetic research. Translating human movement, code, and physical traction into computational systems. Experienced in full stack development, signage fabrication, and movement research. I speak Spanish, English, and Italian.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- EDUCATION -->
-        <section class="vision-card" id="card-education">
-            <div class="section-heading">
-                <h2>Education</h2>
-            </div>
-            <div class="dropSphere-group" id="container-education"></div>
-        </section>
-
-        <!-- JOB EXPERIENCE -->
-        <section class="vision-card" id="card-experience">
-            <div class="section-heading">
-                <h2>Job Experience</h2>
-            </div>
-            <div class="dropSphere-group" id="container-experience"></div>
-        </section>
-
-        <!-- MACRO-BLOCK 3: SPIRIT -->
-        <!-- PROJECTS -->
-        <section class="vision-card" id="card-projects">
-            <div class="section-heading">
-                <h2>Projects</h2>
-            </div>
-            <div class="dropSphere-group" id="container-projects"></div>
-        </section>
-        <!-- RESEARCH --> 
-        <section class="vision-card" id="card-books">
-            <div class="section-heading">
-                <h2>Research</h2>
-            </div>
-            <div class="dropSphere-group" id="container-books"></div>
-        </section> 
-
+    <!-- MAIN VIEWPORT STAGE (RESERVED FOR NEXT PHASE APP INJECTION) -->
+    <main class="jako-main-stage">
+        <div class="app-viewport-container" id="app-viewport">
+            <!-- Stage reserved for App injection -->
+        </div>
     </main>
 
-    <script src="src/main.js" defer></script>
+    <!-- BLOCK 3: APP TELEMETRY STRIP (LOCAL) -->
+    <section class="telemetry-strip" id="app-strip">
+        <div class="ticker-track" id="app-ticker">
+            <div class="ticker-item">APP <span>[READY]</span></div>
+            <div class="ticker-item">COORDINATE <span>[WAITING FOR APP INJECTION]</span></div>
+            <div class="ticker-item">TRANSDUCTION <span>[STANDBY]</span></div>
+        </div>
+    </section>
+
+    <!-- BLOCK 4: FOOTER -->
+    <footer class="jako-footer">
+        <div class="footer-cluster">
+            <div class="status-dot"></div>
+            <span>ENGINE: OPERATIONAL</span>
+            <span id="current-app-label" style="font-family: Orbitron; font-weight: 700; margin-left: 1rem;">HUB: READY</span>
+        </div>
+
+        <div class="footer-cluster">
+            <button class="header-control" id="btn-settings">SETTINGS & MAPPING</button>
+        </div>
+    </footer>
+
+    <script src="./src/scripts/hub.js" defer></script>
 </body>
 </html>

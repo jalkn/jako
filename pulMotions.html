@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background-color: #f4f1ea; /* Tono de hoja de cuaderno */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      background: #faf8f5;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="sketchCanvas" width="500" height="600"></canvas>
+
+<script>
+const canvas = document.getElementById('sketchCanvas');
+const ctx = canvas.getContext('2d');
+
+// Puntos de articulación ficticios (se pueden reemplazar por datos de MediaPipe Pose)
+const joints = {
+  head: { x: 250, y: 150 },
+  neck: { x: 250, y: 190 },
+  shoulderL: { x: 210, y: 200 },
+  shoulderR: { x: 290, y: 200 },
+  elbowL: { x: 180, y: 260 },
+  elbowR: { x: 330, y: 240 },
+  hipL: { x: 230, y: 340 },
+  hipR: { x: 270, y: 340 },
+  kneeL: { x: 200, y: 440 },
+  kneeR: { x: 290, y: 430 },
+  footL: { x: 190, y: 520 },
+  footR: { x: 310, y: 510 }
+};
+
+// Conexiones de los huesos
+const bones = [
+  ['neck', 'shoulderL'], ['neck', 'shoulderR'],
+  ['shoulderL', 'elbowL'], ['shoulderR', 'elbowR'],
+  ['neck', 'hipL'], ['neck', 'hipR'],
+  ['hipL', 'hipR'],
+  ['hipL', 'kneeL'], ['hipR', 'kneeR'],
+  ['kneeL', 'footL'], ['kneeR', 'footR']
+];
+
+// Función para simular trazo de lapicero a mano alzada
+function drawSketchyLine(p1, p2, strokes = 3) {
+  for (let i = 0; i < strokes; i++) {
+    ctx.beginPath();
+    ctx.strokeStyle = `rgba(30, 30, 30, ${0.4 + Math.random() * 0.4})`;
+    ctx.lineWidth = 1 + Math.random() * 1.5;
+
+    // Desviaciones aleatorias pequeñas para imitar el pulso manual
+    const jitterX1 = (Math.random() - 0.5) * 4;
+    const jitterY1 = (Math.random() - 0.5) * 4;
+    const jitterX2 = (Math.random() - 0.5) * 4;
+    const jitterY2 = (Math.random() - 0.5) * 4;
+
+    ctx.moveTo(p1.x + jitterX1, p1.y + jitterY1);
+    ctx.lineTo(p2.x + jitterX2, p2.y + jitterY2);
+    ctx.stroke();
+  }
+}
+
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Animar ligeramente las articulaciones para probar dinamismo
+  const time = Date.now() * 0.003;
+  joints.elbowR.y = 240 + Math.sin(time) * 15;
+  joints.kneeL.x = 200 + Math.cos(time) * 10;
+
+  // Dibujar cabeza (garabato circular)
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(30,30,30,0.5)';
+    ctx.arc(
+      joints.head.x + (Math.random() - 0.5) * 3,
+      joints.head.y + (Math.random() - 0.5) * 3,
+      18 + Math.random() * 2,
+      0, Math.PI * 2
+    );
+    ctx.stroke();
+  }
+
+  // Dibujar huesos
+  bones.forEach(([from, to]) => {
+    drawSketchyLine(joints[from], joints[to], 4);
+  });
+
+  requestAnimationFrame(render);
+}
+
+render();
+</script>
+</body>
+</html>

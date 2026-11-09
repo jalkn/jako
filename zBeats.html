@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000000">
+<title>JAKO / ZEN BEATS</title>
+<style>
+:root{color-scheme:dark;--bg:#000;--fg:#fff;--muted:#858585;--line:#292929}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{min-height:100dvh;display:grid;place-items:center;padding:24px}
+main{width:min(900px,100%)}
+header{margin-bottom:24px}
+.kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(24px,4vw,34px);letter-spacing:-.045em;font-weight:500;margin:8px 0}
+p{font-size:13px;color:var(--muted);margin:0}
+.controls{display:flex;gap:8px;margin-bottom:12px}
+input{min-width:0;flex:1;background:#050505;border:1px solid var(--line);border-radius:3px;padding:12px;color:var(--fg);font:inherit;outline:none}
+input:focus{border-color:#777}
+button{background:#050505;color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:0 14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s, background .2s}
+button:hover{border-color:#777;background:#111}
+button:focus-visible,input:focus-visible{outline:1px solid var(--fg);outline-offset:3px}
+.site-brand-mark{width:20px;height:20px;fill:currentColor;display:block}
+.stage{border:1px solid var(--line);background:#000}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.footer{display:flex;justify-content:space-between;gap:12px;padding-top:10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:560px){body{padding:16px}.controls{flex-direction:column}button{padding:12px}.footer{font-size:9px}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">JAKO / ZEN BEATS</div>
+    <div class="footer"><span id="unitCount">0 unidades</span></div>
+  </header>
+    
+  <form class="controls" id="form">
+    <input id="textInput" type="text" maxlength="120" value="levanta y camina" aria-label="Texto en español" placeholder="Escribe una frase">
+    <button id="renderBtn" type="submit" aria-label="Generar y reproducir">
+      <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <g transform="rotate(90 50 50)">
+          <polygon points="50,42 58,50 50,58 42,50" />
+          <polygon points="30,65 70,65 80,80 20,80" />
+        </g>
+      </svg>
+    </button>
+  </form>
+  <div class="stage"><canvas id="stage" width="900" height="506" aria-label="Prisma de llama animado"></canvas></div>
+</main>
+<script>
+const PHONEME_MAP = {
+    'a': { freq: 220.00, flameHeight: 120, type: 'sine' },
+    'e': { freq: 293.66, flameHeight: 150, type: 'sine' },
+    'i': { freq: 329.63, flameHeight: 180, type: 'sine' },
+    'o': { freq: 174.61, flameHeight: 90,  type: 'sine' },
+    'u': { freq: 130.81, flameHeight: 60,  type: 'sine' },
+
+    'b': { freq: 110.00, flameHeight: 40,  type: 'triangle' },
+    'c': { freq: 440.00, flameHeight: 110, type: 'square' },
+    'd': { freq: 146.83, flameHeight: 50,  type: 'triangle' },
+    'f': { freq: 523.25, flameHeight: 160, type: 'sawtooth' },
+    'g': { freq: 164.81, flameHeight: 70,  type: 'triangle' },
+    'j': { freq: 587.33, flameHeight: 170, type: 'sawtooth' },
+    'l': { freq: 246.94, flameHeight: 100, type: 'sine' },
+    'm': { freq: 185.00, flameHeight: 55,  type: 'sine' },
+    'n': { freq: 196.00, flameHeight: 65,  type: 'sine' },
+    'p': { freq: 349.23, flameHeight: 130, type: 'square' },
+    'r': { freq: 392.00, flameHeight: 145, type: 'sawtooth' },
+    's': { freq: 659.25, flameHeight: 195, type: 'sawtooth' },
+    't': { freq: 493.88, flameHeight: 140, type: 'square' },
+    'v': { freq: 110.00, flameHeight: 45,  type: 'triangle' },
+    'y': { freq: 329.63, flameHeight: 165, type: 'sine' },
+    'z': { freq: 659.25, flameHeight: 200, type: 'sawtooth' }
+};
+
+class HeartbeatAudioEngine {
+  constructor(){this.context=null}
+  init(){
+    if(!this.context)this.context=new (window.AudioContext||window.webkitAudioContext)();
+    if(this.context.state==='suspended')this.context.resume();
+  }
+  playPulse(freq,duration,gainValue,time){
+    const osc=this.context.createOscillator(),gain=this.context.createGain(),filter=this.context.createBiquadFilter();
+    osc.type='sine';
+    osc.frequency.setValueAtTime(freq,time);
+    osc.frequency.exponentialRampToValueAtTime(freq*0.5,time+duration);
+
+    filter.type='lowpass';
+    filter.frequency.setValueAtTime(110,time);
+
+    gain.gain.setValueAtTime(0.0001,time);
+    gain.gain.linearRampToValueAtTime(gainValue,time+0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001,time+duration);
+
+    osc.connect(filter);filter.connect(gain);gain.connect(this.context.destination);
+    osc.start(time);osc.stop(time+duration);
+  }
+  playBeat(phonemeData){
+    if(!this.context||!phonemeData)return;
+    const now=this.context.currentTime;
+    const baseFreq=42+(phonemeData.freq%30);
+    
+    // Lub (S1)
+    this.playPulse(baseFreq,0.12,0.35,now);
+    // Dub (S2)
+    const s2Time=now+0.11;
+    this.playPulse(baseFreq*1.35,0.08,0.25,s2Time);
+  }
+}
+
+class FlamePrismEngine {
+  constructor(canvas){
+    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.nodes=[];this.peakZ=150;
+    this.started=performance.now();
+  }
+  setText(text){
+    const cleaned=text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zñ]/g,'');
+    this.nodes=[];
+    for(let i=0;i<cleaned.length;i++){
+      const char=cleaned[i],data=PHONEME_MAP[char]||{freq:200,flameHeight:70,type:'sine'};
+      const angle=(i/Math.max(cleaned.length,1))*Math.PI*2-Math.PI/2;
+      this.nodes.push({
+        x:Math.cos(angle)*(112+(data.freq%30)-15),
+        y:Math.sin(angle)*(74+(data.freq%18)-9),
+        z:data.flameHeight,char,data
+      });
+    }
+    this.peakZ=this.nodes.length?this.nodes.reduce((sum,n)=>sum+n.z,0)/this.nodes.length+65:145;
+  }
+  project(x,y,z,scale,depth=0){
+    const w=this.canvas.width,h=this.canvas.height;
+    return {x:w/2+x*scale+depth*24,y:h*.59+y*.36*scale-z*scale+depth*9};
+  }
+  line(a,b,alpha=1,width=1){
+    const c=this.ctx;c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);
+    c.strokeStyle=`rgba(255,255,255,${alpha})`;c.lineWidth=width;c.stroke();
+  }
+  render(now){
+    const c=this.ctx,w=this.canvas.width,h=this.canvas.height;
+    c.clearRect(0,0,w,h);c.fillStyle='#000';c.fillRect(0,0,w,h);
+    if(this.nodes.length<3){
+      c.fillStyle='#777';c.font='14px system-ui';c.textAlign='center';c.fillText('Escribe al menos tres letras',w/2,h/2);return;
+    }
+    const phase=(now-this.started)/1000*Math.PI*2*.22;
+    const breath=(1-Math.cos(phase))/2;
+    const radial=.78+.22*breath;
+    const vertical=.82+.18*(1-breath);
+    const nodes=this.nodes;
+    const base=nodes.map(n=>this.project(n.x,n.y,0,radial,0));
+    const crest=nodes.map(n=>this.project(n.x,n.y,n.z,radial,0));
+    const backBase=nodes.map(n=>this.project(n.x,n.y,0,radial,1));
+    const backCrest=nodes.map(n=>this.project(n.x,n.y,n.z,radial,1));
+    const apex=this.project(0,0,this.peakZ*vertical,radial,0);
+    const backApex=this.project(0,0,this.peakZ*vertical,radial,1);
+
+    for(let i=0;i<nodes.length;i++){
+      const j=(i+1)%nodes.length;
+      this.line(backBase[i],backBase[j],.22);
+      this.line(backCrest[i],backCrest[j],.22);
+      if(i%Math.max(1,Math.floor(nodes.length/5))===0)this.line(base[i],backBase[i],.28);
+    }
+    for(let i=0;i<nodes.length;i++){
+      const j=(i+1)%nodes.length;
+      this.line(base[i],base[j],.42);
+      this.line(base[i],crest[i],.48);
+      this.line(crest[i],crest[j],.82);
+      this.line(crest[i],apex,.78);
+      if(i%2===0)this.line(crest[i],base[j],.24);
+    }
+    this.line(backApex,apex,.35);
+    this.line({x:w/2,y:apex.y+5},{x:w/2,y:h*.82},.18);
+  }
+}
+
+const canvas=document.getElementById('stage');
+const input=document.getElementById('textInput');
+const form=document.getElementById('form');
+const count=document.getElementById('unitCount');
+const audio=new HeartbeatAudioEngine();
+const visual=new FlamePrismEngine(canvas);
+let audioTimers=[];
+
+function update(){
+  visual.setText(input.value);
+  count.textContent=`${visual.nodes.length} letras / unidades aproximadas`;
+}
+function play(){
+  audio.init();
+  audioTimers.forEach(id=>clearTimeout(id));
+  audioTimers=[];
+
+  const chars=input.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zñ]/g,'');
+  chars.split('').forEach((char,i)=>{
+    const data=PHONEME_MAP[char]||{freq:200};
+    const timerId=window.setTimeout(()=>audio.playBeat(data),i*380);
+    audioTimers.push(timerId);
+  });
+}
+function frame(now){visual.render(now);requestAnimationFrame(frame)}
+form.addEventListener('submit',event=>{event.preventDefault();update();play()});
+input.addEventListener('input',update);
+update();requestAnimationFrame(frame);
+</script>
+</body>
+</html>

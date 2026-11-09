@@ -1,0 +1,254 @@
+/* =========================================================================
+   JAKO ECOSYSTEM — HYPERREALISTIC GLOBAL STYLES (MATCHING PULSDIAL DESIGN)
+   ========================================================================= */
+
+:root[data-theme="dark"] {
+    --jako-bg: rgba(0, 0, 0, 0.95);
+    --jako-text: #ffffff;
+    --jako-border: rgba(255, 255, 255, 0.08);
+    --jako-glass: rgba(0, 0, 0, 0.5);
+    --jako-led: rgba(255, 255, 255, 0.75);
+    --gradient-start: rgba(255, 255, 255, 0.03);
+    --gradient-mid: rgba(5, 5, 8, 0.85);
+    --gradient-end: #000000;
+}
+
+:root[data-theme="white"] {
+    --jako-bg: #f8f9fa;
+    --jako-text: #000000;
+    --jako-border: rgba(0, 0, 0, 0.08);
+    --jako-glass: rgba(255, 255, 255, 0.4);
+    --jako-led: rgba(0, 0, 0, 0.85);
+    --gradient-start: rgba(0, 0, 0, 0.02);
+    --gradient-mid: rgba(248, 249, 250, 0.85);
+    --gradient-end: #ffffff;
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    scroll-behavior: smooth;
+    letter-spacing: 0.05em;
+    overscroll-behavior: none;
+    background-color: var(--jako-bg);
+    color: var(--jako-text);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 46px 32px 1fr 32px 54px;
+}
+
+::selection {
+    background-color: var(--jako-text);
+    color: var(--jako-bg);
+}
+
+#page-bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, var(--gradient-start) 15%, var(--gradient-mid) 80%, var(--gradient-end) 100%);
+    z-index: -1;
+    transform: translateZ(0);
+}
+
+/* =========================================================
+   BLOCK 1: HEADER BAR
+   ========================================================= */
+.header-style-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 46px;
+    padding: 0 1rem;
+    z-index: 100;
+    background: var(--jako-glass);
+    border-bottom: 1px solid var(--jako-border);
+    backdrop-filter: blur(24px) saturate(125%);
+    -webkit-backdrop-filter: blur(24px) saturate(125%);
+}
+
+.site-brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--jako-text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.site-brand-mark {
+    display: block;
+    width: 21px;
+    height: 21px;
+    fill: currentColor;
+    opacity: 0.92;
+}
+
+.site-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.header-controls {
+    display: flex;
+    align-items: stretch;
+    min-height: 30px;
+    background: var(--jako-glass);
+    border: 1px solid var(--jako-border);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.035);
+}
+
+.header-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.8rem;
+    min-height: 30px;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.header-control + .header-control {
+    border-left: 1px solid var(--jako-border);
+}
+
+.header-control:hover {
+    background: var(--jako-border);
+}
+
+.header-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    color: currentColor;
+    fill: currentColor;
+    opacity: 0.76;
+    transition: opacity 0.2s ease;
+}
+
+.theme-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.theme-icon-sun {
+    fill: currentColor;
+    stroke: none;
+}
+
+/* =========================================================
+   BLOCKS 2 & 3: TELEMETRY STRIPS (INFINITE TICKER)
+   ========================================================= */
+.telemetry-strip {
+    width: 100%;
+    height: 100%;
+    background: var(--jako-glass);
+    border-top: 1px solid var(--jako-border);
+    border-bottom: 1px solid var(--jako-border);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: grab;
+    backdrop-filter: blur(12px);
+}
+
+.telemetry-strip:active {
+    cursor: grabbing;
+}
+
+.ticker-track {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    opacity: 0.85;
+}
+
+.ticker-item {
+    padding: 0 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.ticker-item span {
+    opacity: 0.5;
+}
+
+/* =========================================================
+   MAIN VIEWPORT STAGE (CONTAINER FOR APPS)
+   ========================================================= */
+.jako-main-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.app-viewport-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================
+   BLOCK 4: FOOTER BAR
+   ========================================================= */
+.jako-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background: var(--jako-glass);
+    border-top: 1px solid var(--jako-border);
+    backdrop-filter: blur(24px) saturate(125%);
+    -webkit-backdrop-filter: blur(24px) saturate(125%);
+    font-size: 11px;
+}
+
+.footer-cluster {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--jako-text);
+    box-shadow: 0 0 10px var(--jako-led);
+}
